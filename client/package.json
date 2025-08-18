@@ -45,7 +45,8 @@
     "build": "tsc && refine build",
     "start": "refine start",
     "refine": "refine",
-    "codegen": "graphql-codegen"
+    "codegen": "graphql-codegen",
+    "dev:all": "concurrently \"npm run dev --prefix ../server\" \"refine dev\""
   },
   "browserslist": {
     "production": [
