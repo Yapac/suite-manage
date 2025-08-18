@@ -1,11 +1,11 @@
-const Room = require("../models/Room");
-const Booking = require("../models/Booking");
-const Guest = require("../models/Guest");
-const Task = require("../models/Task");
-const Staff = require("../models/Staff");
-const Payment = require("../models/Payment");
+import Room from "../models/Room.js";
+import Booking from "../models/Booking.js";
+import Guest from "../models/Guest.js";
+import Task from "../models/Task.js";
+import Staff from "../models/Staff.js";
+import Payment from "../models/Payment.js";
 
-module.exports = {
+const resolvers = {
   Query: {
     rooms: () => Room.find(),
     bookings: () => Booking.find(),
@@ -23,3 +23,5 @@ module.exports = {
     addPayment: (_, { input }) => Payment.create(input),
   },
 };
+
+export default resolvers;

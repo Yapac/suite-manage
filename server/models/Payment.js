@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const PaymentSchema = new mongoose.Schema({
   bookingId: {
@@ -11,4 +11,4 @@ const PaymentSchema = new mongoose.Schema({
   paidAt: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model("Payment", PaymentSchema);
+export default mongoose.model("Payment", PaymentSchema);

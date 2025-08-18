@@ -1,6 +1,6 @@
 import { gql } from "apollo-server-express";
 
-export default gql`
+const typeDefs = gql`
   scalar Date
 
   type Room {
@@ -126,3 +126,5 @@ export default gql`
     addPayment(input: PaymentInput!): Payment
   }
 `;
+
+export default typeDefs;
