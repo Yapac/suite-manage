@@ -1,12 +1,12 @@
 import gql from "graphql-tag";
 
-export const DASHBOARD_CALENDAR_UPCOMING_EVENTS_QUERY = gql`
-  query DashboardCalendarUpcomingEvents(
-    $filter: EventFilter!
-    $sorting: [EventSort!]
+export const DASHBOARD_CALENDAR_UPCOMING_TASKS_QUERY = gql`
+  query DashboardCalendarUpcomingTasks(
+    $filter: TaskFilter!
+    $sorting: [TaskSort!]
     $paging: OffsetPaging!
   ) {
-    events(filter: $filter, sorting: $sorting, paging: $paging) {
+    tasks(filter: $filter, sorting: $sorting, paging: $paging) {
       totalCount
       nodes {
         id

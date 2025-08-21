@@ -4,12 +4,12 @@ import { CalendarOutlined } from "@ant-design/icons";
 import { UpcomingEventsSkeleton } from "../skeleton/upcoming-events";
 import { getDate } from "../../utils/helpers";
 import { useList } from "@refinedev/core";
-import { DASHBOARD_CALENDAR_UPCOMING_EVENTS_QUERY } from "../../utils/queries";
+import { DASHBOARD_CALENDAR_UPCOMING_TASKS_QUERY } from "../../utils/queries";
 import dayjs from "dayjs";
 
-const UpcomingEvents = () => {
+const UpcomingTasks = () => {
   const { data, isLoading } = useList({
-    resource: "events",
+    resource: "tasks", // 🔹 changed from "events"
     pagination: { pageSize: 5 },
     sorters: [
       {
@@ -21,12 +21,11 @@ const UpcomingEvents = () => {
       {
         field: "startDate",
         operator: "lte",
-        // operator: "gte",
         value: dayjs().format("YYYY-MM-DD"),
       },
     ],
     meta: {
-      gqlQuery: DASHBOARD_CALENDAR_UPCOMING_EVENTS_QUERY,
+      gqlQuery: DASHBOARD_CALENDAR_UPCOMING_TASKS_QUERY, // 🔹 updated
     },
   });
 
@@ -39,7 +38,7 @@ const UpcomingEvents = () => {
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
           <CalendarOutlined />
           <Text size="sm" style={{ marginLeft: "0.7rem" }}>
-            Upcoming Events
+            Upcoming Tasks
           </Text>
         </div>
       }
@@ -51,7 +50,7 @@ const UpcomingEvents = () => {
             id: index,
           }))}
           renderItem={() => <UpcomingEventsSkeleton />}
-        ></List>
+        />
       ) : (
         <List
           itemLayout="horizontal"
@@ -72,7 +71,7 @@ const UpcomingEvents = () => {
               </List.Item>
             );
           }}
-        ></List>
+        />
       )}
       {!isLoading && data?.data.length === 0 && (
         <span
@@ -83,11 +82,11 @@ const UpcomingEvents = () => {
             height: "220px",
           }}
         >
-          <Text style={{ color: "gray" }}> No upcoming events</Text>
+          <Text style={{ color: "gray" }}> No upcoming tasks</Text>
         </span>
       )}
     </Card>
   );
 };
 
-export default UpcomingEvents;
+export default UpcomingTasks;

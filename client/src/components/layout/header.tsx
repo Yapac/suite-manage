@@ -4,11 +4,6 @@ import { Button, Layout, Space, theme as antdTheme } from "antd";
 import { MoonOutlined, SunOutlined } from "@ant-design/icons";
 import { useAppContext } from "../../context/AppContext";
 
-interface HeaderProps {
-  theme: "light" | "dark";
-  setTheme: (theme: "light" | "dark") => void;
-}
-
 const Header = () => {
   const { token } = antdTheme.useToken();
   const headerStyles: React.CSSProperties = {
