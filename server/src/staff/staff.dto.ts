@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Field, ID, ObjectType, InputType } from '@nestjs/graphql';
 
 @ObjectType()
 export class StaffDTO {
@@ -6,10 +6,7 @@ export class StaffDTO {
   id: string;
 
   @Field()
-  firstName: string;
-
-  @Field()
-  lastName: string;
+  name: string;
 
   @Field()
   role: string;
@@ -17,12 +14,51 @@ export class StaffDTO {
   @Field()
   email: string;
 
-  @Field()
-  passwordHash: string;
-
   @Field({ nullable: true })
   phone?: string;
 
   @Field()
   hireDate: Date;
+
+  @Field({ nullable: true })
+  avatarUrl?: string;
+}
+
+@InputType()
+export class StaffInputDTO {
+  @Field({ nullable: true })
+  name?: string;
+
+  @Field({ nullable: true })
+  role?: string;
+
+  @Field({ nullable: true })
+  email?: string;
+
+  @Field({ nullable: true })
+  password?: string; // ✅ raw password from client
+
+  @Field({ nullable: true })
+  phone?: string;
+
+  @Field({ nullable: true })
+  hireDate?: Date;
+
+  @Field({ nullable: true })
+  avatarUrl?: string;
+}
+
+@InputType()
+export class LoginInput {
+  @Field()
+  email: string;
+
+  @Field()
+  password: string;
+}
+
+@ObjectType()
+export class AuthResponse {
+  @Field()
+  accessToken: string;
 }

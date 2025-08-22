@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { Guest, GuestDocument } from './guest.schema';
+import { GuestInputDTO } from './guest.dto';
 
 @Injectable()
 export class GuestService {
@@ -9,7 +10,7 @@ export class GuestService {
     @InjectModel(Guest.name) private GuestModel: Model<GuestDocument>,
   ) {}
 
-  async create(data: Partial<Guest>): Promise<Guest> {
+  async create(data: GuestInputDTO): Promise<Guest> {
     const Guest = new this.GuestModel(data);
     return Guest.save();
   }
@@ -22,7 +23,7 @@ export class GuestService {
     return this.GuestModel.findById(id).exec();
   }
 
-  async update(id: string, data: Partial<Guest>): Promise<Guest | null> {
+  async update(id: string, data: GuestInputDTO): Promise<Guest | null> {
     return this.GuestModel.findByIdAndUpdate(id, data, { new: true }).exec();
   }
 

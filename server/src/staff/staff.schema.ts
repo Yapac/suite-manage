@@ -1,15 +1,12 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
+import { Document } from 'mongoose';
 
 export type StaffDocument = Staff & Document;
 
 @Schema()
 export class Staff {
   @Prop({ required: true })
-  firstName: String;
-
-  @Prop({ required: true })
-  lastName: String;
+  name: string;
 
   @Prop({
     required: true,
@@ -17,17 +14,20 @@ export class Staff {
   })
   role: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, unique: true })
   email: string;
 
   @Prop({ required: true })
-  passwordHash: string;
+  passwordHash: string; // ✅ only stored internally
 
   @Prop()
   phone: string;
 
   @Prop({ default: Date.now })
   hireDate: Date;
+
+  @Prop({ nullable: true })
+  avatarUrl?: string;
 }
 
 export const StaffSchema = SchemaFactory.createForClass(Staff);

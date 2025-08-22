@@ -1,5 +1,5 @@
 import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { TaskDTO } from './task.dto';
+import { TaskDTO, TaskInputDTO } from './task.dto';
 import { TaskService } from './task.service';
 import { Task } from './task.schema';
 
@@ -18,14 +18,14 @@ export class TaskResolver {
   }
 
   @Mutation(() => TaskDTO)
-  async createTask(@Args('data') data: Partial<Task>): Promise<Task> {
+  async createTask(@Args('data') data: TaskInputDTO): Promise<Task> {
     return this.taskService.create(data);
   }
 
   @Mutation(() => TaskDTO)
   async updateTask(
     @Args('id', { type: () => ID }) id: string,
-    @Args('data') data: Partial<Task>,
+    @Args('data') data: TaskInputDTO,
   ): Promise<Task | null> {
     return this.taskService.update(id, data);
   }

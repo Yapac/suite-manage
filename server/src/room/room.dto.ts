@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Field, ID, ObjectType, InputType } from '@nestjs/graphql';
 
 @ObjectType()
 export class RoomDTO {
@@ -15,6 +15,27 @@ export class RoomDTO {
   pricePerNight: number;
 
   @Field()
+  status: string;
+
+  @Field({ nullable: true })
+  description?: number;
+}
+
+@InputType()
+export class RoomInputDTO {
+  @Field(() => ID, { nullable: true })
+  id?: string;
+
+  @Field({ nullable: true })
+  number?: string;
+
+  @Field({ nullable: true })
+  type?: string;
+
+  @Field({ nullable: true })
+  pricePerNight?: number;
+
+  @Field({ nullable: true })
   status: string;
 
   @Field({ nullable: true })

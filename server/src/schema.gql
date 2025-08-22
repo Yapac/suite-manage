@@ -1,0 +1,144 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type BookingDTO {
+  id: ID!
+  roomId: String!
+  guestId: String!
+  checkIn: DateTime!
+  checkOut: DateTime!
+  totalPrice: Float
+  paymentType: String
+  status: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type StaffDTO {
+  id: ID!
+  name: String!
+  role: String!
+  email: String!
+  phone: String
+  hireDate: DateTime!
+  avatarUrl: String
+}
+
+type AuthResponse {
+  accessToken: String!
+}
+
+type RoomDTO {
+  id: ID!
+  number: String!
+  type: String!
+  pricePerNight: Float!
+  status: String!
+  description: Float
+}
+
+type GuestDTO {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  idDocument: String!
+  phone: String
+  email: String
+}
+
+type TaskDTO {
+  id: ID!
+  title: String!
+  assignedTo: String!
+  roomId: String!
+  status: String!
+}
+
+type Query {
+  bookings: [BookingDTO!]!
+  booking(id: ID!): BookingDTO!
+  rooms: [RoomDTO!]!
+  room(id: ID!): RoomDTO!
+  guests: [GuestDTO!]!
+  guest(id: ID!): GuestDTO!
+  staffs: [StaffDTO!]!
+  staff(id: ID!): StaffDTO!
+  me: StaffDTO
+  tasks: [TaskDTO!]!
+  task(id: ID!): TaskDTO!
+}
+
+type Mutation {
+  createBooking(data: BookingInputDTO!): BookingDTO!
+  updateBooking(id: ID!, data: BookingInputDTO!): BookingDTO!
+  deleteBooking(id: ID!): BookingDTO!
+  createRoom(data: RoomInputDTO!): RoomDTO!
+  updateRoom(id: ID!, data: RoomInputDTO!): RoomDTO!
+  deleteRoom(id: ID!): RoomDTO!
+  createGuest(data: GuestInputDTO!): GuestDTO!
+  updateGuest(id: ID!, data: GuestInputDTO!): GuestDTO!
+  deleteGuest(id: ID!): GuestDTO!
+  createStaff(data: StaffInputDTO!): StaffDTO!
+  updateStaff(id: ID!, data: StaffInputDTO!): StaffDTO!
+  deleteStaff(id: ID!): StaffDTO!
+  login(loginInput: LoginInput!): AuthResponse!
+  createTask(data: TaskInputDTO!): TaskDTO!
+  updateTask(id: ID!, data: TaskInputDTO!): TaskDTO!
+  deleteTask(id: ID!): TaskDTO!
+}
+
+input BookingInputDTO {
+  id: ID
+  roomId: String
+  guestId: String
+  checkIn: DateTime
+  checkOut: DateTime
+  totalPrice: Float
+  paymentType: String
+  status: String
+}
+
+input RoomInputDTO {
+  id: ID
+  number: String
+  type: String
+  pricePerNight: Float
+  status: String
+  description: Float
+}
+
+input GuestInputDTO {
+  id: ID
+  firstName: String
+  lastName: String
+  idDocument: String
+  phone: String
+  email: String
+}
+
+input StaffInputDTO {
+  name: String
+  role: String
+  email: String
+  password: String
+  phone: String
+  hireDate: DateTime
+  avatarUrl: String
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+input TaskInputDTO {
+  id: ID
+  title: String
+  assignedTo: String
+  roomId: String
+  status: String
+}

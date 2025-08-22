@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Field, ID, InputType, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
 export class TaskDTO {
@@ -16,4 +16,22 @@ export class TaskDTO {
 
   @Field()
   status: string;
+}
+
+@InputType()
+export class TaskInputDTO {
+  @Field(() => ID, { nullable: true })
+  id?: string;
+
+  @Field({ nullable: true })
+  title?: string;
+
+  @Field({ nullable: true })
+  assignedTo?: string;
+
+  @Field({ nullable: true })
+  roomId?: string;
+
+  @Field({ nullable: true })
+  status?: string;
 }

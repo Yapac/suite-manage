@@ -1,5 +1,5 @@
 import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { RoomDTO } from './room.dto';
+import { RoomDTO, RoomInputDTO } from './room.dto';
 import { RoomService } from './room.service';
 import { Room } from './room.schema';
 
@@ -18,14 +18,14 @@ export class RoomResolver {
   }
 
   @Mutation(() => RoomDTO)
-  async createRoom(@Args('data') data: Partial<Room>): Promise<Room> {
+  async createRoom(@Args('data') data: RoomInputDTO): Promise<Room> {
     return this.roomService.create(data);
   }
 
   @Mutation(() => RoomDTO)
   async updateRoom(
     @Args('id', { type: () => ID }) id: string,
-    @Args('data') data: Partial<Room>,
+    @Args('data') data: RoomInputDTO,
   ): Promise<Room | null> {
     return this.roomService.update(id, data);
   }
