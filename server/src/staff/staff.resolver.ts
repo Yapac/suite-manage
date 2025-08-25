@@ -1,5 +1,11 @@
 import { Args, ID, Mutation, Query, Resolver, Context } from '@nestjs/graphql';
-import { StaffDTO, StaffInputDTO, LoginInput, AuthResponse } from './staff.dto';
+import {
+  StaffDTO,
+  StaffInputDTO,
+  LoginInput,
+  AuthResponse,
+  UpdateStaffInput,
+} from './staff.dto';
 import { StaffService } from './staff.service';
 import { Staff } from './staff.schema';
 import { UseGuards } from '@nestjs/common';
@@ -28,10 +34,10 @@ export class StaffResolver {
 
   @Mutation(() => StaffDTO)
   async updateStaff(
-    @Args('id', { type: () => ID }) id: string,
-    @Args('data') data: StaffInputDTO,
+    @Args('input') input: UpdateStaffInput,
   ): Promise<Staff | null> {
-    return this.staffService.update(id, data);
+    const { id, update } = input;
+    return this.staffService.update(id, update);
   }
 
   @Mutation(() => StaffDTO)

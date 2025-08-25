@@ -11,7 +11,7 @@ export class TaskDTO {
   @Field()
   assignedTo: string;
 
-  @Field()
+  @Field({ nullable: true })
   roomId: string;
 
   @Field()

@@ -12,6 +12,7 @@ import { TaskModule } from './task/task.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { PubSubModule } from './pubsub.module';
 
 @Module({
   imports: [
@@ -26,6 +27,9 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      subscriptions: {
+        'graphql-ws': true,
+      },
       playground: true,
     }),
     BookingModule,
@@ -33,6 +37,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
     GuestModule,
     StaffModule,
     TaskModule,
+    PubSubModule,
   ],
   controllers: [AppController],
   providers: [AppService],

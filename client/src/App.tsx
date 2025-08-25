@@ -15,7 +15,7 @@ import routerBindings, {
 import { App as AntdApp, ConfigProvider, theme } from "antd";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 
-import { Home, Login, ForgotPassword, Register } from "./pages";
+import { Home, Login, ForgotPassword, Register, Rooms } from "./pages";
 import Layout from "./components/layout";
 import { resources } from "./config/resources";
 import { useAppContext } from "./context/AppContext";
@@ -39,7 +39,7 @@ function App() {
             <DevtoolsProvider>
               <Refine
                 dataProvider={dataProvider}
-                liveProvider={liveProvider}
+                liveProvider={liveProvider ?? undefined}
                 notificationProvider={useNotificationProvider}
                 routerProvider={routerBindings}
                 authProvider={authProvider}
@@ -69,6 +69,7 @@ function App() {
                     }
                   >
                     <Route index element={<Home />} />
+                    <Route path="/rooms" element={<Rooms />} />
                   </Route>
                 </Routes>
                 <RefineKbar />

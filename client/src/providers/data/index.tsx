@@ -6,9 +6,9 @@ import graphqlDataProvider, {
 import { fetchWrapper } from "./fetch-wrapper";
 import { createClient } from "graphql-ws";
 
-export const API_BASE_URL = "https://api.crm.refine.dev";
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export const API_URL = `${API_BASE_URL}/graphql`;
-export const WS_URL = "wss://api.crm.refine.dev/graphql";
+export const WS_URL = import.meta.env.VITE_WS_URL;
 
 export const client = new GraphQLClient(API_URL, {
   fetch: (url: string, option: RequestInit) => {
@@ -25,12 +25,12 @@ export const wsClient =
     ? createClient({
         url: WS_URL,
         connectionParams: () => {
-          const acessToken = localStorage.getItem("access_token");
+          const accessToken = localStorage.getItem("access_token");
 
           return {
-            headers: {
-              Authorization: `Bearer ${acessToken}`,
-            },
+            headers: accessToken
+              ? { Authorization: `Bearer ${accessToken}` }
+              : {},
           };
         },
       })

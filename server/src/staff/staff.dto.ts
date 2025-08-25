@@ -62,3 +62,12 @@ export class AuthResponse {
   @Field()
   accessToken: string;
 }
+
+@InputType()
+export class UpdateStaffInput {
+  @Field(() => ID)
+  id: string;
+
+  @Field(() => StaffInputDTO)
+  update: StaffInputDTO;
+}

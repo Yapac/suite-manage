@@ -54,7 +54,7 @@ type TaskDTO {
   id: ID!
   title: String!
   assignedTo: String!
-  roomId: String!
+  roomId: String
   status: String!
 }
 
@@ -83,7 +83,7 @@ type Mutation {
   updateGuest(id: ID!, data: GuestInputDTO!): GuestDTO!
   deleteGuest(id: ID!): GuestDTO!
   createStaff(data: StaffInputDTO!): StaffDTO!
-  updateStaff(id: ID!, data: StaffInputDTO!): StaffDTO!
+  updateStaff(input: UpdateStaffInput!): StaffDTO!
   deleteStaff(id: ID!): StaffDTO!
   login(loginInput: LoginInput!): AuthResponse!
   createTask(data: TaskInputDTO!): TaskDTO!
@@ -130,6 +130,11 @@ input StaffInputDTO {
   avatarUrl: String
 }
 
+input UpdateStaffInput {
+  id: ID!
+  update: StaffInputDTO!
+}
+
 input LoginInput {
   email: String!
   password: String!
@@ -141,4 +146,10 @@ input TaskInputDTO {
   assignedTo: String
   roomId: String
   status: String
+}
+
+type Subscription {
+  taskCreated: TaskDTO!
+  taskUpdated: TaskDTO!
+  taskDeleted: TaskDTO!
 }

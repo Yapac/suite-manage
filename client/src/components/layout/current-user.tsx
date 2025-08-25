@@ -2,21 +2,22 @@ import { Button, Popover } from "antd";
 import React, { useState } from "react";
 import CustomAvatar from "../custom-avatar";
 import { useGetIdentity } from "@refinedev/core";
-import { User } from "../../utils/schemas.types";
+import { Staff } from "../../utils/schemas.types";
 import { Text } from "../text";
 import { SettingOutlined } from "@ant-design/icons";
 import { AccountSettings } from "./account-settings";
 
 export const CurrentUser = () => {
-  const { data: user } = useGetIdentity<User>();
+  const { data: user } = useGetIdentity<Staff>();
 
   const [isOpen, setIsOpen] = useState(false);
 
   const content = (
     <div style={{ display: "flex", flexDirection: "column" }}>
       <Text strong style={{ padding: "12px 20px" }}>
-        {user?.name}
+        {user?.name} (<span style={{ color: "#A71C71" }}> {user?.role}</span> )
       </Text>
+
       <div
         style={{
           padding: "4px 8px",
@@ -54,6 +55,7 @@ export const CurrentUser = () => {
           style={{ cursor: "pointer" }}
         />
       </Popover>
+
       {user && (
         <AccountSettings
           opened={isOpen}

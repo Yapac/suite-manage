@@ -10,20 +10,20 @@ import dayjs from "dayjs";
 const UpcomingTasks = () => {
   const { data, isLoading } = useList({
     resource: "tasks", // 🔹 changed from "events"
-    pagination: { pageSize: 5 },
-    sorters: [
-      {
-        field: "startDate",
-        order: "asc",
-      },
-    ],
-    filters: [
-      {
-        field: "startDate",
-        operator: "lte",
-        value: dayjs().format("YYYY-MM-DD"),
-      },
-    ],
+    // pagination: { pageSize: 5 },
+    // sorters: [
+    //   {
+    //     field: "startDate",
+    //     order: "asc",
+    //   },
+    // ],
+    // filters: [
+    //   {
+    //     field: "startDate",
+    //     operator: "lte",
+    //     value: dayjs().format("YYYY-MM-DD"),
+    //   },
+    // ],
     meta: {
       gqlQuery: DASHBOARD_CALENDAR_UPCOMING_TASKS_QUERY, // 🔹 updated
     },
@@ -32,8 +32,10 @@ const UpcomingTasks = () => {
   return (
     <Card
       style={{ height: "100%" }}
-      headStyle={{ padding: "8px 16px" }}
-      bodyStyle={{ padding: "0 1rem" }}
+      styles={{
+        header: { padding: "8px 16px" },
+        body: { padding: "0 1rem" },
+      }}
       title={
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
           <CalendarOutlined />
@@ -56,15 +58,14 @@ const UpcomingTasks = () => {
           itemLayout="horizontal"
           dataSource={data?.data || []}
           renderItem={(item) => {
-            const renderDate = getDate(item.startDate, item.endDate);
             return (
               <List.Item>
                 <List.Item.Meta
-                  avatar={<Badge color={item.color} />}
-                  title={<Text size="xs">{renderDate}</Text>}
+                  avatar={<Badge color={"blue"} />}
+                  title={<Text size="xs">{item.status}</Text>}
                   description={
                     <Text ellipsis={{ tooltip: true }} strong>
-                      {item.title}
+                      {item.title}— Assigned to {item.assignedTo}
                     </Text>
                   }
                 />
@@ -73,7 +74,7 @@ const UpcomingTasks = () => {
           }}
         />
       )}
-      {!isLoading && data?.data.length === 0 && (
+      {!isLoading && (data?.data?.length ?? 0) === 0 && (
         <span
           style={{
             display: "flex",

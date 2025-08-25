@@ -1,28 +1,37 @@
-export type Role =
-  | "admin"
-  | "manager"
-  | "receptionist"
-  | "housekeeping"
-  | "guest";
+export type Role = "admin" | "manager" | "receptionist" | "housekeeping";
 
-export interface User {
-  id: string; // Unique identifier
-  name: string; // Login username
-  email: string; // Contact email
-  role: Role; // User role
-  phoneNumber?: string; // Optional contact number
-  avatarUrl?: string; // Optional profile picture
+export interface Staff {
+  id: string; // maps _id from Mongo
+  name: string;
+  email: string;
+  role: Role;
+  phone?: string;
+  avatarUrl?: string;
+  hireDate: DateTime;
 
-  // Hotel-specific properties
-  assignedHotelId?: string; // Which hotel they belong to (for chains)
-  shiftSchedule?: string[]; // e.g., ["Monday: 9-5", "Tuesday: 1-9"]
+  // metadata
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+export type DateTime = string;
 
-  // Access control
-  permissions?: string[]; // Extra custom permissions
-  isActive: boolean; // Account status
-  lastLogin?: Date; // Last login timestamp
+// Staff types
+export interface StaffDTO {
+  id: string;
+  name: string;
+  role: string;
+  email: string;
+  phone?: string;
+  hireDate: DateTime;
+  avatarUrl?: string;
+}
 
-  // Metadata
-  createdAt: Date;
-  updatedAt: Date;
+export interface StaffInputDTO {
+  name?: string;
+  role?: string;
+  email?: string;
+  password?: string;
+  phone?: string;
+  hireDate?: DateTime;
+  avatarUrl?: string;
 }

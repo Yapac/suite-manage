@@ -8,23 +8,21 @@ export const authCredentials = {
 };
 
 export const authProvider: AuthProvider = {
-  login: async ({ email }) => {
+  login: async ({ email, password }) => {
     try {
       const { data } = await dataProvider.custom({
         url: API_URL,
         method: "post",
         headers: {},
         meta: {
-          variables: { email },
+          variables: { email, password },
           rawQuery: `
-                mutation Login($email: String!) {
-                    login(loginInput: {
-                      email: $email
-                    }) {
-                      accessToken,
-                    }
-                  }
-                `,
+           mutation Login($email: String!, $password: String!) {
+            login(loginInput: { email: $email, password: $password }) {
+              accessToken
+            }
+          }
+        `,
         },
       });
       localStorage.setItem("access_token", data.login.accessToken);
@@ -111,8 +109,7 @@ export const authProvider: AuthProvider = {
                             name,
                             email,
                             phone,
-                            jobTitle,
-                            timezone
+                            role,
                             avatarUrl
                         }
                       }
