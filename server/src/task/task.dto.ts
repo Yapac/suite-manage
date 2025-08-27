@@ -8,10 +8,10 @@ export class TaskDTO {
   @Field()
   title: string;
 
-  @Field()
+  @Field(() => ID)
   assignedTo: string;
 
-  @Field({ nullable: true })
+  @Field(() => ID, { nullable: true })
   roomId: string;
 
   @Field()

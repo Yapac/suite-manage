@@ -1,7 +1,5 @@
-import graphqlDataProvider, {
-  GraphQLClient,
-  liveProvider as graphqlLiveProvider,
-} from "@refinedev/nestjs-query";
+import { Client, fetchExchange } from "@urql/core";
+import createDataProvider, { createLiveProvider } from "@refinedev/graphql";
 
 import { fetchWrapper } from "./fetch-wrapper";
 import { createClient } from "graphql-ws";
@@ -10,13 +8,16 @@ export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export const API_URL = `${API_BASE_URL}/graphql`;
 export const WS_URL = import.meta.env.VITE_WS_URL;
 
-export const client = new GraphQLClient(API_URL, {
-  fetch: (url: string, option: RequestInit) => {
-    try {
-      return fetchWrapper(url, option);
-    } catch (error) {
-      return Promise.reject(error as Error);
-    }
+export const client = new Client({
+  url: API_URL,
+  exchanges: [fetchExchange],
+  // fetch: fetchWrapper,
+  fetchOptions: () => {
+    return {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    };
   },
 });
 
@@ -36,7 +37,5 @@ export const wsClient =
       })
     : undefined;
 
-export const dataProvider = graphqlDataProvider(client);
-export const liveProvider = wsClient
-  ? graphqlLiveProvider(wsClient)
-  : undefined;
+export const dataProvider = createDataProvider(client);
+export const liveProvider = wsClient ? createLiveProvider(wsClient) : undefined;

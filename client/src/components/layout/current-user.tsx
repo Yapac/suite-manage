@@ -15,7 +15,12 @@ export const CurrentUser = () => {
   const content = (
     <div style={{ display: "flex", flexDirection: "column" }}>
       <Text strong style={{ padding: "12px 20px" }}>
-        {user?.name} (<span style={{ color: "#A71C71" }}> {user?.role}</span> )
+        {user?.name} (
+        <span style={{ color: "#A71C71", textTransform: "capitalize" }}>
+          {" "}
+          {user?.role}{" "}
+        </span>
+        )
       </Text>
 
       <div

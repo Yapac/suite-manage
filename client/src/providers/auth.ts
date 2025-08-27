@@ -1,125 +1,96 @@
 import { AuthProvider } from "@refinedev/core";
-
-import { API_URL, dataProvider } from "./data";
+import { client } from "./data";
 
 export const authCredentials = {
   email: "michael.scott@dundermifflin.com",
   password: "demodemo",
 };
 
+const LOGIN_MUTATION = `
+  mutation Login($email: String!, $password: String!) {
+    login(loginInput: { email: $email, password: $password }) {
+      accessToken
+    }
+  }
+`;
+
+const ME_QUERY = `
+  query Me {
+    me {
+      id
+      name
+      email
+      phone
+      role
+      avatarUrl
+    }
+  }
+`;
+
 export const authProvider: AuthProvider = {
   login: async ({ email, password }) => {
-    try {
-      const { data } = await dataProvider.custom({
-        url: API_URL,
-        method: "post",
-        headers: {},
-        meta: {
-          variables: { email, password },
-          rawQuery: `
-           mutation Login($email: String!, $password: String!) {
-            login(loginInput: { email: $email, password: $password }) {
-              accessToken
-            }
-          }
-        `,
-        },
-      });
-      localStorage.setItem("access_token", data.login.accessToken);
+    const result = await client
+      .mutation(LOGIN_MUTATION, { email, password })
+      .toPromise();
 
-      return {
-        success: true,
-        redirectTo: "/",
-      };
-    } catch (e) {
-      const error = e as Error;
-
+    if (result.error) {
       return {
         success: false,
         error: {
-          message: "message" in error ? error.message : "Login failed",
-          name: "name" in error ? error.name : "Invalid email or password",
+          name: "AuthenticationError",
+          message: result.error.message ?? "Login failed",
         },
       };
     }
+
+    const token = result.data?.login?.accessToken;
+    if (!token) {
+      return {
+        success: false,
+        error: {
+          name: "AuthenticationError",
+          message: "No token returned",
+        },
+      };
+    }
+
+    localStorage.setItem("access_token", token);
+
+    return { success: true, redirectTo: "/" };
   },
 
   logout: async () => {
     localStorage.removeItem("access_token");
-
-    return {
-      success: true,
-      redirectTo: "/login",
-    };
+    return { success: true, redirectTo: "/login" };
   },
-  onError: async (error) => {
-    if (error.statusCode === "UNAUTHENTICATED") {
-      return {
-        logout: true,
-      };
-    }
 
-    return { error };
-  },
   check: async () => {
-    try {
-      await dataProvider.custom({
-        url: API_URL,
-        method: "post",
-        headers: {},
-        meta: {
-          rawQuery: `
-                    query Me {
-                        me {
-                          name
-                        }
-                      }
-                `,
-        },
-      });
+    // This will include Authorization automatically via fetchWrapper
+    const result = await client.query(ME_QUERY, {}).toPromise();
 
-      return {
-        authenticated: true,
-        redirectTo: "/",
-      };
-    } catch (error) {
-      return {
-        authenticated: false,
-        redirectTo: "/login",
-      };
+    if (result.data?.me) {
+      return { authenticated: true };
     }
+
+    return { authenticated: false, redirectTo: "/login" };
   },
+
   getIdentity: async () => {
-    const accessToken = localStorage.getItem("access_token");
+    const token = localStorage.getItem("access_token");
+    if (!token) return undefined;
 
-    try {
-      const { data } = await dataProvider.custom<{ me: any }>({
-        url: API_URL,
-        method: "post",
-        headers: accessToken
-          ? {
-              Authorization: `Bearer ${accessToken}`,
-            }
-          : {},
-        meta: {
-          rawQuery: `
-                    query Me {
-                        me {
-                            id,
-                            name,
-                            email,
-                            phone,
-                            role,
-                            avatarUrl
-                        }
-                      }
-                `,
-        },
-      });
-
-      return data.me;
-    } catch (error) {
+    const result = await client.query(ME_QUERY, {}).toPromise();
+    if (result.error) {
       return undefined;
     }
+    return result.data?.me ?? undefined;
+  },
+
+  onError: async (error) => {
+    // Optional: handle GraphQL UNAUTHENTICATED codes if you attach them
+    if ((error as any)?.statusCode === "UNAUTHENTICATED") {
+      return { logout: true };
+    }
+    return { error };
   },
 };

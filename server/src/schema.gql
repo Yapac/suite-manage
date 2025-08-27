@@ -53,8 +53,8 @@ type GuestDTO {
 type TaskDTO {
   id: ID!
   title: String!
-  assignedTo: String!
-  roomId: String
+  assignedTo: ID!
+  roomId: ID
   status: String!
 }
 

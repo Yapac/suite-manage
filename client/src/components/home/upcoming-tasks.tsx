@@ -2,40 +2,37 @@ import { Badge, Card, List } from "antd";
 import { Text } from "../text";
 import { CalendarOutlined } from "@ant-design/icons";
 import { UpcomingEventsSkeleton } from "../skeleton/upcoming-events";
-import { getDate } from "../../utils/helpers";
 import { useList } from "@refinedev/core";
 import { DASHBOARD_CALENDAR_UPCOMING_TASKS_QUERY } from "../../utils/queries";
-import dayjs from "dayjs";
 
 const UpcomingTasks = () => {
-  const { data, isLoading } = useList({
-    resource: "tasks", // 🔹 changed from "events"
-    // pagination: { pageSize: 5 },
-    // sorters: [
-    //   {
-    //     field: "startDate",
-    //     order: "asc",
-    //   },
-    // ],
-    // filters: [
-    //   {
-    //     field: "startDate",
-    //     operator: "lte",
-    //     value: dayjs().format("YYYY-MM-DD"),
-    //   },
-    // ],
+  const { data, isLoading, isError } = useList({
+    resource: "tasks",
+    liveMode: "off", // optional, for live updates
     meta: {
-      gqlQuery: DASHBOARD_CALENDAR_UPCOMING_TASKS_QUERY, // 🔹 updated
+      gqlQuery: DASHBOARD_CALENDAR_UPCOMING_TASKS_QUERY,
+      transform: (response: any) => {
+        return {
+          data: response || [],
+          total: response.tasks?.length || 0,
+        };
+      },
+    },
+    successNotification: (res) => {
+      return { message: "Fetched successfully", type: "success" };
+    },
+    errorNotification: (err) => {
+      return {
+        message: "Error",
+        description: "Error: " + err?.errors,
+        type: "error",
+      };
     },
   });
 
   return (
     <Card
       style={{ height: "100%" }}
-      styles={{
-        header: { padding: "8px 16px" },
-        body: { padding: "0 1rem" },
-      }}
       title={
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
           <CalendarOutlined />
@@ -57,23 +54,22 @@ const UpcomingTasks = () => {
         <List
           itemLayout="horizontal"
           dataSource={data?.data || []}
-          renderItem={(item) => {
-            return (
-              <List.Item>
-                <List.Item.Meta
-                  avatar={<Badge color={"blue"} />}
-                  title={<Text size="xs">{item.status}</Text>}
-                  description={
-                    <Text ellipsis={{ tooltip: true }} strong>
-                      {item.title}— Assigned to {item.assignedTo}
-                    </Text>
-                  }
-                />
-              </List.Item>
-            );
-          }}
+          renderItem={(item) => (
+            <List.Item>
+              <List.Item.Meta
+                avatar={<Badge color={"blue"} />}
+                title={<Text size="xs">{item.status}</Text>}
+                description={
+                  <Text ellipsis={{ tooltip: true }} strong>
+                    {item.title} — Assigned to {item.assignedTo}
+                  </Text>
+                }
+              />
+            </List.Item>
+          )}
         />
       )}
+
       {!isLoading && (data?.data?.length ?? 0) === 0 && (
         <span
           style={{
@@ -83,7 +79,7 @@ const UpcomingTasks = () => {
             height: "220px",
           }}
         >
-          <Text style={{ color: "gray" }}> No upcoming tasks</Text>
+          <Text style={{ color: "gray" }}>No upcoming tasks</Text>
         </span>
       )}
     </Card>

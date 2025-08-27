@@ -107,7 +107,11 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
               <Input placeholder="Name" prefix={<UserOutlined />} />
             </Form.Item>
             <Form.Item label="Email" name="email">
-              <Input placeholder="Email" prefix={<MailOutlined />} />
+              <Input
+                placeholder="Email"
+                type="email"
+                prefix={<MailOutlined />}
+              />
             </Form.Item>
             <Form.Item label="Role" name="role">
               <Input placeholder="Role" />
