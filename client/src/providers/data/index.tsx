@@ -37,5 +37,17 @@ export const wsClient =
       })
     : undefined;
 
-export const dataProvider = createDataProvider(client);
-export const liveProvider = wsClient ? createLiveProvider(wsClient) : undefined;
+export const dataProvider = createDataProvider(client, {
+  getList: {
+    dataMapper: (response, params) => {
+      // Adjust this to match your actual response structure
+      return response.data?.[params.resource] || [];
+    },
+    getTotalCount: (response, params) => {
+      // If you have a total count, extract it here, otherwise return length
+      return response.data?.[params.resource]?.length || 0;
+    },
+  },
+});
+/*  wsClient ? createLiveProvider(wsClient) : */
+export const liveProvider = undefined;

@@ -15,7 +15,7 @@ import routerBindings, {
 import { App as AntdApp, ConfigProvider, theme } from "antd";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 
-import { Home, Login, ForgotPassword, Register, Rooms } from "./pages";
+import { Home, Login, ForgotPassword, Register, RoomsList } from "./pages";
 import Layout from "./components/layout";
 import { resources } from "./config/resources";
 import { useAppContext } from "./context/AppContext";
@@ -69,7 +69,7 @@ function App() {
                     }
                   >
                     <Route index element={<Home />} />
-                    <Route path="/rooms" element={<Rooms />} />
+                    <Route path="/rooms" element={<RoomsList />} />
                   </Route>
                 </Routes>
                 <RefineKbar />

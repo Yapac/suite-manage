@@ -6,13 +6,17 @@ export type GuestDocument = Guest & Document;
 @Schema({ timestamps: true })
 export class Guest {
   @Prop({ required: true })
-  firstName: string;
+  name: string;
 
   @Prop({ required: true })
-  lastName: string;
+  documentId: string;
 
-  @Prop({ required: true })
-  idDocument: string;
+  @Prop({
+    default: 'id-card',
+    enum: ['passport', 'id-card', 'driver-license'],
+    required: true,
+  })
+  documentType: string;
 
   @Prop()
   phone: string;

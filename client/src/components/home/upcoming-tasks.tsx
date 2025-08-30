@@ -1,43 +1,47 @@
 import { Badge, Card, List } from "antd";
 import { Text } from "../text";
 import { CalendarOutlined } from "@ant-design/icons";
-import { UpcomingEventsSkeleton } from "../skeleton/upcoming-events";
-import { useList } from "@refinedev/core";
+import { UpcomingEventsSkeleton } from "../skeleton/upcoming-tasks";
+import { useList, useCreate } from "@refinedev/core";
 import { DASHBOARD_CALENDAR_UPCOMING_TASKS_QUERY } from "../../utils/queries";
+import { getRandomColorFromString } from "@/utils/get-random-color";
+import dayjs from "dayjs";
 
 const UpcomingTasks = () => {
-  const { data, isLoading, isError } = useList({
+  const { data, isLoading } = useList({
     resource: "tasks",
-    liveMode: "off", // optional, for live updates
     meta: {
       gqlQuery: DASHBOARD_CALENDAR_UPCOMING_TASKS_QUERY,
-      transform: (response: any) => {
-        return {
-          data: response || [],
-          total: response.tasks?.length || 0,
-        };
+      variables: {
+        limit: 5,
+        offset: 0,
+        sortBy: "createdAt",
+        order: "desc",
       },
     },
-    successNotification: (res) => {
-      return { message: "Fetched successfully", type: "success" };
-    },
     errorNotification: (err) => {
+      console.error("Error fetching tasks", err);
       return {
-        message: "Error",
+        message: "Fetch Recent Tasks Error",
         description: "Error: " + err?.errors,
         type: "error",
       };
     },
   });
 
+  const formatDateTime = (dateString: string): string => {
+    return dayjs(dateString).format("MMMM D, YYYY h:mm A");
+  };
+
   return (
     <Card
       style={{ height: "100%" }}
+      styles={{ body: { padding: "14px 24px" } }}
       title={
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
           <CalendarOutlined />
           <Text size="sm" style={{ marginLeft: "0.7rem" }}>
-            Upcoming Tasks
+            Recent Tasks
           </Text>
         </div>
       }
@@ -57,11 +61,16 @@ const UpcomingTasks = () => {
           renderItem={(item) => (
             <List.Item>
               <List.Item.Meta
-                avatar={<Badge color={"blue"} />}
-                title={<Text size="xs">{item.status}</Text>}
+                avatar={<Badge color={getRandomColorFromString(item.status)} />}
+                title={
+                  <Text size="xs" style={{ textTransform: "capitalize" }}>
+                    {item.status} - {formatDateTime(item.createdAt)}
+                  </Text>
+                }
                 description={
                   <Text ellipsis={{ tooltip: true }} strong>
-                    {item.title} — Assigned to {item.assignedTo}
+                    {item.title} — Assigned to {item.assignedTo?.name}{" "}
+                    {item.roomId && `in Room ${item.roomId}`}
                   </Text>
                 }
               />

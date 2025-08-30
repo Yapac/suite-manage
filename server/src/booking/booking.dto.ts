@@ -1,14 +1,16 @@
 import { Field, ID, ObjectType, InputType } from '@nestjs/graphql';
+import { GuestDTO } from 'src/guest/guest.dto';
+import { RoomDTO } from 'src/room/room.dto';
 
 @ObjectType()
 export class BookingDTO {
   @Field(() => ID)
   id: string;
 
-  @Field()
+  @Field(() => RoomDTO)
   roomId: string;
 
-  @Field()
+  @Field(() => GuestDTO)
   guestId: string;
 
   @Field()
@@ -18,7 +20,7 @@ export class BookingDTO {
   checkOut: Date;
 
   @Field({ nullable: true })
-  totalPrice?: number;
+  totalPrice?: string;
 
   @Field({ nullable: true })
   paymentType?: string;
@@ -45,7 +47,7 @@ export class BookingInputDTO {
   checkOut?: Date;
 
   @Field({ nullable: true })
-  totalPrice?: number;
+  totalPrice?: string;
 
   @Field({ nullable: true })
   paymentType?: string;

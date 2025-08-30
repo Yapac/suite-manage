@@ -12,7 +12,7 @@ export class RoomDTO {
   type: string;
 
   @Field()
-  pricePerNight: number;
+  pricePerNight: string;
 
   @Field()
   status: string;
@@ -33,7 +33,7 @@ export class RoomInputDTO {
   type?: string;
 
   @Field({ nullable: true })
-  pricePerNight?: number;
+  pricePerNight?: string;
 
   @Field({ nullable: true })
   status: string;

@@ -1,6 +1,7 @@
 import {
   Args,
   ID,
+  Int,
   Mutation,
   Query,
   Resolver,
@@ -21,11 +22,17 @@ export class TaskResolver {
   ) {}
 
   @Query(() => [TaskDTO])
-  async tasks(): Promise<Task[]> {
-    return this.taskService.findAll();
+  async tasks(
+    @Args('limit', { type: () => Int, nullable: true }) limit?: number,
+    @Args('offset', { type: () => Int, nullable: true }) offset?: number,
+    @Args('sortBy', { type: () => String, nullable: true }) sortBy?: string,
+    @Args('order', { type: () => String, nullable: true })
+    order?: 'asc' | 'desc',
+  ): Promise<Task[]> {
+    return this.taskService.findAll({ limit, offset, sortBy, order });
   }
 
-  @Query(() => TaskDTO)
+  @Query(() => TaskDTO, { nullable: true })
   async task(@Args('id', { type: () => ID }) id: string): Promise<Task | null> {
     return this.taskService.findOne(id);
   }

@@ -6,13 +6,13 @@ export class GuestDTO {
   id: string;
 
   @Field()
-  firstName: string;
+  name: string;
 
   @Field()
-  lastName: string;
+  documentType: string;
 
   @Field()
-  idDocument: string;
+  documentId: string;
 
   @Field({ nullable: true })
   phone?: string;
@@ -27,13 +27,13 @@ export class GuestInputDTO {
   id?: string;
 
   @Field({ nullable: true })
-  firstName?: string;
+  name?: string;
 
   @Field({ nullable: true })
-  lastName?: string;
+  documentType?: string;
 
   @Field({ nullable: true })
-  idDocument?: string;
+  documentId?: string;
 
   @Field({ nullable: true })
   phone?: string;

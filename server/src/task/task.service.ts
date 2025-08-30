@@ -13,12 +13,28 @@ export class TaskService {
     return task.save();
   }
 
-  async findAll(): Promise<Task[]> {
-    return this.taskModel.find().exec();
+  async findAll({
+    limit,
+    offset,
+    sortBy,
+    order,
+  }: {
+    limit?: number;
+    offset?: number;
+    sortBy?: string;
+    order?: 'asc' | 'desc';
+  }): Promise<Task[]> {
+    return this.taskModel
+      .find()
+      .populate('assignedTo')
+      .sort(sortBy ? { [sortBy]: order === 'desc' ? -1 : 1 } : {})
+      .skip(offset || 0)
+      .limit(limit || 0)
+      .exec();
   }
 
   async findOne(id: string): Promise<Task | null> {
-    return this.taskModel.findById(id).exec();
+    return this.taskModel.findById(id).populate('assignedTo').exec();
   }
 
   async update(id: string, data: TaskInputDTO): Promise<Task | null> {

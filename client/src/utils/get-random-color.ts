@@ -3,17 +3,17 @@
  */
 export const getRandomColorFromString = (text: string) => {
   const colors = [
-    "#ff9c6e",
-    "#ff7875",
-    "#ffc069",
-    "#ffd666",
-    "#fadb14",
-    "#95de64",
-    "#5cdbd3",
-    "#69c0ff",
-    "#85a5ff",
-    "#b37feb",
-    "#ff85c0",
+    "#2563eb", // blue
+    "#0891b2", // cyan/teal
+    "#10b981", // emerald/green
+    "#84cc16", // lime green
+    "#f59e0b", // amber
+    "#ef4444", // red
+    "#ec4899", // pink
+    "#8b5cf6", // violet
+    "#6366f1", // indigo
+    "#14b8a6", // teal
+    "#ec3434ff", // neutral gray
   ];
 
   let hash = 0;

@@ -1,4 +1,5 @@
 import { Field, ID, InputType, ObjectType } from '@nestjs/graphql';
+import { StaffDTO } from 'src/staff/staff.dto';
 
 @ObjectType()
 export class TaskDTO {
@@ -8,7 +9,7 @@ export class TaskDTO {
   @Field()
   title: string;
 
-  @Field(() => ID)
+  @Field(() => StaffDTO)
   assignedTo: string;
 
   @Field(() => ID, { nullable: true })
@@ -16,6 +17,9 @@ export class TaskDTO {
 
   @Field()
   status: string;
+
+  @Field({ nullable: true })
+  createdAt: Date;
 }
 
 @InputType()
@@ -26,10 +30,10 @@ export class TaskInputDTO {
   @Field({ nullable: true })
   title?: string;
 
-  @Field({ nullable: true })
+  @Field(() => ID, { nullable: true })
   assignedTo?: string;
 
-  @Field({ nullable: true })
+  @Field(() => ID, { nullable: true })
   roomId?: string;
 
   @Field({ nullable: true })

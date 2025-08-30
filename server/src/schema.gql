@@ -2,13 +2,31 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type GuestDTO {
+  id: ID!
+  name: String!
+  documentType: String!
+  documentId: String!
+  phone: String
+  email: String
+}
+
+type RoomDTO {
+  id: ID!
+  number: String!
+  type: String!
+  pricePerNight: String!
+  status: String!
+  description: Float
+}
+
 type BookingDTO {
   id: ID!
-  roomId: String!
-  guestId: String!
+  roomId: RoomDTO!
+  guestId: GuestDTO!
   checkIn: DateTime!
   checkOut: DateTime!
-  totalPrice: Float
+  totalPrice: String
   paymentType: String
   status: String!
 }
@@ -32,30 +50,13 @@ type AuthResponse {
   accessToken: String!
 }
 
-type RoomDTO {
-  id: ID!
-  number: String!
-  type: String!
-  pricePerNight: Float!
-  status: String!
-  description: Float
-}
-
-type GuestDTO {
-  id: ID!
-  firstName: String!
-  lastName: String!
-  idDocument: String!
-  phone: String
-  email: String
-}
-
 type TaskDTO {
   id: ID!
   title: String!
-  assignedTo: ID!
+  assignedTo: StaffDTO!
   roomId: ID
   status: String!
+  createdAt: DateTime
 }
 
 type Query {
@@ -68,8 +69,8 @@ type Query {
   staffs: [StaffDTO!]!
   staff(id: ID!): StaffDTO!
   me: StaffDTO
-  tasks: [TaskDTO!]!
-  task(id: ID!): TaskDTO!
+  tasks(limit: Int, offset: Int, sortBy: String, order: String): [TaskDTO!]!
+  task(id: ID!): TaskDTO
 }
 
 type Mutation {
@@ -97,7 +98,7 @@ input BookingInputDTO {
   guestId: String
   checkIn: DateTime
   checkOut: DateTime
-  totalPrice: Float
+  totalPrice: String
   paymentType: String
   status: String
 }
@@ -106,16 +107,16 @@ input RoomInputDTO {
   id: ID
   number: String
   type: String
-  pricePerNight: Float
+  pricePerNight: String
   status: String
   description: Float
 }
 
 input GuestInputDTO {
   id: ID
-  firstName: String
-  lastName: String
-  idDocument: String
+  name: String
+  documentType: String
+  documentId: String
   phone: String
   email: String
 }
@@ -143,8 +144,8 @@ input LoginInput {
 input TaskInputDTO {
   id: ID
   title: String
-  assignedTo: String
-  roomId: String
+  assignedTo: ID
+  roomId: ID
   status: String
 }
 

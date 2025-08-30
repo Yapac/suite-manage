@@ -5,14 +5,18 @@ export type RoomDocument = Room & Document;
 
 @Schema({ timestamps: true })
 export class Room {
-  @Prop({ required: true })
+  @Prop({ required: true, unique: true })
   number: string;
 
-  @Prop({ required: true })
+  @Prop({
+    required: true,
+    enum: ['single', 'double', 'suite', 'family'],
+    default: 'single',
+  })
   type: string;
 
   @Prop({ required: true })
-  pricePerNight: number;
+  pricePerNight: string;
 
   @Prop({
     default: 'available',
@@ -20,7 +24,9 @@ export class Room {
   })
   status: string;
 
-  @Prop()
+  @Prop({
+    nullable: true,
+  })
   description?: string;
 }
 

@@ -1,4 +1,5 @@
 import {
+  BookOutlined,
   DashboardOutlined,
   HomeOutlined,
   ProjectOutlined,
@@ -24,6 +25,17 @@ export const resources: IResourceItem[] = [
     meta: {
       label: "Rooms",
       icon: <HomeOutlined />,
+    },
+  },
+  {
+    name: "bookings",
+    list: "/bookings",
+    show: "/bookings/:id",
+    create: "bookings/new",
+    edit: "/bookings/edit/:id",
+    meta: {
+      label: "Bookings",
+      icon: <BookOutlined />,
     },
   },
   {

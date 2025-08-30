@@ -1,15 +1,17 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
+import { Guest } from 'src/guest/guest.schema';
+import { Room } from 'src/room/room.schema';
 
 export type BookingDocument = Booking & Document;
 
 @Schema({ timestamps: true })
 export class Booking {
   @Prop({ type: Types.ObjectId, ref: 'Room', required: true })
-  roomId: Types.ObjectId;
+  roomId: Room;
 
   @Prop({ type: Types.ObjectId, ref: 'Guest', required: true })
-  guestId: Types.ObjectId;
+  guestId: Guest;
 
   @Prop({ required: true })
   checkIn: Date;
@@ -18,9 +20,12 @@ export class Booking {
   checkOut: Date;
 
   @Prop()
-  totalPrice: number;
+  totalPrice: string;
 
-  @Prop()
+  @Prop({
+    default: 'cash',
+    enum: ['credit-card', 'debit-card', 'cash', 'online'],
+  })
   paymentType: string;
 
   @Prop({

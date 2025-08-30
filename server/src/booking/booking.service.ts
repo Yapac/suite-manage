@@ -12,15 +12,25 @@ export class BookingService {
 
   async create(data: BookingInputDTO): Promise<Booking> {
     const booking = new this.bookingModel(data);
-    return booking.save();
+    return (await (await booking.save()).populate('roomId')).populate(
+      'guestId',
+    );
   }
 
   async findAll(): Promise<Booking[]> {
-    return this.bookingModel.find().exec();
+    return this.bookingModel
+      .find()
+      .populate('roomId')
+      .populate('guestId')
+      .exec();
   }
 
   async findOne(id: string): Promise<Booking | null> {
-    return this.bookingModel.findById(id).exec();
+    return this.bookingModel
+      .findById(id)
+      .populate('roomId')
+      .populate('guestId')
+      .exec();
   }
 
   async update(id: string, data: BookingInputDTO): Promise<Booking | null> {
