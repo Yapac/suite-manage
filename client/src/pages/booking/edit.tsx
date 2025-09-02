@@ -130,6 +130,12 @@ const BookingEdit = () => {
           >
             <Select
               {...guestSelectProps}
+              showSearch
+              filterOption={(input: any, option: any) =>
+                (option?.label ?? "")
+                  .toLowerCase()
+                  .includes(input.toLowerCase())
+              }
               placeholder="Select a guest"
               popupRender={(menu) => (
                 <>
