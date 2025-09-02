@@ -55,3 +55,39 @@ export class BookingInputDTO {
   @Field({ nullable: true })
   status?: string;
 }
+
+@InputType()
+export class BookingMutationDTO {
+  @Field(() => ID, { nullable: true })
+  id?: string;
+
+  @Field({ nullable: true })
+  roomId?: string;
+
+  @Field({ nullable: true })
+  guestId?: string;
+
+  @Field(() => [Date], { nullable: true })
+  checkDates?: Date[];
+
+  @Field({ nullable: true })
+  totalPrice?: number;
+
+  @Field({ nullable: true })
+  paymentType?: string;
+
+  @Field({ nullable: true })
+  status?: string;
+}
+
+@InputType()
+export class BookingFormDTO {
+  @Field(() => ID, { nullable: true })
+  id: string;
+
+  @Field({ nullable: true })
+  booking: BookingMutationDTO;
+
+  @Field({ nullable: true })
+  update: BookingMutationDTO;
+}

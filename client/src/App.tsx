@@ -15,10 +15,21 @@ import routerBindings, {
 import { App as AntdApp, ConfigProvider, theme } from "antd";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 
-import { Home, Login, ForgotPassword, Register, RoomsList } from "./pages";
+import {
+  Home,
+  Login,
+  ForgotPassword,
+  Register,
+  RoomsList,
+  BookingsList,
+} from "./pages";
 import Layout from "./components/layout";
 import { resources } from "./config/resources";
 import { useAppContext } from "./context/AppContext";
+import RoomCreate from "./pages/room/create";
+import BookingCreate from "./pages/booking/create";
+import RoomEdit from "./pages/room/edit";
+import BookingEdit from "./pages/booking/edit";
 
 function App() {
   const { state } = useAppContext();
@@ -69,7 +80,19 @@ function App() {
                     }
                   >
                     <Route index element={<Home />} />
-                    <Route path="/rooms" element={<RoomsList />} />
+                    <Route path="/rooms">
+                      <Route index element={<RoomsList />} />
+                      <Route path="new" element={<RoomCreate />} />
+                      <Route path="edit/:id" element={<RoomEdit />} />
+                    </Route>
+                    <Route path="/bookings">
+                      <Route index element={<BookingsList />} />
+                      <Route path="new" element={<BookingCreate />} />
+                      <Route path="edit/:id" element={<BookingEdit />} />
+                    </Route>
+                    {/* <Route path="/guests">
+                      <Route path="new" element={<GuestCreate />} />
+                    </Route> */}
                   </Route>
                 </Routes>
                 <RefineKbar />

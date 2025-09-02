@@ -17,7 +17,7 @@ type RoomDTO {
   type: String!
   pricePerNight: String!
   status: String!
-  description: Float
+  description: String
 }
 
 type BookingDTO {
@@ -74,13 +74,13 @@ type Query {
 }
 
 type Mutation {
-  createBooking(data: BookingInputDTO!): BookingDTO!
-  updateBooking(id: ID!, data: BookingInputDTO!): BookingDTO!
-  deleteBooking(id: ID!): BookingDTO!
-  createRoom(data: RoomInputDTO!): RoomDTO!
-  updateRoom(id: ID!, data: RoomInputDTO!): RoomDTO!
-  deleteRoom(id: ID!): RoomDTO!
-  createGuest(data: GuestInputDTO!): GuestDTO!
+  createBooking(input: BookingFormDTO!): BookingDTO!
+  updateBooking(input: BookingFormDTO!): BookingDTO!
+  deleteBooking(input: BookingInputDTO!): BookingDTO!
+  createRoom(input: RoomFormDTO!): RoomDTO!
+  updateRoom(input: RoomFormDTO!): RoomDTO!
+  deleteRoom(input: RoomInputDTO!): RoomDTO!
+  createGuest(input: GuestFormDTO!): GuestDTO!
   updateGuest(id: ID!, data: GuestInputDTO!): GuestDTO!
   deleteGuest(id: ID!): GuestDTO!
   createStaff(data: StaffInputDTO!): StaffDTO!
@@ -90,6 +90,22 @@ type Mutation {
   createTask(data: TaskInputDTO!): TaskDTO!
   updateTask(id: ID!, data: TaskInputDTO!): TaskDTO!
   deleteTask(id: ID!): TaskDTO!
+}
+
+input BookingFormDTO {
+  id: ID
+  booking: BookingMutationDTO
+  update: BookingMutationDTO
+}
+
+input BookingMutationDTO {
+  id: ID
+  roomId: String
+  guestId: String
+  checkDates: [DateTime!]
+  totalPrice: Float
+  paymentType: String
+  status: String
 }
 
 input BookingInputDTO {
@@ -103,13 +119,32 @@ input BookingInputDTO {
   status: String
 }
 
+input RoomFormDTO {
+  id: ID
+  room: RoomMutationDTO
+  update: RoomMutationDTO
+}
+
+input RoomMutationDTO {
+  id: ID
+  number: String
+  type: String
+  pricePerNight: Float
+  status: String
+  description: String
+}
+
 input RoomInputDTO {
   id: ID
   number: String
   type: String
   pricePerNight: String
   status: String
-  description: Float
+  description: String
+}
+
+input GuestFormDTO {
+  guest: GuestInputDTO!
 }
 
 input GuestInputDTO {

@@ -49,5 +49,6 @@ export const dataProvider = createDataProvider(client, {
     },
   },
 });
+
 /*  wsClient ? createLiveProvider(wsClient) : */
 export const liveProvider = undefined;

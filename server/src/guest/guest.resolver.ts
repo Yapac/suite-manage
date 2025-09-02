@@ -1,5 +1,5 @@
 import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { GuestDTO, GuestInputDTO } from './guest.dto';
+import { GuestDTO, GuestInputDTO, GuestFormDTO } from './guest.dto';
 import { GuestService } from './guest.service';
 import { Guest } from './guest.schema';
 
@@ -20,7 +20,7 @@ export class GuestResolver {
   }
 
   @Mutation(() => GuestDTO)
-  async createGuest(@Args('data') data: GuestInputDTO): Promise<Guest> {
+  async createGuest(@Args('input') data: GuestFormDTO): Promise<Guest> {
     return this.guestService.create(data);
   }
 

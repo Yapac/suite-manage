@@ -1,6 +1,10 @@
 import { RoomAvatar } from "@/components/home/ongoing-bookings";
 import { Text } from "@/components/text";
-import { DELETE_ROOM_MUTATION, LIST_ROOMS_QUERY } from "@/utils/queries";
+import {
+  DELETE_BOOKING_MUTATION,
+  LIST_BOOKINGS_ALLDATA_QUERY,
+  LIST_ROOMS_QUERY,
+} from "@/utils/queries";
 import { SearchOutlined } from "@ant-design/icons";
 import {
   CreateButton,
@@ -12,18 +16,21 @@ import {
 } from "@refinedev/antd";
 import { getDefaultFilter, useGo } from "@refinedev/core";
 import { Input, Space, Table, Tag } from "antd";
+import dayjs from "dayjs";
 
-export const RoomsList = () => {
+export const BookingsList = () => {
   const go = useGo();
   const { tableProps, filters } = useTable({
-    resource: "rooms",
+    resource: "bookings",
     pagination: {
-      pageSize: 8,
+      pageSize: 10,
     },
+
     meta: {
-      gqlQuery: LIST_ROOMS_QUERY,
+      gqlQuery: LIST_BOOKINGS_ALLDATA_QUERY,
     },
   });
+
   return (
     <List
       breadcrumb={false}
@@ -32,7 +39,7 @@ export const RoomsList = () => {
           onClick={() => {
             go({
               to: {
-                resource: "rooms",
+                resource: "bookings",
                 action: "create",
               },
               options: {
@@ -44,14 +51,23 @@ export const RoomsList = () => {
         />
       )}
     >
-      <Table {...tableProps} pagination={tableProps.pagination}>
+      <Table
+        {...tableProps}
+        pagination={tableProps.pagination}
+        dataSource={[...(tableProps.dataSource || [])].sort(
+          (a, b) =>
+            new Date(b.checkIn).getTime() - new Date(a.checkIn).getTime()
+        )}
+      >
         <Table.Column
-          dataIndex="number"
-          title="Room number"
+          dataIndex="guestId.name"
+          title="Booked By"
           render={(value, record) => (
             <Space>
-              <RoomAvatar roomType={record.type} size={48} />
-              <Text style={{ whiteSpace: "nowrap" }}>Room {record.number}</Text>
+              <RoomAvatar roomType={record.roomId.type} size={48} />
+              <Text style={{ whiteSpace: "nowrap" }}>
+                {record.guestId.name}
+              </Text>
             </Space>
           )}
           defaultFilteredValue={getDefaultFilter("id", filters)}
@@ -63,27 +79,32 @@ export const RoomsList = () => {
           )}
         />
         <Table.Column
-          dataIndex="type"
-          title="Room Type"
+          dataIndex="roomId"
+          title="Room"
           render={(value, record) => (
             <Space>
-              <Text
-                style={{ whiteSpace: "nowrap", textTransform: "capitalize" }}
-              >
-                {value}
+              <Text style={{ whiteSpace: "nowrap" }}>
+                Room {record.roomId.number}{" "}
+                <span style={{ color: "#555" }}>
+                  ( type {record.roomId.type} )
+                </span>
               </Text>
             </Space>
           )}
         />
         <Table.Column
-          dataIndex="pricePerNight"
-          title="Price per night"
+          dataIndex="checkIn"
+          title="Check In / Check Out"
+          sorter={(a, b) =>
+            new Date(a.checkIn).getTime() - new Date(b.checkIn).getTime()
+          }
           render={(value, record) => (
             <Space>
               <Text
                 style={{ whiteSpace: "nowrap", textTransform: "capitalize" }}
               >
-                {value}/ night
+                {dayjs(value).format("MMM D, YYYY")} →{" "}
+                {dayjs(record.checkOut).format("MMM D, YYYY")}
               </Text>
             </Space>
           )}
@@ -93,10 +114,10 @@ export const RoomsList = () => {
           title="Room status"
           render={(value, record) => {
             const statusColors: Record<string, string> = {
-              available: "green",
-              booked: "purple",
-              maintenance: "orange",
-              cleaning: "blue",
+              confirmed: "green",
+              "checked-in": "purple",
+              "checked-out": "orange",
+              canceled: "blue",
             };
             return (
               <Space>
@@ -110,18 +131,17 @@ export const RoomsList = () => {
           }}
         />
         <Table.Column
-          dataIndex="description"
-          title="Description"
+          dataIndex="totalPrice"
+          title="Total Price"
           render={(value, record) => (
             <Space>
               <Text
                 style={{
                   whiteSpace: "nowrap",
-                  textTransform: "capitalize",
                   color: "grey",
                 }}
               >
-                {value ? value : "no description provided"}
+                {value} ( {record.paymentType} )
               </Text>
             </Space>
           )}
@@ -137,7 +157,7 @@ export const RoomsList = () => {
                 hideText
                 size="small"
                 recordItemId={record.id}
-                meta={{ gqlMutation: DELETE_ROOM_MUTATION }}
+                meta={{ gqlMutation: DELETE_BOOKING_MUTATION }}
               />
             </Space>
           )}

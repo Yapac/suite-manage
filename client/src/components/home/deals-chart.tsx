@@ -37,7 +37,6 @@ const DealsChart = () => {
       }
       revenueMap[item.date][item.roomKey].value += item.value;
     });
-    console.log(revenueMap);
 
     const flattenedData: {
       date: string;

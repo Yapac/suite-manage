@@ -24,7 +24,7 @@ export class Booking {
 
   @Prop({
     default: 'cash',
-    enum: ['credit-card', 'debit-card', 'cash', 'online'],
+    enum: ['credit-card', 'cash', 'online'],
   })
   paymentType: string;
 

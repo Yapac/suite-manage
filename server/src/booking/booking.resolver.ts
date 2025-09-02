@@ -1,5 +1,5 @@
 import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { BookingDTO, BookingInputDTO } from './booking.dto';
+import { BookingFormDTO, BookingDTO, BookingInputDTO } from './booking.dto';
 import { BookingService } from './booking.service';
 import { Booking } from './booking.schema';
 import { GuestInputDTO } from 'src/guest/guest.dto';
@@ -21,22 +21,23 @@ export class BookingResolver {
   }
 
   @Mutation(() => BookingDTO)
-  async createBooking(@Args('data') data: BookingInputDTO): Promise<Booking> {
+  async createBooking(@Args('input') data: BookingFormDTO): Promise<Booking> {
     return this.bookingService.create(data);
   }
 
   @Mutation(() => BookingDTO)
   async updateBooking(
-    @Args('id', { type: () => ID }) id: string,
-    @Args('data') data: BookingInputDTO,
+    @Args('input') input: BookingFormDTO,
   ): Promise<Booking | null> {
-    return this.bookingService.update(id, data);
+    const { id, update } = input;
+
+    return this.bookingService.update(id, update);
   }
 
   @Mutation(() => BookingDTO)
   async deleteBooking(
-    @Args('id', { type: () => ID }) id: string,
+    @Args('input') data: BookingInputDTO,
   ): Promise<Booking | null> {
-    return this.bookingService.remove(id);
+    return this.bookingService.remove(data);
   }
 }

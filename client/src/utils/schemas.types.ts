@@ -13,6 +13,7 @@ export interface Staff {
   createdAt?: Date;
   updatedAt?: Date;
 }
+
 export type DateTime = string;
 
 // Staff types

@@ -38,6 +38,7 @@ export const resources: IResourceItem[] = [
       icon: <BookOutlined />,
     },
   },
+
   {
     name: "tasks",
     list: "/tasks",

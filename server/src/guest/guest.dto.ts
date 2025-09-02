@@ -41,3 +41,9 @@ export class GuestInputDTO {
   @Field({ nullable: true })
   email?: string;
 }
+
+@InputType()
+export class GuestFormDTO {
+  @Field()
+  guest: GuestInputDTO;
+}

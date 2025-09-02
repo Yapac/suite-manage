@@ -10,7 +10,7 @@ import {
 } from "@ant-design/icons";
 import { LatestActivitiesSkeleton } from "../skeleton/latest-activities";
 import { useList } from "@refinedev/core";
-import { DASHBOARD_BOOKINGS_ALLDATA_QUERY } from "@/utils/queries";
+import { LIST_BOOKINGS_ALLDATA_QUERY } from "@/utils/queries";
 import dayjs from "dayjs";
 import { getNameInitials } from "@/utils/get-name-initials";
 
@@ -18,7 +18,7 @@ const OngoingBookings = () => {
   const { data, isLoading } = useList({
     resource: "bookings",
     meta: {
-      gqlQuery: DASHBOARD_BOOKINGS_ALLDATA_QUERY,
+      gqlQuery: LIST_BOOKINGS_ALLDATA_QUERY,
     },
   });
   // Prepare sorted & limited bookings
@@ -61,7 +61,7 @@ const OngoingBookings = () => {
                   </small>
                 }
                 avatar={
-                  <CustomAvatar
+                  <RoomAvatar
                     roomType={item.roomId?.type}
                     shape="square"
                     size={48}
@@ -93,30 +93,65 @@ const OngoingBookings = () => {
 
 export default OngoingBookings;
 
-// CustomAvatar.tsx
+// RoomAvatar.tsx
 
 export const ROOM_TYPE_ICONS: Record<
   string,
   { icon: React.ReactNode; color: string }
 > = {
   single: {
-    icon: <HomeOutlined style={{ fontSize: 20, color: "#1890ff" }} />,
+    icon: (
+      <img
+        src="/icons/single.png"
+        alt="single"
+        style={{ width: 24, height: 24 }}
+      />
+    ),
     color: "#e6f7ff",
   },
   double: {
-    icon: <ShopOutlined style={{ fontSize: 20, color: "#52c41a" }} />,
+    icon: (
+      <img
+        src="/icons/double.png"
+        alt="double"
+        style={{ width: 24, height: 24 }}
+      />
+    ),
     color: "#edfddc",
   },
   suite: {
-    icon: <BankOutlined style={{ fontSize: 20, color: "#722ed1" }} />,
+    icon: (
+      <img
+        src="/icons/suite.png"
+        alt="suite"
+        style={{ width: 24, height: 24 }}
+      />
+    ),
     color: "#f9f0ff",
   },
+  family: {
+    icon: (
+      <img
+        src="/icons/family.png"
+        alt="family"
+        style={{ width: 24, height: 24 }}
+      />
+    ),
+    color: "#fffbe6",
+  },
   default: {
-    icon: <HomeOutlined style={{ fontSize: 20, color: "#8c8c8c" }} />,
+    icon: (
+      <img
+        src="/icons/default.png"
+        alt="default"
+        style={{ width: 24, height: 24 }}
+      />
+    ),
     color: "#f5f5f5",
   },
 };
-const CustomAvatar: React.FC<any> = ({
+
+export const RoomAvatar: React.FC<any> = ({
   name,
   roomType,
   size = 48,
