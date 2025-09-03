@@ -20,6 +20,9 @@ export class Task {
     enum: ['pending', 'in-progress', 'completed', 'cancelled'],
   })
   status: string;
+
+  @Prop({ nullable: true })
+  description?: string;
 }
 
 export const TaskSchema = SchemaFactory.createForClass(Task);

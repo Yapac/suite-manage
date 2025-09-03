@@ -19,6 +19,9 @@ export class TaskDTO {
   status: string;
 
   @Field({ nullable: true })
+  description?: string;
+
+  @Field({ nullable: true })
   createdAt: Date;
 }
 
@@ -38,4 +41,7 @@ export class TaskInputDTO {
 
   @Field({ nullable: true })
   status?: string;
+
+  @Field({ nullable: true })
+  description?: string;
 }

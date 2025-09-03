@@ -56,6 +56,7 @@ type TaskDTO {
   assignedTo: StaffDTO!
   roomId: ID
   status: String!
+  description: String
   createdAt: DateTime
 }
 
@@ -182,6 +183,7 @@ input TaskInputDTO {
   assignedTo: ID
   roomId: ID
   status: String
+  description: String
 }
 
 type Subscription {

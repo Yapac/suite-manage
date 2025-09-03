@@ -30,6 +30,7 @@ import RoomCreate from "./pages/room/create";
 import BookingCreate from "./pages/booking/create";
 import RoomEdit from "./pages/room/edit";
 import BookingEdit from "./pages/booking/edit";
+import TasksList from "./pages/tasks/list";
 
 function App() {
   const { state } = useAppContext();
@@ -89,6 +90,9 @@ function App() {
                       <Route index element={<BookingsList />} />
                       <Route path="new" element={<BookingCreate />} />
                       <Route path="edit/:id" element={<BookingEdit />} />
+                    </Route>
+                    <Route path="/tasks">
+                      <Route index element={<TasksList />} />
                     </Route>
                     {/* <Route path="/guests">
                       <Route path="new" element={<GuestCreate />} />
