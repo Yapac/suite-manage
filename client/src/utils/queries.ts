@@ -165,7 +165,20 @@ export const DASHBOARD_CALENDAR_UPCOMING_TASKS_QUERY = gql`
       assignedTo {
         id
         name
+        avatarUrl
       }
+    }
+  }
+`;
+export const UPDATE_TASK_MUTATION = gql`
+  mutation UpdateTask($input: UpdateTaskInput!) {
+    updateTask(input: $input) {
+      id
+      name
+      email
+      phone
+      role
+      avatarUrl
     }
   }
 `;

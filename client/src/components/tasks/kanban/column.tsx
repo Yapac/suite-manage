@@ -24,8 +24,8 @@ const KanbanColumn = ({
   onAddClick,
 }: React.PropsWithChildren<Props>) => {
   const { isOver, setNodeRef, active } = useDroppable({
-    id: id,
-    data: data,
+    id,
+    data,
   });
 
   const onAddClickHandler = () => {
@@ -34,9 +34,19 @@ const KanbanColumn = ({
   return (
     <div
       ref={setNodeRef}
-      style={{ display: "flex", flexDirection: "column", padding: "0 16px" }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        padding: "0 16px",
+        minWidth: "290px",
+      }}
     >
-      <div style={{ padding: "12px" }}>
+      <div
+        style={{
+          padding: "12px",
+          borderBottom: " 1px solid rgba(0, 0, 0, .15)",
+        }}
+      >
         <Space style={{ width: "100%", justifyContent: "space-between" }}>
           <Space>
             <Text
@@ -60,9 +70,9 @@ const KanbanColumn = ({
       <div
         style={{
           flex: 1,
-          overflowY: active ? "unset" : "scroll",
+          overflowY: active ? "unset" : "auto",
           border: "2px dashed transparent",
-          borderColor: isOver ? "#00040" : "transparent",
+          borderColor: isOver ? "#00000040" : "transparent",
           borderRadius: "4px",
         }}
       >
