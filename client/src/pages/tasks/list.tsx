@@ -49,8 +49,6 @@ const TasksList = ({ children }: React.PropsWithChildren) => {
     };
   }, [stages, tasks]);
 
-  console.log(taskStages);
-
   const handleAddCard = (args: { stageId: string }) => {
     const path = `/tasks/new?status=${args.stageId}`;
     replace(path);
@@ -60,7 +58,6 @@ const TasksList = ({ children }: React.PropsWithChildren) => {
     const taskId = event.active.id as string;
     const taskStageId = event.active.data.current?.status;
 
-    console.log(stageId, taskId, taskStageId);
     if (taskStageId === stageId) return;
 
     updateTask({

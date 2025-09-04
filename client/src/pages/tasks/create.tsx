@@ -1,6 +1,7 @@
 import {
   CREATE_TASK_MUTATION,
   LIST_GUESTS_QUERY,
+  LIST_ROOMS_QUERY,
   LIST_STAFFS_QUERY,
 } from "@/utils/queries";
 import { InfoCircleOutlined } from "@ant-design/icons";
@@ -29,13 +30,11 @@ const TasksCreate = () => {
     },
   });
 
+  type Room = { id: string; number: string; type: string };
   type Staff = {
     id: string;
     name: string;
     role: string;
-    email: string;
-    phone: String;
-    hireDate: string;
     avatarUrl: String;
   };
   // Select Tasks
@@ -43,6 +42,14 @@ const TasksCreate = () => {
     resource: "staffs",
     meta: { gqlQuery: LIST_STAFFS_QUERY },
     optionLabel: (staff) => `${staff.name} (${staff.role})`,
+    optionValue: "id",
+  });
+
+  // Select Rooms
+  const { selectProps: roomSelectProps } = useSelect<Room>({
+    resource: "rooms",
+    meta: { gqlQuery: LIST_ROOMS_QUERY },
+    optionLabel: (room) => `${room.number} (${room.type})`,
     optionValue: "id",
   });
 
@@ -70,8 +77,16 @@ const TasksCreate = () => {
           });
         }}
       >
-        <Form.Item label="Title" name="title" rules={[{ required: true }]}>
-          <Input />
+        <Form.Item
+          label={
+            <Tooltip title="The title or name of the task">
+              Title <InfoCircleOutlined style={{ color: "#999" }} />
+            </Tooltip>
+          }
+          name="title"
+          rules={[{ required: true }]}
+        >
+          <Input placeholder="Write the title" />
         </Form.Item>
         <Form.Item
           label={
@@ -83,6 +98,17 @@ const TasksCreate = () => {
           rules={[{ required: true, message: "Assigned to is required" }]}
         >
           <Select {...staffsSelectProps} placeholder="Select a staff member" />
+        </Form.Item>
+        {/* Room */}
+        <Form.Item
+          label={
+            <Tooltip title="Select if the room is related to the task">
+              Room <InfoCircleOutlined style={{ color: "#999" }} />
+            </Tooltip>
+          }
+          name="roomId"
+        >
+          <Select {...roomSelectProps} placeholder="Select a room" />
         </Form.Item>
       </Form>
     </Modal>
