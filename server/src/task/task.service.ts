@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { Task, TaskDocument } from './task.schema';
-import { TaskInputDTO } from './task.dto';
+import { TaskInputDTO, TaskMutationDTO } from './task.dto';
 
 @Injectable()
 export class TaskService {
@@ -37,7 +37,7 @@ export class TaskService {
     return this.taskModel.findById(id).populate('assignedTo').exec();
   }
 
-  async update(id: string, data: TaskInputDTO): Promise<Task | null> {
+  async update(id: string, data: TaskMutationDTO): Promise<Task | null> {
     return this.taskModel.findByIdAndUpdate(id, data, { new: true }).exec();
   }
 

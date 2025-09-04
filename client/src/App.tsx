@@ -91,9 +91,14 @@ function App() {
                       <Route path="new" element={<BookingCreate />} />
                       <Route path="edit/:id" element={<BookingEdit />} />
                     </Route>
-                    <Route path="/tasks">
-                      <Route index element={<TasksList />} />
-                    </Route>
+                    <Route
+                      path="/tasks"
+                      element={
+                        <TasksList>
+                          <Outlet />
+                        </TasksList>
+                      }
+                    ></Route>
                     {/* <Route path="/guests">
                       <Route path="new" element={<GuestCreate />} />
                     </Route> */}

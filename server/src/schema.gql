@@ -89,8 +89,8 @@ type Mutation {
   deleteStaff(id: ID!): StaffDTO!
   login(loginInput: LoginInput!): AuthResponse!
   createTask(data: TaskInputDTO!): TaskDTO!
-  updateTask(id: ID!, data: TaskInputDTO!): TaskDTO!
-  deleteTask(id: ID!): TaskDTO!
+  updateTask(input: TaskFormDTO!): TaskDTO!
+  deleteTask(input: TaskFormDTO!): TaskDTO!
 }
 
 input BookingFormDTO {
@@ -178,6 +178,21 @@ input LoginInput {
 }
 
 input TaskInputDTO {
+  id: ID
+  title: String
+  assignedTo: ID
+  roomId: ID
+  status: String
+  description: String
+}
+
+input TaskFormDTO {
+  id: ID
+  task: TaskMutationDTO
+  update: TaskMutationDTO
+}
+
+input TaskMutationDTO {
   id: ID
   title: String
   assignedTo: ID

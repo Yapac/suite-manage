@@ -45,3 +45,36 @@ export class TaskInputDTO {
   @Field({ nullable: true })
   description?: string;
 }
+
+@InputType()
+export class TaskMutationDTO {
+  @Field(() => ID, { nullable: true })
+  id?: string;
+
+  @Field({ nullable: true })
+  title?: string;
+
+  @Field(() => ID, { nullable: true })
+  assignedTo?: string;
+
+  @Field(() => ID, { nullable: true })
+  roomId?: string;
+
+  @Field({ nullable: true })
+  status?: string;
+
+  @Field({ nullable: true })
+  description?: string;
+}
+
+@InputType()
+export class TaskFormDTO {
+  @Field(() => ID, { nullable: true })
+  id: string;
+
+  @Field({ nullable: true })
+  task: TaskMutationDTO;
+
+  @Field({ nullable: true })
+  update: TaskMutationDTO;
+}

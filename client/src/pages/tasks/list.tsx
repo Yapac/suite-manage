@@ -12,10 +12,11 @@ import {
   UPDATE_TASK_MUTATION,
 } from "@/utils/queries";
 import { DragEndEvent } from "@dnd-kit/core";
-import { useList, useUpdate } from "@refinedev/core";
+import { useList, useNavigation, useUpdate } from "@refinedev/core";
 import React from "react";
 
 const TasksList = ({ children }: React.PropsWithChildren) => {
+  const { replace } = useNavigation();
   const stages = ["pending", "in-progress", "completed", "cancelled"];
   const { data: tasks, isLoading } = useList({
     resource: "tasks",
@@ -50,8 +51,9 @@ const TasksList = ({ children }: React.PropsWithChildren) => {
 
   console.log(taskStages);
 
-  const handleAddCard = ({ stageId }: any) => {
-    console.log("create new stage Id");
+  const handleAddCard = (args: { stageId: string }) => {
+    const path = `/tasks/new?stageId=${args.stageId}`;
+    replace(path);
   };
   const handleoOnDragEnd = (event: DragEndEvent) => {
     let stageId = event.over?.id as undefined | string | null;
@@ -61,7 +63,6 @@ const TasksList = ({ children }: React.PropsWithChildren) => {
     console.log(stageId, taskId, taskStageId);
     if (taskStageId === stageId) return;
 
-    console.log("wow");
     updateTask({
       resource: "tasks",
       id: taskId,
@@ -72,6 +73,7 @@ const TasksList = ({ children }: React.PropsWithChildren) => {
       meta: {
         gqlMutation: UPDATE_TASK_MUTATION,
       },
+      successNotification: false,
     });
   };
 

@@ -171,14 +171,16 @@ export const DASHBOARD_CALENDAR_UPCOMING_TASKS_QUERY = gql`
   }
 `;
 export const UPDATE_TASK_MUTATION = gql`
-  mutation UpdateTask($input: UpdateTaskInput!) {
+  mutation UpdateTask($input: TaskFormDTO!) {
     updateTask(input: $input) {
       id
-      name
-      email
-      phone
-      role
-      avatarUrl
+    }
+  }
+`;
+export const DELETE_TASK_MUTATION = gql`
+  mutation DeleteTask($input: TaskFormDTO!) {
+    deleteTask(input: $input) {
+      id
     }
   }
 `;

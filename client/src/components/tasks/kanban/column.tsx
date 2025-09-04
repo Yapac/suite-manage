@@ -39,6 +39,7 @@ const KanbanColumn = ({
         flexDirection: "column",
         padding: "0 16px",
         minWidth: "290px",
+        flex: 1,
       }}
     >
       <div

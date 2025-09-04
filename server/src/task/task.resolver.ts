@@ -7,7 +7,7 @@ import {
   Resolver,
   Subscription,
 } from '@nestjs/graphql';
-import { TaskDTO, TaskInputDTO } from './task.dto';
+import { TaskDTO, TaskFormDTO, TaskInputDTO } from './task.dto';
 import { TaskService } from './task.service';
 import { Task } from './task.schema';
 import { Inject } from '@nestjs/common';
@@ -45,11 +45,10 @@ export class TaskResolver {
   }
 
   @Mutation(() => TaskDTO)
-  async updateTask(
-    @Args('id', { type: () => ID }) id: string,
-    @Args('data') data: TaskInputDTO,
-  ): Promise<Task | null> {
-    const task = await this.taskService.update(id, data);
+  async updateTask(@Args('input') input: TaskFormDTO): Promise<Task | null> {
+    const { id, update } = input;
+
+    const task = await this.taskService.update(id, update);
     if (task) {
       this.pubSub.publish('taskUpdated', { taskUpdated: task });
     }
@@ -57,10 +56,8 @@ export class TaskResolver {
   }
 
   @Mutation(() => TaskDTO)
-  async deleteTask(
-    @Args('id', { type: () => ID }) id: string,
-  ): Promise<Task | null> {
-    const task = await this.taskService.remove(id);
+  async deleteTask(@Args('input') input: TaskFormDTO): Promise<Task | null> {
+    const task = await this.taskService.remove(input.id);
     if (task) {
       this.pubSub.publish('taskDeleted', { taskDeleted: task });
     }

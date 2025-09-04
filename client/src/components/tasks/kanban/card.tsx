@@ -1,6 +1,7 @@
 import CustomAvatar from "@/components/custom-avatar";
 import { Text } from "@/components/text";
 import { TextIcon } from "@/components/text-icon";
+import { DELETE_TASK_MUTATION } from "@/utils/queries";
 import {
   ClockCircleOutlined,
   DeleteOutlined,
@@ -8,6 +9,7 @@ import {
   MoreOutlined,
 } from "@ant-design/icons";
 import { Edit } from "@refinedev/antd";
+import { useDelete, useNavigation } from "@refinedev/core";
 import {
   Button,
   Card,
@@ -36,7 +38,9 @@ type ProjectCardProps = {
 const TaskCard = ({ id, title, createdAt, assignedTo }: ProjectCardProps) => {
   const { token } = theme.useToken();
 
-  const edit = () => {};
+  const { edit } = useNavigation();
+
+  const { mutate: deleteMutation } = useDelete();
 
   const dropDownItems = useMemo(() => {
     const dropDownItems: MenuProps["items"] = [
@@ -45,7 +49,7 @@ const TaskCard = ({ id, title, createdAt, assignedTo }: ProjectCardProps) => {
         key: "1",
         icon: <EyeOutlined />,
         onClick: () => {
-          edit();
+          edit("tasks", id, "replace");
         },
       },
       {
@@ -53,7 +57,15 @@ const TaskCard = ({ id, title, createdAt, assignedTo }: ProjectCardProps) => {
         label: "Delete card",
         key: "2",
         icon: <DeleteOutlined />,
-        onClick: () => {},
+        onClick: () => {
+          deleteMutation({
+            resource: "tasks",
+            id: id,
+            meta: {
+              gqlMutation: DELETE_TASK_MUTATION,
+            },
+          });
+        },
       },
     ];
     return dropDownItems;
@@ -74,7 +86,7 @@ const TaskCard = ({ id, title, createdAt, assignedTo }: ProjectCardProps) => {
       <Card
         size="small"
         title={<Text ellipsis={{ tooltip: title }}>{title}</Text>}
-        onClick={() => edit()}
+        onClick={() => {}}
         extra={
           <Dropdown
             trigger={["click"]}

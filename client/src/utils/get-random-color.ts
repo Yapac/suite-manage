@@ -3,9 +3,7 @@
  */
 export const getRandomColorFromString = (text: string) => {
   const colors = [
-    "#2563eb", // blue
-    "#0891b2", // cyan/teal
-    "#10b981", // emerald/green
+    "#10b95cff", // emerald/green
     "#84cc16", // lime green
     "#f59e0b", // amber
     "#ef4444", // red
