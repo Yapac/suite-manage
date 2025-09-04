@@ -8,7 +8,7 @@ import { TaskInputDTO, TaskMutationDTO } from './task.dto';
 export class TaskService {
   constructor(@InjectModel(Task.name) private taskModel: Model<TaskDocument>) {}
 
-  async create(data: TaskInputDTO): Promise<Task> {
+  async create(data: TaskMutationDTO): Promise<Task> {
     const task = new this.taskModel(data);
     return task.save();
   }

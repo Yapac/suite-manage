@@ -88,7 +88,7 @@ type Mutation {
   updateStaff(input: UpdateStaffInput!): StaffDTO!
   deleteStaff(id: ID!): StaffDTO!
   login(loginInput: LoginInput!): AuthResponse!
-  createTask(data: TaskInputDTO!): TaskDTO!
+  createTask(input: TaskFormDTO!): TaskDTO!
   updateTask(input: TaskFormDTO!): TaskDTO!
   deleteTask(input: TaskFormDTO!): TaskDTO!
 }
@@ -175,15 +175,6 @@ input UpdateStaffInput {
 input LoginInput {
   email: String!
   password: String!
-}
-
-input TaskInputDTO {
-  id: ID
-  title: String
-  assignedTo: ID
-  roomId: ID
-  status: String
-  description: String
 }
 
 input TaskFormDTO {

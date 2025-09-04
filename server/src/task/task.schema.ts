@@ -6,7 +6,7 @@ export type TaskDocument = Task & Document;
 
 @Schema({ timestamps: true })
 export class Task {
-  @Prop()
+  @Prop({ required: true })
   title: string;
 
   @Prop({ type: Types.ObjectId, ref: 'Staff', required: true })

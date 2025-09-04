@@ -147,6 +147,19 @@ export const UPDATE_STAFF_MUTATION = gql`
     }
   }
 `;
+export const LIST_STAFFS_QUERY = gql`
+  query ListStaffs {
+    staffs {
+      id
+      name
+      role
+      email
+      phone
+      hireDate
+      avatarUrl
+    }
+  }
+`;
 
 // 5. TASK
 export const DASHBOARD_CALENDAR_UPCOMING_TASKS_QUERY = gql`
@@ -167,6 +180,13 @@ export const DASHBOARD_CALENDAR_UPCOMING_TASKS_QUERY = gql`
         name
         avatarUrl
       }
+    }
+  }
+`;
+export const CREATE_TASK_MUTATION = gql`
+  mutation CreateTask($input: TaskFormDTO!) {
+    createTask(input: $input) {
+      id
     }
   }
 `;

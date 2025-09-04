@@ -52,7 +52,7 @@ const TasksList = ({ children }: React.PropsWithChildren) => {
   console.log(taskStages);
 
   const handleAddCard = (args: { stageId: string }) => {
-    const path = `/tasks/new?stageId=${args.stageId}`;
+    const path = `/tasks/new?status=${args.stageId}`;
     replace(path);
   };
   const handleoOnDragEnd = (event: DragEndEvent) => {

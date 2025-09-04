@@ -31,6 +31,8 @@ import BookingCreate from "./pages/booking/create";
 import RoomEdit from "./pages/room/edit";
 import BookingEdit from "./pages/booking/edit";
 import TasksList from "./pages/tasks/list";
+import TasksCreate from "./pages/tasks/create";
+import TasksEdit from "./pages/tasks/edit";
 
 function App() {
   const { state } = useAppContext();
@@ -98,10 +100,10 @@ function App() {
                           <Outlet />
                         </TasksList>
                       }
-                    ></Route>
-                    {/* <Route path="/guests">
-                      <Route path="new" element={<GuestCreate />} />
-                    </Route> */}
+                    >
+                      <Route path="new" element={<TasksCreate />} />
+                      <Route path="edit/:id" element={<TasksEdit />} />
+                    </Route>
                   </Route>
                 </Routes>
                 <RefineKbar />

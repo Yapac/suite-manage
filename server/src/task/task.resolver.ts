@@ -38,8 +38,8 @@ export class TaskResolver {
   }
 
   @Mutation(() => TaskDTO)
-  async createTask(@Args('data') data: TaskInputDTO): Promise<Task> {
-    const task = await this.taskService.create(data);
+  async createTask(@Args('input') data: TaskFormDTO): Promise<Task> {
+    const task = await this.taskService.create(data.task);
     this.pubSub.publish('taskCreated', { taskCreated: task });
     return task;
   }
