@@ -36,3 +36,13 @@ export interface StaffInputDTO {
   hireDate?: DateTime;
   avatarUrl?: string;
 }
+
+export type Task = {
+  id: string;
+  title: string;
+  description: string;
+  status: string;
+  assignedTo: String;
+  roomId: String;
+  createdAt: DateTime;
+};

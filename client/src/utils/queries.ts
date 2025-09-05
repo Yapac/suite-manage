@@ -173,7 +173,10 @@ export const DASHBOARD_CALENDAR_UPCOMING_TASKS_QUERY = gql`
       id
       title
       status
-      roomId
+      roomId {
+        id
+        number
+      }
       createdAt
       assignedTo {
         id

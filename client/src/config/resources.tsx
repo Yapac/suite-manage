@@ -50,11 +50,11 @@ export const resources: IResourceItem[] = [
     },
   },
   {
-    name: "staff",
-    list: "/staff",
-    show: "/staff/:id",
-    create: "staff/new",
-    edit: "/staff/edit/:id",
+    name: "staffs",
+    list: "/staffs",
+    show: "/staffs/:id",
+    create: "staffs/new",
+    edit: "/staffs/edit/:id",
     meta: {
       label: "Staff",
       icon: <TeamOutlined />,

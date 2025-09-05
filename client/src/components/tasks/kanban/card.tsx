@@ -33,7 +33,7 @@ type ProjectCardProps = {
     id: string;
     name: string;
     avatarUrl: any;
-  };
+  }[];
 };
 const TaskCard = ({ id, title, createdAt, assignedTo }: ProjectCardProps) => {
   const { token } = theme.useToken();
@@ -61,6 +61,7 @@ const TaskCard = ({ id, title, createdAt, assignedTo }: ProjectCardProps) => {
           deleteMutation({
             resource: "tasks",
             id: id,
+            mutationMode: "optimistic",
             meta: {
               gqlMutation: DELETE_TASK_MUTATION,
             },
@@ -129,7 +130,7 @@ const TaskCard = ({ id, title, createdAt, assignedTo }: ProjectCardProps) => {
           >
             {dayjs(createdAt).format("MMM DD")}
           </Tag>
-          {!!assignedTo && (
+          {!!assignedTo?.length && (
             <Space
               size={4}
               wrap
@@ -139,15 +140,16 @@ const TaskCard = ({ id, title, createdAt, assignedTo }: ProjectCardProps) => {
                 display: "flex",
                 justifyContent: "flex-end",
                 marginLeft: "auto",
-                marginRight: 0,
+                marginRight: "0",
               }}
             >
-              <Tooltip key={assignedTo.id} title={assignedTo.name}>
-                <CustomAvatar
-                  name={assignedTo.name}
-                  src={assignedTo.avatarUrl}
-                />
-              </Tooltip>
+              {assignedTo.map((user) => {
+                return (
+                  <Tooltip key={user.id} title={user.name}>
+                    <CustomAvatar name={user.name} src={user.avatarUrl} />
+                  </Tooltip>
+                );
+              })}
             </Space>
           )}
         </div>

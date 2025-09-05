@@ -1,4 +1,5 @@
 import { Field, ID, InputType, ObjectType } from '@nestjs/graphql';
+import { RoomDTO } from 'src/room/room.dto';
 import { StaffDTO } from 'src/staff/staff.dto';
 
 @ObjectType()
@@ -9,10 +10,10 @@ export class TaskDTO {
   @Field()
   title: string;
 
-  @Field(() => StaffDTO)
-  assignedTo: string;
+  @Field(() => [StaffDTO])
+  assignedTo: string[];
 
-  @Field(() => ID, { nullable: true })
+  @Field(() => RoomDTO, { nullable: true })
   roomId: string;
 
   @Field()
@@ -54,8 +55,8 @@ export class TaskMutationDTO {
   @Field({ nullable: true })
   title?: string;
 
-  @Field(() => ID, { nullable: true })
-  assignedTo?: string;
+  @Field(() => [ID], { nullable: true })
+  assignedTo?: string[];
 
   @Field(() => ID, { nullable: true })
   roomId?: string;

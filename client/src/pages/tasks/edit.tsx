@@ -10,17 +10,17 @@ import {
 } from "@ant-design/icons";
 import { Modal } from "antd";
 
-import {} from //   Accordion,
-//   DescriptionForm,
-//   DescriptionHeader,
-//   DueDateForm,
-//   DueDateHeader,
-//   StageForm,
-//   TitleForm,
-//   UsersForm,
-//   UsersHeader,
-"@/components";
 import { UPDATE_TASK_MUTATION } from "@/utils/queries";
+import {
+  DescriptionForm,
+  DescriptionHeader,
+  DueDateForm,
+  StageForm,
+  TitleForm,
+  UsersForm,
+} from "@/components/form";
+import { DueDateHeader, UsersHeader } from "@/components/form/header";
+import { Accordion } from "@/components/accordion";
 
 const TasksEdit = () => {
   const [activeKey, setActiveKey] = useState<string | undefined>();
@@ -44,88 +44,88 @@ const TasksEdit = () => {
   });
 
   // get the data of the task from the queryResult
-  const { description, dueDate, users, title } = queryResult?.data?.data ?? {};
+  const { description, createdAt, assignedTo, title } =
+    queryResult?.data?.data ?? {};
 
   const isLoading = queryResult?.isLoading ?? true;
 
   return (
-    // <Modal
-    //   {...modalProps}
-    //   className="kanban-update-modal"
-    //   onCancel={() => {
-    //     close();
-    //     list("tasks", "replace");
-    //   }}
-    //   title={<TitleForm initialValues={{ title }} isLoading={isLoading} />}
-    //   width={586}
-    //   footer={
-    //     <DeleteButton
-    //       type="link"
-    //       onSuccess={() => {
-    //         list("tasks", "replace");
-    //       }}
-    //     >
-    //       Delete card
-    //     </DeleteButton>
-    //   }
-    // >
-    //   {/* Render the stage form */}
-    //   <StageForm isLoading={isLoading} />
+    <Modal
+      {...modalProps}
+      className="kanban-update-modal"
+      onCancel={() => {
+        close();
+        list("tasks", "replace");
+      }}
+      title={<TitleForm initialValues={{ title }} isLoading={isLoading} />}
+      width={586}
+      footer={
+        <DeleteButton
+          type="link"
+          onSuccess={() => {
+            list("tasks", "replace");
+          }}
+        >
+          Delete card
+        </DeleteButton>
+      }
+    >
+      {/* Render the stage form */}
+      <StageForm isLoading={isLoading} />
 
-    //   {/* Render the description form inside an accordion */}
-    //   <Accordion
-    //     accordionKey="description"
-    //     activeKey={activeKey}
-    //     setActive={setActiveKey}
-    //     fallback={<DescriptionHeader description={description} />}
-    //     isLoading={isLoading}
-    //     icon={<AlignLeftOutlined />}
-    //     label="Description"
-    //   >
-    //     <DescriptionForm
-    //       initialValues={{ description }}
-    //       cancelForm={() => setActiveKey(undefined)}
-    //     />
-    //   </Accordion>
+      {/* Render the description form inside an accordion */}
+      <Accordion
+        accordionKey="description"
+        activeKey={activeKey}
+        setActive={setActiveKey}
+        fallback={<DescriptionHeader description={description} />}
+        isLoading={isLoading}
+        icon={<AlignLeftOutlined />}
+        label="Description"
+      >
+        <DescriptionForm
+          initialValues={{ description }}
+          cancelForm={() => setActiveKey(undefined)}
+        />
+      </Accordion>
 
-    //   {/* Render the due date form inside an accordion */}
-    //   <Accordion
-    //     accordionKey="due-date"
-    //     activeKey={activeKey}
-    //     setActive={setActiveKey}
-    //     fallback={<DueDateHeader dueData={dueDate} />}
-    //     isLoading={isLoading}
-    //     icon={<FieldTimeOutlined />}
-    //     label="Due date"
-    //   >
-    //     <DueDateForm
-    //       initialValues={{ dueDate: dueDate ?? undefined }}
-    //       cancelForm={() => setActiveKey(undefined)}
-    //     />
-    //   </Accordion>
+      {/* Render the due date form inside an accordion */}
+      <Accordion
+        accordionKey="due-date"
+        activeKey={activeKey}
+        setActive={setActiveKey}
+        fallback={<DueDateHeader dueData={createdAt} />}
+        isLoading={isLoading}
+        icon={<FieldTimeOutlined />}
+        label="Due date"
+      >
+        <DueDateForm
+          initialValues={{ dueDate: createdAt ?? undefined }}
+          cancelForm={() => setActiveKey(undefined)}
+        />
+      </Accordion>
 
-    //   {/* Render the users form inside an accordion */}
-    //   <Accordion
-    //     accordionKey="users"
-    //     activeKey={activeKey}
-    //     setActive={setActiveKey}
-    //     fallback={<UsersHeader users={users} />}
-    //     isLoading={isLoading}
-    //     icon={<UsergroupAddOutlined />}
-    //     label="Users"
-    //   >
-    //     <UsersForm
-    //       initialValues={{
-    //         userIds: users?.map((user) => ({
-    //           label: user.name,
-    //           value: user.id,
-    //         })),
-    //       }}
-    //       cancelForm={() => setActiveKey(undefined)}
-    //     />
-    //   </Accordion>
-    // </Modal>
-    <div>Tasks Edit Page - To be implemented</div>
+      {/* Render the users form inside an accordion */}
+      <Accordion
+        accordionKey="users"
+        activeKey={activeKey}
+        setActive={setActiveKey}
+        fallback={<UsersHeader user={assignedTo} />}
+        isLoading={isLoading}
+        icon={<UsergroupAddOutlined />}
+        label="Users"
+      >
+        <UsersForm
+          initialValues={{
+            userIds: assignedTo?.map((user: any) => ({
+              label: user.name,
+              value: user.id,
+            })),
+          }}
+          cancelForm={() => setActiveKey(undefined)}
+        />
+      </Accordion>
+    </Modal>
   );
 };
 

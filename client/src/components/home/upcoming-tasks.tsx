@@ -29,6 +29,9 @@ const UpcomingTasks = () => {
     },
   });
 
+  console.log("data");
+  console.log(data);
+
   const formatDateTime = (dateString: string): string => {
     return dayjs(dateString).format("MMMM D, YYYY h:mm A");
   };
@@ -69,8 +72,13 @@ const UpcomingTasks = () => {
                 }
                 description={
                   <Text ellipsis={{ tooltip: true }} strong>
-                    {item.title} — Assigned to {item.assignedTo?.name}{" "}
-                    {item.roomId && `in Room ${item.roomId}`}
+                    {item.title} — Assigned to{"  "}
+                    {item.assignedTo?.length
+                      ? item.assignedTo
+                          .map((staff: any) => staff.name)
+                          .join(", ")
+                      : "Unassigned"}{" "}
+                    {item.roomId && `in Room ${item.roomId.number}`}
                   </Text>
                 }
               />

@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
+import { Room } from 'src/room/room.schema';
 import { Staff } from 'src/staff/staff.schema';
 
 export type TaskDocument = Task & Document;
@@ -9,11 +10,11 @@ export class Task {
   @Prop({ required: true })
   title: string;
 
-  @Prop({ type: Types.ObjectId, ref: 'Staff', required: true })
-  assignedTo: Staff;
+  @Prop({ type: [Types.ObjectId], ref: 'Staff', required: true })
+  assignedTo: Staff[];
 
   @Prop({ type: Types.ObjectId, ref: 'Room' })
-  roomId: Types.ObjectId;
+  roomId: Room;
 
   @Prop({
     default: 'pending',

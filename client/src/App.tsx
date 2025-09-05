@@ -33,6 +33,7 @@ import BookingEdit from "./pages/booking/edit";
 import TasksList from "./pages/tasks/list";
 import TasksCreate from "./pages/tasks/create";
 import TasksEdit from "./pages/tasks/edit";
+import StaffsList from "./pages/staff/list";
 
 function App() {
   const { state } = useAppContext();
@@ -103,6 +104,11 @@ function App() {
                     >
                       <Route path="new" element={<TasksCreate />} />
                       <Route path="edit/:id" element={<TasksEdit />} />
+                    </Route>
+                    <Route path="/staffs">
+                      <Route index element={<StaffsList />} />
+                      <Route path="new" element={<BookingCreate />} />
+                      <Route path="edit/:id" element={<BookingEdit />} />
                     </Route>
                   </Route>
                 </Routes>

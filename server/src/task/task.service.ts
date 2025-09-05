@@ -27,6 +27,7 @@ export class TaskService {
     return this.taskModel
       .find()
       .populate('assignedTo')
+      .populate('roomId')
       .sort(sortBy ? { [sortBy]: order === 'desc' ? -1 : 1 } : {})
       .skip(offset || 0)
       .limit(limit || 0)
@@ -34,7 +35,11 @@ export class TaskService {
   }
 
   async findOne(id: string): Promise<Task | null> {
-    return this.taskModel.findById(id).populate('assignedTo').exec();
+    return this.taskModel
+      .findById(id)
+      .populate('assignedTo')
+      .populate('roomId')
+      .exec();
   }
 
   async update(id: string, data: TaskMutationDTO): Promise<Task | null> {

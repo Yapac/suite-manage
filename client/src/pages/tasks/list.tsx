@@ -15,9 +15,10 @@ import { DragEndEvent } from "@dnd-kit/core";
 import { useList, useNavigation, useUpdate } from "@refinedev/core";
 import React from "react";
 
+export const stages = ["pending", "in-progress", "completed", "cancelled"];
+
 const TasksList = ({ children }: React.PropsWithChildren) => {
   const { replace } = useNavigation();
-  const stages = ["pending", "in-progress", "completed", "cancelled"];
   const { data: tasks, isLoading } = useList({
     resource: "tasks",
 

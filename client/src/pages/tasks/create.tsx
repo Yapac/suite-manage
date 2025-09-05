@@ -97,7 +97,11 @@ const TasksCreate = () => {
           name="assignedTo"
           rules={[{ required: true, message: "Assigned to is required" }]}
         >
-          <Select {...staffsSelectProps} placeholder="Select a staff member" />
+          <Select
+            {...staffsSelectProps}
+            mode="multiple"
+            placeholder="Select a staff member"
+          />
         </Form.Item>
         {/* Room */}
         <Form.Item

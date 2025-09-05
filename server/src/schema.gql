@@ -53,8 +53,8 @@ type AuthResponse {
 type TaskDTO {
   id: ID!
   title: String!
-  assignedTo: StaffDTO!
-  roomId: ID
+  assignedTo: [StaffDTO!]!
+  roomId: RoomDTO
   status: String!
   description: String
   createdAt: DateTime
@@ -186,7 +186,7 @@ input TaskFormDTO {
 input TaskMutationDTO {
   id: ID
   title: String
-  assignedTo: ID
+  assignedTo: [ID!]
   roomId: ID
   status: String
   description: String
