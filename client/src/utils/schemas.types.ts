@@ -14,6 +14,15 @@ export interface Staff {
   updatedAt?: Date;
 }
 
+export interface Room {
+  id: string; // maps _id from Mongo
+  number: string;
+  type: String;
+  pricePerNight: String;
+  status: String;
+  description?: String;
+}
+
 export type DateTime = string;
 
 // Staff types

@@ -2,7 +2,7 @@ import { AuthProvider } from "@refinedev/core";
 import { client } from "./data";
 
 export const authCredentials = {
-  email: "michael.scott@dundermifflin.com",
+  email: "michael.scott@yapacdev.com",
   password: "demodemo",
 };
 

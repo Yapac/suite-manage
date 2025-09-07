@@ -88,3 +88,29 @@ export const UsersHeader = ({ users = [] }: UserProps) => {
   // if the task doesn't have users, display a link to add one
   return <Typography.Link>Assign to users</Typography.Link>;
 };
+
+export const RoomHeader = ({ room }: any) => {
+  if (room) {
+    return (
+      <Space size={[0, 8]} wrap>
+        <Tag
+          style={{
+            padding: 2,
+            paddingLeft: 6,
+            paddingRight: 6,
+            borderRadius: 24,
+            lineHeight: "unset",
+            marginRight: "unset",
+          }}
+        >
+          <Space size={4}>
+            Room {room.number} - {room.type}
+          </Space>
+        </Tag>
+      </Space>
+    );
+  }
+
+  // if the task doesn't have users, display a link to add one
+  return <Typography.Link>Select Room</Typography.Link>;
+};

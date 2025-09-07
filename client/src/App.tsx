@@ -34,6 +34,7 @@ import TasksList from "./pages/tasks/list";
 import TasksCreate from "./pages/tasks/create";
 import TasksEdit from "./pages/tasks/edit";
 import StaffsList from "./pages/staff/list";
+import StaffEdit from "./pages/staff/edit";
 
 function App() {
   const { state } = useAppContext();
@@ -49,6 +50,12 @@ function App() {
                 state.theme === "light"
                   ? theme.defaultAlgorithm
                   : theme.darkAlgorithm,
+
+              components: {
+                Layout: {
+                  bodyBg: state.theme === "light" ? "#f7f8fa" : "#000",
+                },
+              },
             }}
           >
             <DevtoolsProvider>
@@ -108,7 +115,7 @@ function App() {
                     <Route path="/staffs">
                       <Route index element={<StaffsList />} />
                       <Route path="new" element={<BookingCreate />} />
-                      <Route path="edit/:id" element={<BookingEdit />} />
+                      <Route path="edit/:id" element={<StaffEdit />} />
                     </Route>
                   </Route>
                 </Routes>

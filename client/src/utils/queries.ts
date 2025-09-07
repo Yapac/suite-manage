@@ -202,6 +202,7 @@ export const UPDATE_TASK_MUTATION = gql`
       roomId {
         id
         number
+        type
       }
       createdAt
       assignedTo {

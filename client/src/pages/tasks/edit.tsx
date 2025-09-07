@@ -5,7 +5,9 @@ import { useNavigation } from "@refinedev/core";
 
 import {
   AlignLeftOutlined,
+  BankOutlined,
   FieldTimeOutlined,
+  HomeOutlined,
   UsergroupAddOutlined,
 } from "@ant-design/icons";
 import { Modal } from "antd";
@@ -18,8 +20,13 @@ import {
   TitleForm,
   UsersForm,
 } from "@/components/form";
-import { DueDateHeader, UsersHeader } from "@/components/form/header";
+import {
+  DueDateHeader,
+  RoomHeader,
+  UsersHeader,
+} from "@/components/form/header";
 import { Accordion } from "@/components/accordion";
+import { RoomForm } from "@/components/form/room";
 
 const TasksEdit = () => {
   const [activeKey, setActiveKey] = useState<string | undefined>();
@@ -31,7 +38,11 @@ const TasksEdit = () => {
   // modalProps -> It's an instance of Modal that manages modal state and actions like onOk, onCancel, etc.
   // close -> It's a function that closes the modal
   // queryResult -> It's an instance of useQuery from react-query
-  const { modalProps, close, queryResult } = useModalForm<any>({
+  const {
+    modalProps,
+    close,
+    query: queryResult,
+  } = useModalForm<any>({
     // specify the action to perform i.e., create or edit
     action: "edit",
     // specify whether the modal should be visible by default
@@ -43,8 +54,10 @@ const TasksEdit = () => {
   });
 
   // get the data of the task from the queryResult
-  const { description, createdAt, assignedTo, title } =
+  const { description, createdAt, assignedTo, roomId, title } =
     queryResult?.data?.data ?? {};
+
+  console.log(roomId);
 
   const isLoading = queryResult?.isLoading ?? true;
 
@@ -115,6 +128,26 @@ const TasksEdit = () => {
               label: user.name,
               value: user.id,
             })),
+          }}
+          cancelForm={() => setActiveKey(undefined)}
+        />
+      </Accordion>
+
+      {/* Render the room form inside an accordion */}
+      <Accordion
+        accordionKey="roomId"
+        activeKey={activeKey}
+        setActive={setActiveKey}
+        fallback={<RoomHeader room={roomId} />}
+        isLoading={isLoading}
+        icon={<HomeOutlined />}
+        label="Room"
+      >
+        <RoomForm
+          initialValues={{
+            roomId: roomId
+              ? [{ label: `Room ${roomId.number}`, value: roomId.id }]
+              : [],
           }}
           cancelForm={() => setActiveKey(undefined)}
         />
