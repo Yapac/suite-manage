@@ -2,7 +2,6 @@ import dayjs from "dayjs";
 
 type DateColors = "success" | "processing" | "error" | "default" | "warning";
 
-//  returns a color based on the date
 export const getDateColor = (args: {
   date: string;
   defaultColor?: DateColors;
@@ -10,14 +9,21 @@ export const getDateColor = (args: {
   const date = dayjs(args.date);
   const today = dayjs();
 
+  if (date.isSame(today, "day")) {
+    return "success"; // Today
+  }
+
+  if (date.isSame(today.subtract(1, "day"), "day")) {
+    return "warning"; // Yesterday
+  }
+
+  if (date.isSame(today.subtract(2, "day"), "day")) {
+    return "processing"; // Two days ago
+  }
+
   if (date.isBefore(today)) {
-    return "error";
+    return "error"; // older than 2 days
   }
 
-  if (date.isBefore(today.add(3, "day"))) {
-    return "warning";
-  }
-
-  // ?? is the nullish coalescing operator. It returns the right-hand side operand when the left-hand side is null or undefined.
   return args.defaultColor ?? "default";
 };

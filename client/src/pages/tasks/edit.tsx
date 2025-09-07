@@ -14,7 +14,6 @@ import { UPDATE_TASK_MUTATION } from "@/utils/queries";
 import {
   DescriptionForm,
   DescriptionHeader,
-  DueDateForm,
   StageForm,
   TitleForm,
   UsersForm,
@@ -92,32 +91,27 @@ const TasksEdit = () => {
       {/* Render the due date form inside an accordion */}
       <Accordion
         accordionKey="due-date"
-        activeKey={activeKey}
-        setActive={setActiveKey}
+        activeKey={"activeKey"}
+        setActive={() => {}}
         fallback={<DueDateHeader dueData={createdAt} />}
         isLoading={isLoading}
         icon={<FieldTimeOutlined />}
         label="Due date"
-      >
-        <DueDateForm
-          initialValues={{ dueDate: createdAt ?? undefined }}
-          cancelForm={() => setActiveKey(undefined)}
-        />
-      </Accordion>
+      ></Accordion>
 
       {/* Render the users form inside an accordion */}
       <Accordion
         accordionKey="users"
         activeKey={activeKey}
         setActive={setActiveKey}
-        fallback={<UsersHeader user={assignedTo} />}
+        fallback={<UsersHeader users={assignedTo} />}
         isLoading={isLoading}
         icon={<UsergroupAddOutlined />}
         label="Users"
       >
         <UsersForm
           initialValues={{
-            userIds: assignedTo?.map((user: any) => ({
+            assignedTo: assignedTo?.map((user: any) => ({
               label: user.name,
               value: user.id,
             })),

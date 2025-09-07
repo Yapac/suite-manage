@@ -55,14 +55,6 @@ export const TitleForm = ({ initialValues, isLoading }: Props) => {
   const { formProps } = useForm<
     GetFields<any>,
     HttpError,
-    /**
-     * Pick is a utility type from typescript that allows you to create a new type from an existing type by picking some properties from it.
-     * https://www.typescriptlang.org/docs/handbook/utility-types.html#picktype-keys
-     *
-     * Pick<Type, Keys>
-     * Type -> the type from which we want to pick the properties
-     * Keys -> the properties that we want to pick
-     */
     Pick<GetVariables<any>, "title">
   >({
     queryOptions: {
@@ -71,16 +63,9 @@ export const TitleForm = ({ initialValues, isLoading }: Props) => {
     },
     redirect: false, // disable redirection
     warnWhenUnsavedChanges: false, // disable warning when there are unsaved changes
-    /**
-     * autoSave is used to automatically save the form when the value of the form changes. It accepts an object with 1 property:
-     * enabled: boolean - whether to enable autoSave or not
-     *
-     * https://refine.dev/docs/ui-integrations/ant-design/hooks/use-form/#autosave
-     *
-     * In this case, we are enabling autoSave.
-     */
     autoSave: {
       enabled: true,
+      debounce: 0,
     },
     // invalidate the list page of the tasks resource when the mutation is successful
     onMutationSuccess: () => {
@@ -90,6 +75,7 @@ export const TitleForm = ({ initialValues, isLoading }: Props) => {
     meta: {
       gqlMutation: UPDATE_TASK_MUTATION,
     },
+    mutationMode: "optimistic",
   });
 
   // set the title of the form to the title of the task

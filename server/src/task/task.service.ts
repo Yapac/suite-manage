@@ -43,7 +43,11 @@ export class TaskService {
   }
 
   async update(id: string, data: TaskMutationDTO): Promise<Task | null> {
-    return this.taskModel.findByIdAndUpdate(id, data, { new: true }).exec();
+    return this.taskModel
+      .findByIdAndUpdate(id, data, { new: true })
+      .populate('assignedTo')
+      .populate('roomId')
+      .exec();
   }
 
   async remove(id: string): Promise<Task | null> {

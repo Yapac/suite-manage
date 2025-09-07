@@ -42,7 +42,7 @@ export type Task = {
   title: string;
   description: string;
   status: string;
-  assignedTo: String;
+  assignedTo: String[];
   roomId: String;
   createdAt: DateTime;
 };

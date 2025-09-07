@@ -13,7 +13,7 @@ import { Staff } from "@/utils/schemas.types";
 
 type Props = {
   initialValues: {
-    userIds?: { label: string; value: string }[];
+    assignedTo?: { label: string; value: string }[];
   };
   cancelForm: () => void;
 };
@@ -31,7 +31,7 @@ export const UsersForm = ({ initialValues, cancelForm }: Props) => {
      * Type -> the type from which we want to pick the properties
      * Keys -> the properties that we want to pick
      */
-    Pick<GetVariables<any>, "userIds">
+    Pick<GetVariables<any>, "assingedTo">
   >({
     queryOptions: {
       // disable the query to prevent fetching data on component mount
@@ -74,7 +74,7 @@ export const UsersForm = ({ initialValues, cancelForm }: Props) => {
         style={{ width: "100%" }}
         initialValues={initialValues}
       >
-        <Form.Item noStyle name="userIds">
+        <Form.Item noStyle name="assignedTo">
           <Select
             {...selectProps}
             className="kanban-users-form-select"

@@ -197,6 +197,19 @@ export const UPDATE_TASK_MUTATION = gql`
   mutation UpdateTask($input: TaskFormDTO!) {
     updateTask(input: $input) {
       id
+      title
+      status
+      roomId {
+        id
+        number
+      }
+      createdAt
+      assignedTo {
+        id
+        name
+        avatarUrl
+      }
+      description
     }
   }
 `;

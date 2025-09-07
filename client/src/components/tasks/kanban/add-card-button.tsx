@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PlusSquareOutlined } from "@ant-design/icons";
-import { Button } from "antd";
+import { Button, theme } from "antd";
 import { Text } from "@/components/text";
 
 interface Props {
@@ -12,13 +12,14 @@ export const KanbanAddCardButton = ({
   children,
   onClick,
 }: React.PropsWithChildren<Props>) => {
+  const { token } = theme.useToken();
   return (
     <Button
       size="large"
       icon={<PlusSquareOutlined className="md" />}
       style={{
         margin: "16px",
-        backgroundColor: "white",
+        backgroundColor: token.colorBgContainer,
       }}
       onClick={onClick}
     >

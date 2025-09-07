@@ -1,6 +1,7 @@
 import CustomAvatar from "@/components/custom-avatar";
 import { Text } from "@/components/text";
 import { TextIcon } from "@/components/text-icon";
+import { getDateColor } from "@/utils/date";
 import { DELETE_TASK_MUTATION } from "@/utils/queries";
 import {
   ClockCircleOutlined,
@@ -8,7 +9,6 @@ import {
   EyeOutlined,
   MoreOutlined,
 } from "@ant-design/icons";
-import { Edit } from "@refinedev/antd";
 import { useDelete, useNavigation } from "@refinedev/core";
 import {
   Button,
@@ -22,8 +22,7 @@ import {
   Tooltip,
 } from "antd";
 import dayjs from "dayjs";
-import { title } from "process";
-import React, { memo, useMemo } from "react";
+import { memo, useMemo } from "react";
 
 type ProjectCardProps = {
   id: string;
@@ -71,6 +70,35 @@ const TaskCard = ({ id, title, createdAt, assignedTo }: ProjectCardProps) => {
     ];
     return dropDownItems;
   }, []);
+  const createdDateOptions = useMemo(() => {
+    if (!createdAt) return null;
+
+    const color = getDateColor({
+      date: createdAt,
+      defaultColor: "processing",
+    });
+    const date = dayjs(createdAt);
+
+    const getTagText = () => {
+      switch (color) {
+        case "success":
+          return "Today";
+        case "warning":
+          return "Yesterday";
+        case "processing":
+          return "Two days ago";
+        case "error":
+          return "Overdue";
+        default:
+          return date.format("MMM DD");
+      }
+    };
+
+    return {
+      color,
+      text: getTagText(),
+    };
+  }, [createdAt]);
   return (
     <ConfigProvider
       theme={{
@@ -87,12 +115,18 @@ const TaskCard = ({ id, title, createdAt, assignedTo }: ProjectCardProps) => {
       <Card
         size="small"
         title={<Text ellipsis={{ tooltip: title }}>{title}</Text>}
-        onClick={() => {}}
+        onClick={() => edit("tasks", id, "replace")}
         extra={
           <Dropdown
             trigger={["click"]}
             menu={{
               items: dropDownItems,
+              onPointerDown: (e) => {
+                e.stopPropagation();
+              },
+              onClick: (e) => {
+                e.domEvent.stopPropagation();
+              },
             }}
             placement="bottom"
             arrow={{ pointAtCenter: true }}
@@ -101,8 +135,11 @@ const TaskCard = ({ id, title, createdAt, assignedTo }: ProjectCardProps) => {
               type="text"
               shape="circle"
               icon={<MoreOutlined />}
-              style={{ transform: "rotate(90deg)" }}
+              style={{ transform: "rotate(90deg)", pointerEvents: "fill" }}
               onPointerDown={(e) => {
+                e.stopPropagation();
+              }}
+              onClick={(e) => {
                 e.stopPropagation();
               }}
             />
@@ -118,18 +155,24 @@ const TaskCard = ({ id, title, createdAt, assignedTo }: ProjectCardProps) => {
           }}
         >
           <TextIcon style={{ marginRight: "4px" }} />
-          <Tag
-            icon={<ClockCircleOutlined style={{ fontSize: "12px" }} />}
-            style={{
-              padding: "0 4px",
-              marginInlineEnd: "0",
-              backgroundColor: "transparent",
-            }}
-            color="purple"
-            bordered={true}
-          >
-            {dayjs(createdAt).format("MMM DD")}
-          </Tag>
+
+          {createdDateOptions && (
+            <Tag
+              icon={<ClockCircleOutlined style={{ fontSize: "12px" }} />}
+              style={{
+                padding: "0 4px",
+                marginInlineEnd: "0",
+                backgroundColor:
+                  createdDateOptions.color === "default"
+                    ? "transparent"
+                    : "unset",
+              }}
+              color={createdDateOptions.color}
+              bordered={createdDateOptions.color !== "default"}
+            >
+              {createdDateOptions.text}
+            </Tag>
+          )}
           {!!assignedTo?.length && (
             <Space
               size={4}

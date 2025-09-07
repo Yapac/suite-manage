@@ -1,6 +1,6 @@
 import { DescriptionForm } from "./description";
-import { DueDateForm } from "./due-date";
-import { StageForm } from "./stage";
+
+import { StageForm } from "./status";
 import { UsersForm } from "./users";
 import { TitleForm } from "./title";
 import { DescriptionHeader } from "./header";
@@ -9,7 +9,6 @@ import { UsersHeader } from "./header";
 export {
   DescriptionForm,
   DescriptionHeader,
-  DueDateForm,
   StageForm,
   UsersForm,
   TitleForm,

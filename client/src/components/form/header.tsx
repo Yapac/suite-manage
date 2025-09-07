@@ -18,7 +18,7 @@ type DueDateProps = {
 };
 
 type UserProps = {
-  user?: Staff;
+  users?: Staff[];
 };
 
 // display a task's descriptio if it exists, otherwise display a link to add one
@@ -38,20 +38,24 @@ export const DescriptionHeader = ({ description }: DescriptionProps) => {
 // display a task's due date if it exists, otherwise display a link to add one
 export const DueDateHeader = ({ dueData }: DueDateProps) => {
   if (dueData) {
-    // get the color of the due date
     const color = getDateColor({
       date: dueData,
       defaultColor: "processing",
     });
 
-    // depending on the due date, display a different color and text
     const getTagText = () => {
       switch (color) {
-        case "error":
-          return "Overdue";
+        case "success":
+          return "Today";
 
         case "warning":
-          return "Due soon";
+          return "Yesterday";
+
+        case "processing":
+          return "Two days ago";
+
+        case "error":
+          return "Overdue";
 
         default:
           return "Processing";
@@ -66,16 +70,17 @@ export const DueDateHeader = ({ dueData }: DueDateProps) => {
     );
   }
 
-  // if the task doesn't have a due date, display a link to add one
   return <Typography.Link>Add due date</Typography.Link>;
 };
 
 // display a task's users if it exists, otherwise display a link to add one
-export const UsersHeader = ({ user }: UserProps) => {
-  if (user) {
+export const UsersHeader = ({ users = [] }: UserProps) => {
+  if (users.length > 0) {
     return (
       <Space size={[0, 8]} wrap>
-        <UserTag key={user.id} user={user} />
+        {users.map((user) => (
+          <UserTag key={user.id} user={user} />
+        ))}
       </Space>
     );
   }

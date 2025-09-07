@@ -90,7 +90,7 @@ const TasksCreate = () => {
         </Form.Item>
         <Form.Item
           label={
-            <Tooltip title="Select the staff member to whom the task is assigned">
+            <Tooltip title="Select the staff members to whom the task is assigned">
               Assigned to <InfoCircleOutlined style={{ color: "#999" }} />
             </Tooltip>
           }
@@ -100,7 +100,7 @@ const TasksCreate = () => {
           <Select
             {...staffsSelectProps}
             mode="multiple"
-            placeholder="Select a staff member"
+            placeholder="Select a staff members"
           />
         </Form.Item>
         {/* Room */}
