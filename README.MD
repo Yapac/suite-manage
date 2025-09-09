@@ -24,7 +24,7 @@ This app provides a complete admin dashboard for handling rooms, bookings, staff
 
 ## Tech Stack
 
-- **Frontend:** React + [Refine](https://refine.dev) + Ant Design
+- **Frontend:** React + Refine + Ant Design
 - **Backend:** NestJS + GraphQL + Mongoose (MongoDB)
 - **State & Data Management:** Refine hooks + GraphQL queries/mutations
 - **Authentication:** Custom Auth Provider with role-based access control
@@ -35,4 +35,4 @@ This app provides a complete admin dashboard for handling rooms, bookings, staff
 ## Learn More
 
 ⚠️ Disclaimer: Suite Manage is currently a proof-of-concept project.
-For a full-fledged SaaS solution tailored to your needs, reach out to me at yassinelatlassi@gmail.com.
+For a full-fledged SaaS solution tailored to your needs, reach out to me at [yassinelatlassi@gmail.com].
