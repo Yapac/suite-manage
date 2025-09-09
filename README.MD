@@ -5,7 +5,7 @@
         <img alt="refine logo" src="./banner.png">
     </a>
 </div>
-
+<br/>
 Suite Manage is a modern internal tool for managing hotel operations.
 This app provides a complete admin dashboard for handling rooms, bookings, staff, guests, and tasks efficiently.
 
@@ -34,17 +34,6 @@ This app provides a complete admin dashboard for handling rooms, bookings, staff
 
 ---
 
-## Getting Started
-
 ## Learn More
 
-To learn more about **Refine**, please check out the [Documentation](https://refine.dev/docs)
-
-- **NestJS Query Data Provider** [Docs](https://refine.dev/docs/data/packages/nestjs-query/)
-- **Ant Design** [Docs](https://refine.dev/docs/ui-frameworks/antd/tutorial/)
-- **React Router** [Docs](https://refine.dev/docs/core/providers/router-provider/)
-- **Custom Auth Provider** [Docs](https://refine.dev/docs/core/providers/auth-provider/)
-
-## License
-
-MIT
+This App is a proof of concept. If you want a full Saas application please contact me via: yassinelatlassi@gmail.com
