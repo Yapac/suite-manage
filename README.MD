@@ -1,9 +1,7 @@
 # Suite Manage
 
 <div align="center" style="margin: 30px;">
-    <a href="https://refine.dev">
-        <img alt="refine logo" src="./banner.png">
-    </a>
+    <img alt="refine logo" src="./banner.png">
 </div>
 <br/>
 Suite Manage is a modern internal tool for managing hotel operations.
