@@ -36,4 +36,5 @@ This app provides a complete admin dashboard for handling rooms, bookings, staff
 
 ## Learn More
 
-This App is a proof of concept. If you want a full Saas application please contact me via: yassinelatlassi@gmail.com
+⚠️ Disclaimer: Suite Manage is currently a proof-of-concept project.
+For a full-fledged SaaS solution tailored to your needs, reach out to me at yassinelatlassi@gmail.com.
