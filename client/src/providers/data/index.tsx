@@ -4,6 +4,7 @@ import createDataProvider, { createLiveProvider } from "@refinedev/graphql";
 import { fetchWrapper } from "./fetch-wrapper";
 import { createClient } from "graphql-ws";
 
+
 export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export const API_URL = `${API_BASE_URL}/graphql`;
 export const WS_URL = import.meta.env.VITE_WS_URL;
@@ -50,4 +51,6 @@ export const dataProvider = createDataProvider(client, {
   },
 });
 
-export const liveProvider = wsClient ? createLiveProvider(wsClient) : undefined;
+ export const liveProvider = undefined
+  // wsClient ? createLiveProvider(wsClient) : undefined;
+

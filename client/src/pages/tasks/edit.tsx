@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import { DeleteButton, useModalForm } from "@refinedev/antd";
-import { useNavigation } from "@refinedev/core";
+import { useDelete, useNavigation } from "@refinedev/core";
 
 import {
   AlignLeftOutlined,
@@ -12,7 +12,7 @@ import {
 } from "@ant-design/icons";
 import { Modal } from "antd";
 
-import { UPDATE_TASK_MUTATION } from "@/utils/queries";
+import { DELETE_TASK_MUTATION, UPDATE_TASK_MUTATION } from "@/utils/queries";
 import {
   DescriptionForm,
   DescriptionHeader,
@@ -54,12 +54,14 @@ const TasksEdit = () => {
   });
 
   // get the data of the task from the queryResult
-  const { description, createdAt, assignedTo, roomId, title } =
+  const { description, createdAt, assignedTo, roomId, title, id } =
     queryResult?.data?.data ?? {};
 
   console.log(roomId);
 
   const isLoading = queryResult?.isLoading ?? true;
+
+  const { mutate: deleteMutation } = useDelete();
 
   return (
     <Modal
@@ -74,6 +76,12 @@ const TasksEdit = () => {
       footer={
         <DeleteButton
           type="link"
+          recordItemId={id}
+          resource="tasks"
+          mutationMode="optimistic"
+          meta={{
+            gqlMutation: DELETE_TASK_MUTATION,
+          }}
           onSuccess={() => {
             list("tasks", "replace");
           }}

@@ -4,6 +4,9 @@ import {
   HomeOutlined,
   ProjectOutlined,
   TeamOutlined,
+  SettingOutlined,
+  FolderOpenOutlined,
+  CrownOutlined,
 } from "@ant-design/icons";
 import { IResourceItem } from "@refinedev/core";
 
@@ -38,7 +41,6 @@ export const resources: IResourceItem[] = [
       icon: <BookOutlined />,
     },
   },
-
   {
     name: "tasks",
     list: "/tasks",
@@ -49,6 +51,17 @@ export const resources: IResourceItem[] = [
       icon: <ProjectOutlined />,
     },
   },
+
+  // 👇 Parent menu: Administration
+  {
+    name: "administration",
+    meta: {
+      label: "Administration",
+      icon: <CrownOutlined />,
+    },
+  },
+
+  // 👇 Child: Staffs (inside Administration dropdown)
   {
     name: "staffs",
     list: "/staffs",
@@ -58,6 +71,7 @@ export const resources: IResourceItem[] = [
     meta: {
       label: "Staff",
       icon: <TeamOutlined />,
+      parent: "administration", // 👈 nests under Administration
     },
   },
 ];

@@ -74,7 +74,17 @@ export const StageForm = ({ isLoading }: Props) => {
       >
         <Space size={5}>
           <FlagOutlined />
-          <Form.Item
+          <p
+            style={{
+              margin: 0,
+              fontWeight: 500,
+              paddingLeft: 5,
+              textTransform: "capitalize",
+            }}
+          >
+            {formProps.initialValues?.status}
+          </p>
+          {/* <Form.Item
             noStyle
             name={["status"]}
             initialValue={formProps?.initialValues?.stage?.id}
@@ -90,7 +100,7 @@ export const StageForm = ({ isLoading }: Props) => {
                 value: stage,
               }))}
             />
-          </Form.Item>
+          </Form.Item> */}
         </Space>
         <Form.Item noStyle name="completed" valuePropName="checked">
           <Checkbox>Mark as complete</Checkbox>

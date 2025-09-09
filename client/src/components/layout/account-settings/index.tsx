@@ -34,12 +34,17 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
     action: "edit",
     id: userId,
     mutationMode: "optimistic",
+    redirect: false,
     meta: {
       gqlMutation: UPDATE_STAFF_MUTATION,
     },
 
     onMutationError: (data, variables, context, isAutoSave) => {
       console.log({ data, variables, context, isAutoSave });
+    },
+    onMutationSuccess: () => {
+      // Close drawer instead of navigating
+      setOpened(false);
     },
   });
 
@@ -52,9 +57,9 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
       <Drawer
         open={opened}
         width={756}
+        mask={true}
         styles={{
           body: {
-            background: "#f5f5f5",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -72,6 +77,7 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
     <Drawer
       onClose={closeModal}
       open={opened}
+      mask={true}
       width={756}
       styles={{
         header: { display: "none" },
@@ -91,16 +97,38 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
       </div>
       <div style={{ padding: "16px" }}>
         <Card>
-          <CustomAvatar
-            shape="square"
-            src={staff?.avatarUrl}
-            name={getNameInitials(`${staff?.name || ""} `)}
+          <div
             style={{
-              width: 96,
-              height: 96,
-              marginBottom: "24px",
+              display: "flex",
+
+              alignItems: "center",
             }}
-          />
+          >
+            <CustomAvatar
+              shape="square"
+              src={staff?.avatarUrl}
+              name={getNameInitials(`${staff?.name || ""} `)}
+              style={{
+                width: 96,
+                height: 96,
+                marginBottom: "24px",
+              }}
+            />
+            <div style={{ marginLeft: "16px", paddingBottom: "24px" }}>
+              <Text size="xl" strong>
+                {staff.name}
+              </Text>
+              <br />
+
+              <Text
+                type="secondary"
+                strong
+                style={{ textTransform: "capitalize" }}
+              >
+                {staff.role}
+              </Text>
+            </div>
+          </div>
 
           <Form {...formProps} layout="vertical">
             <Form.Item label="Name" name="name">
@@ -113,9 +141,6 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
                 prefix={<MailOutlined />}
               />
             </Form.Item>
-            <Form.Item label="Role" name="role">
-              <Input placeholder="Role" />
-            </Form.Item>
             <Form.Item label="Phone" name="phone">
               <Input placeholder="Phone" prefix={<PhoneOutlined />} />
             </Form.Item>
@@ -126,7 +151,8 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
           <SaveButton
             {...saveButtonProps}
             style={{
-              display: "block",
+              display: "flex",
+              gap: "5px",
               marginLeft: "auto",
             }}
           />

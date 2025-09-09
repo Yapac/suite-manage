@@ -61,13 +61,19 @@ export class LoginInput {
 export class AuthResponse {
   @Field()
   accessToken: string;
+
+  @Field()
+  role: string;
 }
 
 @InputType()
 export class UpdateStaffInput {
-  @Field(() => ID)
+  @Field(() => ID, { nullable: true })
   id: string;
 
-  @Field(() => StaffInputDTO)
-  update: StaffInputDTO;
+  @Field(() => StaffInputDTO, { nullable: true })
+  update?: StaffInputDTO;
+
+  @Field(() => StaffInputDTO, { nullable: true })
+  staff?: StaffInputDTO;
 }

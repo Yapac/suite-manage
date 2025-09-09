@@ -38,7 +38,12 @@ const BookingCreate: React.FC = () => {
     },
   });
 
-  type Room = { id: string; number: string; type: string };
+  type Room = {
+    id: string;
+    number: string;
+    type: string;
+    pricePerNight: string;
+  };
   type Guest = {
     id: string;
     name: string;
@@ -49,10 +54,11 @@ const BookingCreate: React.FC = () => {
   };
 
   // Select Rooms
-  const { selectProps: roomSelectProps } = useSelect<Room>({
+  const { selectProps: roomSelectProps, query: roomQuery } = useSelect<Room>({
     resource: "rooms",
     meta: { gqlQuery: LIST_ROOMS_QUERY },
-    optionLabel: (room) => `${room.number} (${room.type})`,
+    optionLabel: (room) =>
+      `Room ${room.number} (${room.type} - ${room.pricePerNight}/ night)`,
     optionValue: "id",
   });
 
@@ -86,10 +92,32 @@ const BookingCreate: React.FC = () => {
     },
   });
 
+  const calculatePrice = () => {
+    const roomId = formProps.form?.getFieldValue("roomId");
+    const dates = formProps.form?.getFieldValue("checkDates");
+
+    if (!roomId || !dates || dates.length !== 2) return;
+
+    const room = roomQuery?.data?.data?.find((r: Room) => r.id === roomId);
+    if (!room) return;
+
+    const nights = dayjs(dates[1]).diff(dayjs(dates[0]), "day");
+    const total = nights * parseFloat(room.pricePerNight);
+
+    formProps.form?.setFieldsValue({ totalPrice: total });
+  };
   return (
     <>
       <Create saveButtonProps={saveButtonProps} title="Initiate Booking">
-        <Form {...formProps} layout="vertical">
+        <Form
+          {...formProps}
+          layout="vertical"
+          onValuesChange={(changedValues) => {
+            if (changedValues.roomId || changedValues.checkDates) {
+              calculatePrice();
+            }
+          }}
+        >
           {/* Room */}
           <Form.Item
             label={

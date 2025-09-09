@@ -10,6 +10,7 @@ const LOGIN_MUTATION = `
   mutation Login($email: String!, $password: String!) {
     login(loginInput: { email: $email, password: $password }) {
       accessToken
+      role
     }
   }
 `;
@@ -44,6 +45,7 @@ export const authProvider: AuthProvider = {
     }
 
     const token = result.data?.login?.accessToken;
+    const role = result.data?.login?.role;
     if (!token) {
       return {
         success: false,
@@ -55,12 +57,14 @@ export const authProvider: AuthProvider = {
     }
 
     localStorage.setItem("access_token", token);
+    localStorage.setItem("role", role);
 
     return { success: true, redirectTo: "/" };
   },
 
   logout: async () => {
     localStorage.removeItem("access_token");
+    localStorage.removeItem("role");
     return { success: true, redirectTo: "/login" };
   },
 
@@ -77,6 +81,7 @@ export const authProvider: AuthProvider = {
 
   getIdentity: async () => {
     const token = localStorage.getItem("access_token");
+
     if (!token) return undefined;
 
     const result = await client.query(ME_QUERY, {}).toPromise();

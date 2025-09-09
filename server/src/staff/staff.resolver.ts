@@ -28,15 +28,15 @@ export class StaffResolver {
   }
 
   @Mutation(() => StaffDTO)
-  async createStaff(@Args('data') data: StaffInputDTO): Promise<Staff> {
-    return this.staffService.create(data);
+  async createStaff(@Args('input') input: UpdateStaffInput): Promise<Staff> {
+    return this.staffService.create(input.staff as StaffInputDTO);
   }
 
   @Mutation(() => StaffDTO)
   async updateStaff(
     @Args('input') input: UpdateStaffInput,
   ): Promise<Staff | null> {
-    const { id, update } = input;
+    const { id, update }: any = input;
     return this.staffService.update(id, update);
   }
 

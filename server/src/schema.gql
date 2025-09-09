@@ -48,6 +48,7 @@ type StaffDTO {
 
 type AuthResponse {
   accessToken: String!
+  role: String!
 }
 
 type TaskDTO {
@@ -84,7 +85,7 @@ type Mutation {
   createGuest(input: GuestFormDTO!): GuestDTO!
   updateGuest(id: ID!, data: GuestInputDTO!): GuestDTO!
   deleteGuest(id: ID!): GuestDTO!
-  createStaff(data: StaffInputDTO!): StaffDTO!
+  createStaff(input: UpdateStaffInput!): StaffDTO!
   updateStaff(input: UpdateStaffInput!): StaffDTO!
   deleteStaff(id: ID!): StaffDTO!
   login(loginInput: LoginInput!): AuthResponse!
@@ -157,6 +158,12 @@ input GuestInputDTO {
   email: String
 }
 
+input UpdateStaffInput {
+  id: ID
+  update: StaffInputDTO
+  staff: StaffInputDTO
+}
+
 input StaffInputDTO {
   name: String
   role: String
@@ -165,11 +172,6 @@ input StaffInputDTO {
   phone: String
   hireDate: DateTime
   avatarUrl: String
-}
-
-input UpdateStaffInput {
-  id: ID!
-  update: StaffInputDTO!
 }
 
 input LoginInput {

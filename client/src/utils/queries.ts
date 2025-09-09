@@ -147,6 +147,13 @@ export const UPDATE_STAFF_MUTATION = gql`
     }
   }
 `;
+export const CREATE_STAFF_MUTATION = gql`
+  mutation CreateStaff($input: UpdateStaffInput!) {
+    createStaff(input: $input) {
+      id
+    }
+  }
+`;
 export const LIST_STAFFS_QUERY = gql`
   query ListStaffs {
     staffs {

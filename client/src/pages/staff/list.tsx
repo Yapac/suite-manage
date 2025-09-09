@@ -62,7 +62,7 @@ const StaffsList = () => {
       label: "Housekeeping",
     },
     maintenance: {
-      color: "orange",
+      color: "magenta",
       icon: <ToolOutlined />,
       label: "Maintenance",
     },
@@ -107,17 +107,19 @@ const StaffsList = () => {
           Suite Manage
         </Text>
       </div>
-      <Row gutter={24}>
+      <Row gutter={[24.24]}>
         {/* Right column - Staffs List */}
-        <Col span={16}>
+        <Col xs={24} md={16}>
           <List
             title="Staff Members"
             breadcrumb={false}
             headerButtons={() => (
               <CreateButton
+                title="Add New Staff Member"
                 onClick={() =>
                   go({
                     to: { resource: "staffs", action: "create" },
+
                     options: { keepQuery: true },
                     type: "replace",
                   })
@@ -193,7 +195,7 @@ const StaffsList = () => {
           </List>
         </Col>
         {/* Left column - Title & Details */}
-        <Col span={8}>
+        <Col xs={24} md={8}>
           <Card
             title={
               <div
@@ -201,25 +203,29 @@ const StaffsList = () => {
               >
                 <ShopOutlined />
                 <Text size="sm" style={{ marginLeft: "0.5rem" }}>
-                  Staff Directory
+                  Tech Directory
                 </Text>
               </div>
             }
             type="inner"
           >
             <Text type="secondary">
-              Manage your staff members and their roles within the company.
+              If you have any questions about managing staff members, please
+              refer to the documentation or contact support for assistance.
             </Text>
 
             <div style={{ marginTop: 24 }}>
-              <Title level={5}>Company Info</Title>
-              <Text>Globex Corporation</Text>
+              <Title level={5}>Tech support Info</Title>
+              <Text></Text>
               <br />
-              <Text type="secondary">2158 Mount Tabor, Westbury, NY, USA</Text>
+              <Text type="secondary">
+                Yapacdev, Product Builder. Creative Engineer.
+              </Text>
               <br />
-              <Text type="secondary">+123 456 789 01 23</Text>
+              <Text type="secondary">+212 656 03 42 48</Text>
               <br />
-              <Text type="secondary">info@globexcorp.com</Text>
+              <Text type="secondary">info@yapacdev.com</Text>
+
             </div>
           </Card>
         </Col>

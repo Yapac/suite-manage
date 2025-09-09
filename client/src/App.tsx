@@ -35,6 +35,7 @@ import TasksCreate from "./pages/tasks/create";
 import TasksEdit from "./pages/tasks/edit";
 import StaffsList from "./pages/staff/list";
 import StaffEdit from "./pages/staff/edit";
+import StaffCreate from "./pages/staff/create";
 
 function App() {
   const { state } = useAppContext();
@@ -71,7 +72,38 @@ function App() {
                   warnWhenUnsavedChanges: true,
                   useNewQueryKeys: true,
                   projectId: "aVMkCO-KvEZfr-woLgO6",
-                  liveMode: "auto",
+                }}
+                accessControlProvider={{
+                  can: async ({ resource, action }) => {
+                    const userRole = localStorage.getItem("role"); // or from auth context
+
+                    // Only admins can see/use administration resources
+                    if (
+                      resource?.startsWith("administration") ||
+                      resource === "staffs"
+                    ) {
+                      return userRole === "admin"
+                        ? { can: true }
+                        : {
+                            can: false,
+                            reason: "Only admins can access this section",
+                          };
+                    }
+
+                    // Bookings accessible by receptionists or admins
+                    if (resource === "bookings") {
+                      return userRole === "receptionist" || userRole === "admin"
+                        ? { can: true }
+                        : {
+                            can: false,
+                            reason:
+                              "Only receptionists and admins can access bookings",
+                          };
+                    }
+
+                    // Other resources are open
+                    return { can: true };
+                  },
                 }}
               >
                 <Routes>
@@ -114,7 +146,7 @@ function App() {
                     </Route>
                     <Route path="/staffs">
                       <Route index element={<StaffsList />} />
-                      <Route path="new" element={<BookingCreate />} />
+                      <Route path="new" element={<StaffCreate />} />
                       <Route path="edit/:id" element={<StaffEdit />} />
                     </Route>
                   </Route>

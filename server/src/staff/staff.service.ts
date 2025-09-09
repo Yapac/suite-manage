@@ -67,6 +67,7 @@ export class StaffService {
     const payload = { sub: staff.id, email: staff.email, role: staff.role };
     return {
       accessToken: this.jwtService.sign(payload),
+      role: staff.role,
     };
   }
 
