@@ -2,11 +2,12 @@
 
 <div align="center" style="margin: 30px;">
     <a href="https://refine.dev">
-        <img alt="refine logo" src="https://refine.ams3.cdn.digitaloceanspaces.com/readme/refine-readme-banner.png">
+        <img alt="refine logo" src="./banner.png">
     </a>
 </div>
 
-Suite Manage is a modern internal tool for managing hotel operations. Built with [Refine](https://github.com/refinedev/refine), this app provides a complete admin dashboard for handling rooms, bookings, staff, guests, and tasks efficiently.
+Suite Manage is a modern internal tool for managing hotel operations.
+This app provides a complete admin dashboard for handling rooms, bookings, staff, guests, and tasks efficiently.
 
 ---
 
@@ -34,31 +35,6 @@ Suite Manage is a modern internal tool for managing hotel operations. Built with
 ---
 
 ## Getting Started
-
-### Install dependencies
-
-````bash
-npm install
-
-## Available Scripts
-
-### Running the development server.
-
-```bash
-    npm run dev
-````
-
-### Building for production.
-
-```bash
-    npm run build
-```
-
-### Running the production server.
-
-```bash
-    npm run start
-```
 
 ## Learn More
 
