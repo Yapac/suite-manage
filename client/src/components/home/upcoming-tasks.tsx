@@ -29,9 +29,6 @@ const UpcomingTasks = () => {
     },
   });
 
-  console.log("data");
-  console.log(data);
-
   const formatDateTime = (dateString: string): string => {
     return dayjs(dateString).format("MMMM D, YYYY h:mm A");
   };

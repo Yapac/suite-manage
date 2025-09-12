@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "proxy": "http://localhost:4000",
+  "proxy": "http://localhost:9696",
   "dependencies": {
     "@ant-design/icons": "^5.5.1",
     "@ant-design/plots": "^1.2.5",

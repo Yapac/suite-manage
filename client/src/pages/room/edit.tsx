@@ -12,8 +12,6 @@ const RoomEdit = () => {
 
     queryOptions: {
       onSuccess: (data) => {
-        console.log(data);
-
         const room = data?.data;
         formProps.form?.setFieldsValue({
           ...room,

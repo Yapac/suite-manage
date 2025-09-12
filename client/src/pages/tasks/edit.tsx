@@ -57,8 +57,6 @@ const TasksEdit = () => {
   const { description, createdAt, assignedTo, roomId, title, id } =
     queryResult?.data?.data ?? {};
 
-  console.log(roomId);
-
   const isLoading = queryResult?.isLoading ?? true;
 
   const { mutate: deleteMutation } = useDelete();

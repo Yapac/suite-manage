@@ -9,7 +9,7 @@ async function bootstrap() {
     credentials: true,
   });
 
-  await app.listen(port);
+  await app.listen(port, '0.0.0.0');
 
   const url = await app.getUrl();
   console.log(`🚀 Server ready at ${url}/graphql`);

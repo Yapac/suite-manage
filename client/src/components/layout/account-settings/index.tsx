@@ -39,9 +39,6 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
       gqlMutation: UPDATE_STAFF_MUTATION,
     },
 
-    onMutationError: (data, variables, context, isAutoSave) => {
-      console.log({ data, variables, context, isAutoSave });
-    },
     onMutationSuccess: () => {
       // Close drawer instead of navigating
       setOpened(false);
