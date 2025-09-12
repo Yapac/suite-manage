@@ -225,7 +225,6 @@ const StaffsList = () => {
               <Text type="secondary">+212 656 03 42 48</Text>
               <br />
               <Text type="secondary">info@yapacdev.com</Text>
-
             </div>
           </Card>
         </Col>
