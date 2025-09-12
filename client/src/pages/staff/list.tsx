@@ -107,7 +107,7 @@ const StaffsList = () => {
           Suite Manage
         </Text>
       </div>
-      <Row gutter={[24.24]}>
+      <Row gutter={[24, 24]}>
         {/* Right column - Staffs List */}
         <Col xs={24} md={16}>
           <List
