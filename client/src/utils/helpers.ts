@@ -1,11 +1,4 @@
 import dayjs from "dayjs";
-import { GetFieldsFromList } from "@refinedev/nestjs-query";
-
-import { DashboardDealsChartQuery } from "@/graphql/types";
-
-type DealStage = GetFieldsFromList<DashboardDealsChartQuery>;
-
-type DealAggregate = DealStage["dealsAggregate"][0];
 
 interface MappedDealData {
   timeUnix: number;
@@ -23,18 +16,15 @@ export const getDate = (startDate: string, endDate: string) => {
 };
 
 // Filter out deals that don't have a closeDateMonth or closeDateYear
-const filterDeal = (deal?: DealAggregate) =>
+const filterDeal = (deal?: any) =>
   deal?.groupBy && deal.groupBy?.closeDateMonth && deal.groupBy?.closeDateYear;
 
-const mapDeals = (
-  deals: DealAggregate[] = [],
-  state: string
-): MappedDealData[] => {
+const mapDeals = (deals: any[] = [], state: string): MappedDealData[] => {
   // filter out deals that don't have a closeDateMonth or closeDateYear
   return deals.filter(filterDeal).map((deal) => {
     // Get the closeDateMonth and closeDateYear from the deal
     const { closeDateMonth, closeDateYear } = deal.groupBy as NonNullable<
-      DealAggregate["groupBy"]
+      any["groupBy"]
     >;
 
     // Create a date object from the closeDateMonth and closeDateYear
@@ -54,9 +44,7 @@ const mapDeals = (
 };
 
 // Map deals data to the format required by the chart
-export const mapDealsData = (
-  dealStages: DealStage[] = []
-): MappedDealData[] => {
+export const mapDealsData = (dealStages: any[] = []): MappedDealData[] => {
   // Get the deal stage with the title "WON"
   const won = dealStages.find((stage) => stage.title === "WON");
   const wonDeals = mapDeals(won?.dealsAggregate, "Won");
