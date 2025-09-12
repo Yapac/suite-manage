@@ -30,7 +30,7 @@ import { PubSubModule } from './pubsub.module';
       subscriptions: {
         'graphql-ws': true,
       },
-      playground: true,
+      playground: process.env.ENABLE_PLAYGROUND === 'true',
     }),
     BookingModule,
     RoomModule,
