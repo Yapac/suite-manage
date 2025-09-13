@@ -40,6 +40,26 @@ import StaffCreate from "./pages/staff/create";
 function App() {
   const { state } = useAppContext();
 
+  console.log(`
+======================================================
+   Project: Suite Manage
+   Author : Yapacdev (© 2025)
+   Website: https://yapacdev.com
+
+   Licensing Reminder
+   ------------------
+   This repository is shared without an open-source
+   license. Viewing the code is possible if you have
+   access, but copying, distributing, or using it
+   without explicit written consent from the author
+   is not allowed.
+
+   ⚠️  A missing license does NOT prevent cloning or
+   downloading—it only means there is no legal right
+   to use or redistribute it.
+======================================================
+`);
+
   return (
     <BrowserRouter>
       <RefineKbarProvider>

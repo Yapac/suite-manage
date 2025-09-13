@@ -1,16 +1,18 @@
 import { Button, Popover } from "antd";
 import React, { useState } from "react";
 import CustomAvatar from "../custom-avatar";
-import { useGetIdentity } from "@refinedev/core";
+import { useGetIdentity, useLogout } from "@refinedev/core";
 import { Staff } from "../../utils/schemas.types";
 import { Text } from "../text";
-import { SettingOutlined } from "@ant-design/icons";
+import { LogoutOutlined, SettingOutlined } from "@ant-design/icons";
 import { AccountSettings } from "./account-settings";
 
 export const CurrentUser = () => {
   const { data: user } = useGetIdentity<Staff>();
 
   const [isOpen, setIsOpen] = useState(false);
+
+  const { mutate: logout } = useLogout();
 
   const content = (
     <div style={{ display: "flex", flexDirection: "column" }}>
@@ -40,6 +42,25 @@ export const CurrentUser = () => {
           onClick={() => setIsOpen(true)}
         >
           Account settings
+        </Button>
+      </div>
+      <div
+        style={{
+          padding: "4px 8px",
+          borderTop: "1px solid #d9d9d96f",
+          display: "flex",
+          flexDirection: "column",
+          gap: "4px ",
+        }}
+      >
+        <Button
+          style={{ textAlign: "left" }}
+          icon={<LogoutOutlined />}
+          type="text"
+          block
+          onClick={() => logout()}
+        >
+          Logout
         </Button>
       </div>
     </div>
