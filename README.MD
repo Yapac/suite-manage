@@ -32,6 +32,11 @@ This app provides a complete admin dashboard for handling rooms, bookings, staff
 
 ---
 
+## Licensing Reminder
+
+This repository is shared without an open-source license.  
+Viewing the code is possible if you have access, but **no one has legal permission to copy, distribute, or use it beyond GitHub’s interface** without explicit written consent from the owner.
+
 ## Learn More
 
 ⚠️ Disclaimer: Suite Manage is currently a proof-of-concept project.
