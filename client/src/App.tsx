@@ -1,4 +1,4 @@
-import { Authenticated, Refine } from "@refinedev/core";
+import { Authenticated, ErrorComponent, Refine } from "@refinedev/core";
 import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 
@@ -36,6 +36,7 @@ import TasksEdit from "./pages/tasks/edit";
 import StaffsList from "./pages/staff/list";
 import StaffEdit from "./pages/staff/edit";
 import StaffCreate from "./pages/staff/create";
+import NotFoundPage from "./pages/notFound";
 
 function App() {
   const { state } = useAppContext();
@@ -170,6 +171,7 @@ function App() {
                       <Route path="edit/:id" element={<StaffEdit />} />
                     </Route>
                   </Route>
+                  <Route path="*" element={<NotFoundPage />} />
                 </Routes>
                 <RefineKbar />
                 <UnsavedChangesNotifier />

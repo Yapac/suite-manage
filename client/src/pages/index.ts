@@ -7,3 +7,4 @@ export * from "./room/create";
 export * from "./room/edit";
 export * from "./booking/list";
 export * from "./booking/create";
+export * from "./notFound";
