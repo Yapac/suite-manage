@@ -42,6 +42,7 @@ const BookingCreate: React.FC = () => {
     id: string;
     number: string;
     type: string;
+    status: string;
     pricePerNight: string;
   };
   type Guest = {
@@ -61,6 +62,12 @@ const BookingCreate: React.FC = () => {
       `Room ${room.number} (${room.type} - ${room.pricePerNight}/ night)`,
     optionValue: "id",
   });
+  const roomOptions =
+    roomQuery.data?.data.map((room) => ({
+      label: `${room.number} (${room.type}) – ${room.status}`,
+      value: room.id,
+      disabled: room.status !== "available", // disable if not available
+    })) || [];
 
   // Select Guests
   const { selectProps: guestSelectProps, query: guestQuery } = useSelect<Guest>(
@@ -118,6 +125,36 @@ const BookingCreate: React.FC = () => {
             }
           }}
         >
+          {/* Check-in & Check-out */}
+          <Form.Item
+            label={
+              <Tooltip title="Select check-in and check-out dates">
+                Check-in / Check-out{" "}
+                <InfoCircleOutlined style={{ color: "#999" }} />
+              </Tooltip>
+            }
+            name="checkDates"
+            rules={[
+              {
+                required: true,
+                message: "Check-in and check-out are required",
+              },
+            ]}
+          >
+            <RangePicker
+              style={{ width: "100%" }}
+              format="YYYY-MM-DD"
+              onChange={(dates) => {
+                if (dates && dates.length === 2) {
+                  formProps.form?.setFieldsValue({
+                    checkIn: dayjs(dates[0]).format("YYYY-MM-DD"),
+                    checkOut: dayjs(dates[1]).format("YYYY-MM-DD"),
+                  });
+                }
+              }}
+            />
+          </Form.Item>
+
           {/* Room */}
           <Form.Item
             label={
@@ -128,7 +165,11 @@ const BookingCreate: React.FC = () => {
             name="roomId"
             rules={[{ required: true, message: "Room is required" }]}
           >
-            <Select {...roomSelectProps} placeholder="Select a room" />
+            <Select
+              {...roomSelectProps}
+              placeholder="Select a room"
+              options={roomOptions}
+            />
           </Form.Item>
 
           {/* Guest */}
@@ -166,36 +207,6 @@ const BookingCreate: React.FC = () => {
                   </div>
                 </>
               )}
-            />
-          </Form.Item>
-
-          {/* Check-in & Check-out */}
-          <Form.Item
-            label={
-              <Tooltip title="Select check-in and check-out dates">
-                Check-in / Check-out{" "}
-                <InfoCircleOutlined style={{ color: "#999" }} />
-              </Tooltip>
-            }
-            name="checkDates"
-            rules={[
-              {
-                required: true,
-                message: "Check-in and check-out are required",
-              },
-            ]}
-          >
-            <RangePicker
-              style={{ width: "100%" }}
-              format="YYYY-MM-DD"
-              onChange={(dates) => {
-                if (dates && dates.length === 2) {
-                  formProps.form?.setFieldsValue({
-                    checkIn: dayjs(dates[0]).format("YYYY-MM-DD"),
-                    checkOut: dayjs(dates[1]).format("YYYY-MM-DD"),
-                  });
-                }
-              }}
             />
           </Form.Item>
 

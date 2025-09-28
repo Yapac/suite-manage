@@ -48,7 +48,7 @@ const BookingEdit = () => {
     },
   });
 
-  type Room = { id: string; number: string; type: string };
+  type Room = { id: string; number: string; type: string; status: string };
   type Guest = {
     id: string;
     name: string;
@@ -59,12 +59,20 @@ const BookingEdit = () => {
   };
 
   // Select Rooms
-  const { selectProps: roomSelectProps } = useSelect<Room>({
+  const { selectProps: roomSelectProps, query: roomQuery } = useSelect<Room>({
     resource: "rooms",
     meta: { gqlQuery: LIST_ROOMS_QUERY },
-    optionLabel: (room) => `${room.number} (${room.type})`,
+    optionLabel: (room) => `${room.number} (${room.type})– ${room.status}`,
     optionValue: "id",
   });
+
+  // Ant Design Select expects each option like {label, value, disabled}
+  const roomOptions =
+    roomQuery.data?.data.map((room) => ({
+      label: `${room.number} (${room.type}) – ${room.status}`,
+      value: room.id,
+      disabled: room.status !== "available", // disable if not available
+    })) || [];
 
   // Select Guests
   const { selectProps: guestSelectProps, query: guestQuery } = useSelect<Guest>(
@@ -101,6 +109,36 @@ const BookingEdit = () => {
         title="Edit Booking"
       >
         <Form {...formProps} layout="vertical">
+          {/* Check-in & Check-out */}
+          <Form.Item
+            label={
+              <Tooltip title="Select check-in and check-out dates">
+                Check-in / Check-out{" "}
+                <InfoCircleOutlined style={{ color: "#999" }} />
+              </Tooltip>
+            }
+            name="checkDates"
+            rules={[
+              {
+                required: true,
+                message: "Check-in and check-out are required",
+              },
+            ]}
+          >
+            <RangePicker
+              style={{ width: "100%" }}
+              format="YYYY-MM-DD"
+              onChange={(dates) => {
+                if (dates && dates.length === 2) {
+                  formProps.form?.setFieldsValue({
+                    checkIn: dayjs(dates[0]).format("YYYY-MM-DD"),
+                    checkOut: dayjs(dates[1]).format("YYYY-MM-DD"),
+                  });
+                }
+              }}
+            />
+          </Form.Item>
+
           {/* Room */}
           <Form.Item
             label={
@@ -114,6 +152,7 @@ const BookingEdit = () => {
             <Select
               {...roomSelectProps}
               value={formProps.initialValues?.roomId.id}
+              options={roomOptions}
               placeholder="Select a room"
             />
           </Form.Item>
@@ -152,36 +191,6 @@ const BookingEdit = () => {
                   </div>
                 </>
               )}
-            />
-          </Form.Item>
-
-          {/* Check-in & Check-out */}
-          <Form.Item
-            label={
-              <Tooltip title="Select check-in and check-out dates">
-                Check-in / Check-out{" "}
-                <InfoCircleOutlined style={{ color: "#999" }} />
-              </Tooltip>
-            }
-            name="checkDates"
-            rules={[
-              {
-                required: true,
-                message: "Check-in and check-out are required",
-              },
-            ]}
-          >
-            <RangePicker
-              style={{ width: "100%" }}
-              format="YYYY-MM-DD"
-              onChange={(dates) => {
-                if (dates && dates.length === 2) {
-                  formProps.form?.setFieldsValue({
-                    checkIn: dayjs(dates[0]).format("YYYY-MM-DD"),
-                    checkOut: dayjs(dates[1]).format("YYYY-MM-DD"),
-                  });
-                }
-              }}
             />
           </Form.Item>
 
