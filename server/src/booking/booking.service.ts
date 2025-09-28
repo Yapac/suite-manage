@@ -43,9 +43,16 @@ export class BookingService {
       .populate('guestId')
       .exec();
   }
-  async findAll(): Promise<Booking[]> {
+  async findAll(pastOnly?: boolean): Promise<Booking[]> {
+    const filter: Record<string, any> = {};
+    if (pastOnly) {
+      filter.checkOut = { $lt: new Date() }; // only bookings with checkout before now
+    } else if (pastOnly === false) {
+      // ✅ only future (new) bookings
+      filter.checkOut = { $gte: new Date() };
+    }
     return this.bookingModel
-      .find()
+      .find(filter)
       .populate('roomId')
       .populate('guestId')
       .exec();

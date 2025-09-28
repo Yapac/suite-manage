@@ -10,7 +10,7 @@ import {
 } from "@ant-design/icons";
 import { LatestActivitiesSkeleton } from "../skeleton/latest-activities";
 import { useList } from "@refinedev/core";
-import { LIST_BOOKINGS_ALLDATA_QUERY } from "@/utils/queries";
+import { LIST_ONGOING_BOOKINGS_ALLDATA_QUERY } from "@/utils/queries";
 import dayjs from "dayjs";
 import { getNameInitials } from "@/utils/get-name-initials";
 
@@ -18,7 +18,7 @@ const OngoingBookings = () => {
   const { data, isLoading } = useList({
     resource: "bookings",
     meta: {
-      gqlQuery: LIST_BOOKINGS_ALLDATA_QUERY,
+      gqlQuery: LIST_ONGOING_BOOKINGS_ALLDATA_QUERY,
     },
   });
   // Prepare sorted & limited bookings

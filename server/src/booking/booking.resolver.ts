@@ -9,8 +9,11 @@ export class BookingResolver {
   constructor(private readonly bookingService: BookingService) {}
 
   @Query(() => [BookingDTO])
-  async bookings(): Promise<Booking[]> {
-    return this.bookingService.findAll();
+  async bookings(
+    @Args('pastOnly', { type: () => Boolean, nullable: true })
+    pastOnly?: boolean,
+  ): Promise<Booking[]> {
+    return this.bookingService.findAll(pastOnly);
   }
 
   @Query(() => BookingDTO)

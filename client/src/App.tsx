@@ -37,6 +37,8 @@ import StaffsList from "./pages/staff/list";
 import StaffEdit from "./pages/staff/edit";
 import StaffCreate from "./pages/staff/create";
 import NotFoundPage from "./pages/notFound";
+import { PastBookingsList } from "./pages/pastBookings/list";
+import BookingShow from "./pages/pastBookings/show";
 
 function App() {
   const { state } = useAppContext();
@@ -112,7 +114,10 @@ function App() {
                     }
 
                     // Bookings accessible by receptionists or admins
-                    if (resource === "bookings") {
+                    if (
+                      resource === "bookings" ||
+                      resource === "past-bookings"
+                    ) {
                       return userRole === "receptionist" || userRole === "admin"
                         ? { can: true }
                         : {
@@ -169,6 +174,10 @@ function App() {
                       <Route index element={<StaffsList />} />
                       <Route path="new" element={<StaffCreate />} />
                       <Route path="edit/:id" element={<StaffEdit />} />
+                    </Route>
+                    <Route path="/past-bookings">
+                      <Route index element={<PastBookingsList />} />
+                      <Route path=":id" element={<BookingShow />} />
                     </Route>
                   </Route>
                   <Route path="*" element={<NotFoundPage />} />

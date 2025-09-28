@@ -15,6 +15,48 @@ export const DELETE_BOOKING_MUTATION = gql`
     }
   }
 `;
+export const LIST_PAST_BOOKINGS_ALLDATA_QUERY = gql`
+  query DashboardBookingsAllData {
+    bookings(pastOnly: true) {
+      id
+      roomId {
+        id
+        number
+        type
+      }
+      guestId {
+        name
+        id
+      }
+      checkIn
+      checkOut
+      totalPrice
+      paymentType
+      status
+    }
+  }
+`;
+export const LIST_ONGOING_BOOKINGS_ALLDATA_QUERY = gql`
+  query DashboardBookingsAllData {
+    bookings(pastOnly: false) {
+      id
+      roomId {
+        id
+        number
+        type
+      }
+      guestId {
+        name
+        id
+      }
+      checkIn
+      checkOut
+      totalPrice
+      paymentType
+      status
+    }
+  }
+`;
 export const LIST_BOOKINGS_ALLDATA_QUERY = gql`
   query DashboardBookingsAllData {
     bookings {

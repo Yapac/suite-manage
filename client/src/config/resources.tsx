@@ -74,4 +74,14 @@ export const resources: IResourceItem[] = [
       parent: "administration", // 👈 nests under Administration
     },
   },
+  {
+    name: "past-bookings",
+    list: "/past-bookings",
+    show: "/past-bookings/:id",
+    meta: {
+      label: "Past Bookings",
+      icon: <BookOutlined />,
+      parent: "administration", // 👈 nests under Administration
+    },
+  },
 ];

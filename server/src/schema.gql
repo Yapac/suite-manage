@@ -62,7 +62,7 @@ type TaskDTO {
 }
 
 type Query {
-  bookings: [BookingDTO!]!
+  bookings(pastOnly: Boolean): [BookingDTO!]!
   booking(id: ID!): BookingDTO!
   rooms: [RoomDTO!]!
   room(id: ID!): RoomDTO!
