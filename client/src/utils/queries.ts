@@ -15,6 +15,7 @@ export const GET_BOOKINGS_QUERY = gql`
         phone
       }
       roomId {
+        id
         number
         type
       }

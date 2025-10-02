@@ -17,13 +17,18 @@ import {
 } from "antd";
 import { InfoCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
+import isBetween from "dayjs/plugin/isBetween";
+import React, { useMemo } from "react";
 import {
   CREATE_BOOKING_MUTATION,
   CREATE_GUEST_MUTATION,
+  GET_BOOKINGS_QUERY,
   LIST_GUESTS_QUERY,
   LIST_ROOMS_QUERY,
 } from "@/utils/queries";
-import React from "react";
+import { useList } from "@refinedev/core";
+
+dayjs.extend(isBetween);
 
 const { RangePicker } = DatePicker;
 
@@ -33,9 +38,7 @@ const BookingCreate: React.FC = () => {
     resource: "bookings",
     redirect: "list",
     mutationMode: "pessimistic",
-    meta: {
-      gqlMutation: CREATE_BOOKING_MUTATION,
-    },
+    meta: { gqlMutation: CREATE_BOOKING_MUTATION },
   });
 
   type Room = {
@@ -45,16 +48,17 @@ const BookingCreate: React.FC = () => {
     status: string;
     pricePerNight: string;
   };
+
   type Guest = {
     id: string;
     name: string;
     documentType: string;
     documentId: string;
-    phone: string;
-    email: string;
+    phone?: string;
+    email?: string;
   };
 
-  // Select Rooms
+  // Rooms
   const { selectProps: roomSelectProps, query: roomQuery } = useSelect<Room>({
     resource: "rooms",
     meta: { gqlQuery: LIST_ROOMS_QUERY },
@@ -62,57 +66,87 @@ const BookingCreate: React.FC = () => {
       `Room ${room.number} (${room.type} - ${room.pricePerNight}/ night)`,
     optionValue: "id",
   });
-  const roomOptions =
-    roomQuery.data?.data.map((room) => ({
-      label: `${room.number} (${room.type}) – ${room.status}`,
-      value: room.id,
-      disabled: room.status !== "available", // disable if not available
-    })) || [];
 
-  // Select Guests
-  const { selectProps: guestSelectProps, query: guestQuery } = useSelect<Guest>(
-    {
-      resource: "guests",
-      meta: { gqlQuery: LIST_GUESTS_QUERY },
-      optionLabel: (guest) =>
-        `${guest.name} (${guest.documentType}: ${guest.documentId})`,
-      optionValue: "id",
+  // Guests
+  const { selectProps: guestSelectProps, query: guestQuery } = useSelect<Guest>({
+    resource: "guests",
+    meta: { gqlQuery: LIST_GUESTS_QUERY },
+    optionLabel: (guest) =>
+      `${guest.name} (${guest.documentType}: ${guest.documentId})`,
+    optionValue: "id",
+  });
+
+  // All bookings
+  const { data: bookingsData } = useList({
+    resource: "bookings",
+    meta: { gqlQuery: GET_BOOKINGS_QUERY },
+  });
+
+  const selectedDates = Form.useWatch("checkDates", formProps.form); 
+  // Filter rooms based on selected dates
+  const filteredRoomOptions = useMemo(() => {
+    if (!roomQuery.data?.data) return [];
+    if (!selectedDates || selectedDates.length !== 2) {
+      return roomQuery.data.data.map((room) => ({
+        label: `${room.number} (${room.type} - ${room.pricePerNight}/ night)`,
+        value: room.id,
+        disabled: room.status === "maintenance", 
+      }));
     }
-  );
 
-  // then call refetch like this:
+    const [checkIn, checkOut] = selectedDates.map((d: any) => dayjs(d));
 
-  const {
-    modalProps,
-    formProps: guestFormProps,
-    show,
-  } = useModalForm({
+    return roomQuery.data.data.map((room) => {
+
+    if (room.status === "maintenance") {
+      return {
+        label: `${room.number} (${room.type} - ${room.pricePerNight}/ night) — [Maintenance]`,
+        value: room.id,
+        disabled: true,
+      };
+    }
+
+      const overlappingBooking = bookingsData?.data.find((b) => {
+        if (b.roomId.id !== room.id) return false;
+
+        const bCheckIn = dayjs(b.checkIn);
+        const bCheckOut = dayjs(b.checkOut);
+
+        return checkIn.isBefore(bCheckOut) && checkOut.isAfter(bCheckIn);
+      });
+
+      return {
+        label: `${room.number} (${room.type} - ${room.pricePerNight}/ night)`,
+        value: room.id,
+        disabled: !!overlappingBooking,
+      };
+    });
+  }, [selectedDates, roomQuery.data, bookingsData?.data]);
+
+
+  // Guest modal
+  const { modalProps, formProps: guestFormProps, show } = useModalForm({
     action: "create",
     resource: "guests",
     redirect: false,
-    meta: {
-      gqlMutation: CREATE_GUEST_MUTATION,
-    },
+    meta: { gqlMutation: CREATE_GUEST_MUTATION },
     mutationMode: "pessimistic",
-    onMutationSuccess: () => {
-      guestQuery?.refetch(); // refresh guest list after creation
-    },
+    onMutationSuccess: () => guestQuery?.refetch(),
   });
 
+  // Calculate total price
   const calculatePrice = () => {
     const roomId = formProps.form?.getFieldValue("roomId");
     const dates = formProps.form?.getFieldValue("checkDates");
-
     if (!roomId || !dates || dates.length !== 2) return;
 
-    const room = roomQuery?.data?.data?.find((r: Room) => r.id === roomId);
+    const room = roomQuery?.data?.data?.find((r) => r.id === roomId);
     if (!room) return;
 
     const nights = dayjs(dates[1]).diff(dayjs(dates[0]), "day");
-    const total = nights * parseFloat(room.pricePerNight);
-
-    formProps.form?.setFieldsValue({ totalPrice: total });
+    formProps.form?.setFieldsValue({ totalPrice: nights * parseFloat(room.pricePerNight) });
   };
+
   return (
     <>
       <Create saveButtonProps={saveButtonProps} title="Initiate Booking">
@@ -120,26 +154,18 @@ const BookingCreate: React.FC = () => {
           {...formProps}
           layout="vertical"
           onValuesChange={(changedValues) => {
-            if (changedValues.roomId || changedValues.checkDates) {
-              calculatePrice();
-            }
+            if (changedValues.roomId || changedValues.checkDates) calculatePrice();
           }}
         >
-          {/* Check-in & Check-out */}
+          {/* Check-in / Check-out */}
           <Form.Item
             label={
               <Tooltip title="Select check-in and check-out dates">
-                Check-in / Check-out{" "}
-                <InfoCircleOutlined style={{ color: "#999" }} />
+                Check-in / Check-out <InfoCircleOutlined style={{ color: "#999" }} />
               </Tooltip>
             }
             name="checkDates"
-            rules={[
-              {
-                required: true,
-                message: "Check-in and check-out are required",
-              },
-            ]}
+            rules={[{ required: true, message: "Check-in and check-out are required" }]}
           >
             <RangePicker
               style={{ width: "100%" }}
@@ -168,7 +194,7 @@ const BookingCreate: React.FC = () => {
             <Select
               {...roomSelectProps}
               placeholder="Select a room"
-              options={roomOptions}
+              options={filteredRoomOptions}
             />
           </Form.Item>
 
@@ -185,10 +211,8 @@ const BookingCreate: React.FC = () => {
             <Select
               {...guestSelectProps}
               showSearch
-              filterOption={(input: any, option: any) =>
-                (option?.label ?? "")
-                  .toLowerCase()
-                  .includes(input.toLowerCase())
+              filterOption={(input, option) =>
+                String(option?.label ?? "").toLowerCase().includes(input.toLowerCase())
               }
               placeholder="Select a guest"
               popupRender={(menu) => (
@@ -220,12 +244,7 @@ const BookingCreate: React.FC = () => {
             name="totalPrice"
             rules={[{ required: true, message: "Total price is required" }]}
           >
-            <InputNumber
-              min={0}
-              style={{ width: "100%" }}
-              type="number"
-              suffix="DH"
-            />
+            <InputNumber min={0} style={{ width: "100%" }} type="number" suffix="DH" />
           </Form.Item>
 
           {/* Payment Type */}

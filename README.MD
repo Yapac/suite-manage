@@ -19,7 +19,7 @@ This app provides a complete admin dashboard for handling rooms, bookings, staff
 - **Access Control** – Role-based access: e.g., only admins and receptionists can manage bookings, while other roles have restricted access.
 - **Notifications & Live Updates** – Real-time updates using GraphQL subscriptions.
 - **Responsive Design** – Fully mobile-friendly interface.
-
+- **Availability Checks** – Rooms are automatically checked when creating bookings; rooms under maintenance or with overlapping bookings are disabled.
 ---
 
 ## Tech Stack
