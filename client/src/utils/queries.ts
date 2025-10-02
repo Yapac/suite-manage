@@ -1,6 +1,31 @@
 import gql from "graphql-tag";
 
 // 1.BOOkING
+
+export const GET_BOOKINGS_QUERY = gql`
+  query GetBookings {
+    bookings {
+      id
+      guestId {
+        id
+        name
+        documentId
+        documentType
+        email
+        phone
+      }
+      roomId {
+        number
+        type
+      }
+      checkIn
+      checkOut
+      status
+      totalPrice
+      paymentType
+    }
+  }
+`;
 export const CREATE_BOOKING_MUTATION = gql`
   mutation CreateBooking($input: BookingFormDTO!) {
     createBooking(input: $input) {

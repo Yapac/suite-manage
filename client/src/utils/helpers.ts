@@ -56,3 +56,9 @@ export const mapDealsData = (dealStages: any[] = []): MappedDealData[] => {
   // Combine the won and lost deals and sort them by time
   return [...wonDeals, ...lostDeals].sort((a, b) => a.timeUnix - b.timeUnix);
 };
+export const BookingStatusColors: Record<string, string> = {
+  confirmed: "green",
+  "checked-in": "purple",
+  "checked-out": "orange",
+  canceled: "blue",
+};

@@ -1,5 +1,6 @@
 import { RoomAvatar } from "@/components/home/ongoing-bookings";
 import { Text } from "@/components/text";
+import { BookingStatusColors } from "@/utils/helpers";
 import {
   DELETE_BOOKING_MUTATION,
   LIST_PAST_BOOKINGS_ALLDATA_QUERY,
@@ -96,18 +97,13 @@ export const PastBookingsList = () => {
           dataIndex="status"
           title="Room status"
           render={(value, record) => {
-            const statusColors: Record<string, string> = {
-              confirmed: "green",
-              "checked-in": "purple",
-              "checked-out": "orange",
-              canceled: "blue",
-            };
+
             return (
               <Space>
                 <Text
                   style={{ whiteSpace: "nowrap", textTransform: "capitalize" }}
                 >
-                  <Tag color={statusColors[value] || "default"}>{value}</Tag>
+                  <Tag color={BookingStatusColors[value] || "default"}>{value}</Tag>
                 </Text>
               </Space>
             );
