@@ -21,6 +21,13 @@ const BookingShow: React.FC = () => {
   const record = data?.data.find((booking: any) => booking.id === id);
   if (!record) return <div>Booking not found</div>;
 
+  const roomTypeColors: Record<string, string> = {
+    single: "#5B8FF9",
+    double: "#5ad86fff",
+    family: "#9f6bffff",
+    suite: "#FFC53D",
+  };
+
   return (
     <Show title="Booking Details" headerButtons={null}>
 
@@ -76,10 +83,23 @@ const BookingShow: React.FC = () => {
               </Text>
             </Descriptions.Item>
             <Descriptions.Item label="Type">
-              <Text>
-                {record.roomId?.type}
-              </Text>
+              <Space>
+                {/* Colored circle */}
+                <div
+                  style={{
+                    width: 16,
+                    height: 16,
+                    borderRadius: "50%",
+                    backgroundColor: roomTypeColors[record.roomId?.type] || "#d9d9d9",
+                  }}
+                />
+                {/* Type text */}
+                <Text style={{ textTransform: "capitalize", fontWeight: 500 }}>
+                  {record.roomId?.type}
+                </Text>
+              </Space>
             </Descriptions.Item>
+
             <Descriptions.Item label="Check-In / Check-Out">
               <Text>
                 {dayjs(record.checkIn).format("MMM D, YYYY")} →{" "}
