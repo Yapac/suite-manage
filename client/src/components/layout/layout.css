@@ -1,3 +1,9 @@
 header.ant-layout-header {
         box-shadow: 7px 1px 12px #81818124;
 }
+.ant-layout-sider-children > :first-child {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  box-shadow: 0 4px 6px rgb(0 0 0 / 2%);
+}
