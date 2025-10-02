@@ -195,6 +195,7 @@ const BookingCreate: React.FC = () => {
               {...roomSelectProps}
               placeholder="Select a room"
               options={filteredRoomOptions}
+              disabled={!selectedDates || selectedDates.length !== 2}
             />
           </Form.Item>
 
