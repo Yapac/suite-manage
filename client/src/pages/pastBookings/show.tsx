@@ -24,8 +24,8 @@ const BookingShow: React.FC = () => {
   const roomTypeColors: Record<string, string> = {
     single: "#5B8FF9",
     double: "#5ad86fff",
-    family: "#9f6bffff",
-    suite: "#FFC53D",
+    family: "#FFC53D",
+    suite: "#9f6bffff",
   };
 
   return (
