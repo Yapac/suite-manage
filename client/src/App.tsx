@@ -39,6 +39,7 @@ import StaffCreate from "./pages/staff/create";
 import NotFoundPage from "./pages/notFound";
 import { PastBookingsList } from "./pages/pastBookings/list";
 import BookingShow from "./pages/pastBookings/show";
+import BookingAPIList from "./pages/bookingAPI/list";
 
 function App() {
   const { state } = useAppContext();
@@ -174,6 +175,10 @@ function App() {
                       <Route index element={<StaffsList />} />
                       <Route path="new" element={<StaffCreate />} />
                       <Route path="edit/:id" element={<StaffEdit />} />
+                    </Route>
+                    <Route path="/booking-config">
+                      <Route index element={<BookingAPIList />} />
+                      <Route path=":id" element={<BookingShow />} />
                     </Route>
                     <Route path="/past-bookings">
                       <Route index element={<PastBookingsList />} />

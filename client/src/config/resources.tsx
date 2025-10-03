@@ -75,6 +75,16 @@ export const resources: IResourceItem[] = [
     },
   },
   {
+    name: "booking-config",
+    list: "/booking-config",
+    show: "/booking-config/:id",
+    meta: {
+      label: "Booking.com",
+      icon: <img src="./icons/booking-com.svg" height={14} />,
+      parent: "administration", // 👈 nests under Administration
+    },
+  },
+  {
     name: "past-bookings",
     list: "/past-bookings",
     show: "/past-bookings/:id",
