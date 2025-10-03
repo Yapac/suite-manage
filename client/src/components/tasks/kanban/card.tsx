@@ -2,12 +2,20 @@ import CustomAvatar from "@/components/custom-avatar";
 import { Text } from "@/components/text";
 import { TextIcon } from "@/components/text-icon";
 import { getDateColor } from "@/utils/date";
+import { getRandomColorFromString } from "@/utils/get-random-color";
 import { DELETE_TASK_MUTATION } from "@/utils/queries";
 import {
+  CheckCircleOutlined,
   ClockCircleOutlined,
+  CloseCircleOutlined,
   DeleteOutlined,
+  ExclamationCircleOutlined,
   EyeOutlined,
+  FireOutlined,
+  IeOutlined,
   MoreOutlined,
+  SmileOutlined,
+  WarningOutlined,
 } from "@ant-design/icons";
 import { useDelete, useNavigation } from "@refinedev/core";
 import {
@@ -28,13 +36,14 @@ type ProjectCardProps = {
   id: string;
   title: string;
   createdAt: string;
+  priority: string;
   assignedTo: {
     id: string;
     name: string;
     avatarUrl: any;
   }[];
 };
-const TaskCard = ({ id, title, createdAt, assignedTo }: ProjectCardProps) => {
+const TaskCard = ({ id, title, createdAt, assignedTo, priority }: ProjectCardProps) => {
   const { token } = theme.useToken();
 
   const { edit } = useNavigation();
@@ -99,6 +108,28 @@ const TaskCard = ({ id, title, createdAt, assignedTo }: ProjectCardProps) => {
       text: getTagText(),
     };
   }, [createdAt]);
+  const PriorityOptions = useMemo(() => {
+    if (!priority) return null;
+
+    const color = getRandomColorFromString(priority);
+
+    const getTagIcon = () => {
+      switch(priority) {
+        case 'normal':
+          return <SmileOutlined  style={{ color: 'green', fontSize: "14px" }} />;
+        case 'urgent':
+          return <WarningOutlined style={{ color: 'orange', fontSize: "14px" }} />;
+        case 'immediate':
+          return <FireOutlined style={{ color: 'red', fontSize: "14px" }} />;
+      }
+    };
+
+    return {
+      color,
+      text:  priority,
+      icon: getTagIcon()
+    };
+  }, [priority]);
   return (
     <ConfigProvider
       theme={{
@@ -114,7 +145,31 @@ const TaskCard = ({ id, title, createdAt, assignedTo }: ProjectCardProps) => {
     >
       <Card
         size="small"
-        title={<Text ellipsis={{ tooltip: title }}>{title}</Text>}
+        title={          
+         <div style={{display: "inline-block",
+              flex: 1,
+              alignItems: "center",
+              overflow: "clip",
+              width: "-webkit-fill-available"}}> 
+              
+            {PriorityOptions && (
+              <Tooltip title={`Priority: ${PriorityOptions.text}`}>
+                <Tag
+                  icon={PriorityOptions.icon}
+                  style={{
+                    padding: "0 6px 0 0",
+                    marginTop: "1px",
+                    marginInlineEnd: "0",
+                    backgroundColor: "transparent",
+                  }}
+                  color={PriorityOptions.color}
+                  bordered={PriorityOptions.color !== "default"}
+                />
+              </Tooltip>
+            )}
+            <Text ellipsis={{ tooltip: title }} >{title}</Text>
+          </div>
+        }
         onClick={() => edit("tasks", id, "replace")}
         extra={
           <Dropdown

@@ -13,6 +13,9 @@ export class TaskDTO {
   @Field(() => [StaffDTO])
   assignedTo: string[];
 
+  @Field()
+  priority: string;
+
   @Field(() => RoomDTO, { nullable: true })
   roomId: string;
 
@@ -37,6 +40,9 @@ export class TaskInputDTO {
   @Field(() => ID, { nullable: true })
   assignedTo?: string;
 
+  @Field({ nullable: true })
+  priority?: string;
+
   @Field(() => ID, { nullable: true })
   roomId?: string;
 
@@ -58,6 +64,9 @@ export class TaskMutationDTO {
   @Field(() => [ID], { nullable: true })
   assignedTo?: string[];
 
+  @Field({ nullable: true })
+  priority?: string;
+    
   @Field(() => ID, { nullable: true })
   roomId?: string;
 

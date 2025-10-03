@@ -6,8 +6,11 @@ import { useDelete, useNavigation } from "@refinedev/core";
 import {
   AlignLeftOutlined,
   BankOutlined,
+  ExclamationCircleOutlined,
   FieldTimeOutlined,
+  FlagOutlined,
   HomeOutlined,
+  ThunderboltOutlined,
   UsergroupAddOutlined,
 } from "@ant-design/icons";
 import { Modal } from "antd";
@@ -22,6 +25,7 @@ import {
 } from "@/components/form";
 import {
   DueDateHeader,
+  PriorityHeader,
   RoomHeader,
   UsersHeader,
 } from "@/components/form/header";
@@ -54,7 +58,7 @@ const TasksEdit = () => {
   });
 
   // get the data of the task from the queryResult
-  const { description, createdAt, assignedTo, roomId, title, id } =
+  const { description, createdAt, priority, assignedTo, roomId, title, id } =
     queryResult?.data?.data ?? {};
 
   const isLoading = queryResult?.isLoading ?? true;
@@ -106,6 +110,17 @@ const TasksEdit = () => {
           cancelForm={() => setActiveKey(undefined)}
         />
       </Accordion>
+
+      {/* Render the due date form inside an accordion */}
+      <Accordion
+        accordionKey="priority"
+        activeKey={"activeKey"}
+        setActive={() => {}}
+        fallback={<PriorityHeader priority={priority} />}
+        isLoading={isLoading}
+        icon={<ThunderboltOutlined />}
+        label="Priority"
+      ></Accordion>
 
       {/* Render the due date form inside an accordion */}
       <Accordion

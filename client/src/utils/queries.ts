@@ -248,6 +248,7 @@ export const DASHBOARD_CALENDAR_UPCOMING_TASKS_QUERY = gql`
       id
       title
       status
+      priority
       roomId {
         id
         number
@@ -274,6 +275,7 @@ export const UPDATE_TASK_MUTATION = gql`
       id
       title
       status
+      priority
       roomId {
         id
         number

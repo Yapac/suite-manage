@@ -8,6 +8,8 @@ import { Text } from "../text";
 import { UserTag } from "../user-tag";
 import { Staff, Task } from "@/utils/schemas.types";
 import { getDateColor } from "@/utils/date";
+import { getRandomColorFromString } from "@/utils/get-random-color";
+import { FireOutlined, SmileOutlined, WarningOutlined } from "@ant-design/icons";
 
 type DescriptionProps = {
   description?: Task["description"];
@@ -66,6 +68,53 @@ export const DueDateHeader = ({ dueData }: DueDateProps) => {
       <Space size={[0, 8]}>
         <Tag color={color}>{getTagText()}</Tag>
         <Text>{dayjs(dueData).format("MMMM D, YYYY - h:ma")}</Text>
+      </Space>
+    );
+  }
+
+  return <Typography.Link>Add due date</Typography.Link>;
+};
+
+// display a task's due date if it exists, otherwise display a link to add one
+export const PriorityHeader = ({ priority }: any) => {
+  if (priority) {
+    const getTagColor = () => {
+      switch(priority) {
+        case 'normal':
+          return  'green'
+        case 'urgent':
+          return  'orange'
+        case 'immediate':
+          return 'red' 
+      }
+    };
+    const getTagIcon = () => {
+      switch(priority) {
+        case 'normal':
+          return <SmileOutlined  style={{ color: 'green', fontSize: "14px" }} />;
+        case 'urgent':
+          return <WarningOutlined style={{ color: 'orange', fontSize: "14px" }} />;
+        case 'immediate':
+          return <FireOutlined style={{ color: 'red', fontSize: "14px" }} />;
+      }
+    };
+
+    return (
+      <Space size={[0, 8]}>
+        <Tag
+          icon={getTagIcon()}
+          style={{
+            padding: "0 6px 0 0",
+            marginTop: "1px",
+            marginInlineEnd: "0",
+            backgroundColor: "transparent",
+          }}
+          color={getTagColor()}
+          bordered={false}
+        />
+          <Text style={{ fontSize: 13, fontWeight: 600, color: "#333" }}>
+            Priority: <span style={{ color: getTagColor(), textTransform: "capitalize" }}>{priority}</span>
+          </Text>
       </Space>
     );
   }

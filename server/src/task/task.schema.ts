@@ -13,6 +13,13 @@ export class Task {
   @Prop({ type: [Types.ObjectId], ref: 'Staff', required: true })
   assignedTo: Staff[];
 
+  @Prop({  
+    required: true, 
+    default: 'normal',  
+    enum: ['normal', 'urgent', 'immediate'], 
+  })
+  priority: string;
+
   @Prop({ type: Types.ObjectId, ref: 'Room' })
   roomId: Room;
 

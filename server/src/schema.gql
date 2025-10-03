@@ -55,6 +55,7 @@ type TaskDTO {
   id: ID!
   title: String!
   assignedTo: [StaffDTO!]!
+  priority: String!
   roomId: RoomDTO
   status: String!
   description: String
@@ -189,6 +190,7 @@ input TaskMutationDTO {
   id: ID
   title: String
   assignedTo: [ID!]
+  priority: String
   roomId: ID
   status: String
   description: String
