@@ -107,7 +107,7 @@ const BookingAPIConfig = () => {
               <Divider />
 
               {/* Action buttons */}
-              <div style={{ display: "flex", gap: "12px" }}>
+              <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
                 <Button type="primary" icon={<SaveOutlined />}>
                   Save Configuration
                 </Button>
