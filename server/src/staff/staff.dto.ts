@@ -21,7 +21,7 @@ export class StaffDTO {
   hireDate: Date;
 
   @Field({ nullable: true })
-  avatarUrl?: string;
+  avatar?: string; // new Base64 avatar
 }
 
 @InputType()
@@ -45,7 +45,7 @@ export class StaffInputDTO {
   hireDate?: Date;
 
   @Field({ nullable: true })
-  avatarUrl?: string;
+  avatar?: string; // new Base64 avatar
 }
 
 @InputType()

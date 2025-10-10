@@ -42,6 +42,9 @@ export class StaffService {
       updateData.passwordHash = await bcrypt.hash(data.password, 10);
     }
 
+    if (data.avatar) {
+      updateData.avatar = data.avatar;
+    }
     return this.staffModel
       .findByIdAndUpdate(id, updateData, { new: true })
       .exec();

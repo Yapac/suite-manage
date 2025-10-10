@@ -23,7 +23,7 @@ const ME_QUERY = `
       email
       phone
       role
-      avatarUrl
+      avatar
     }
   }
 `;

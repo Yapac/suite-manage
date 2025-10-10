@@ -134,7 +134,7 @@ const StaffsList = () => {
                 title="Name"
                 render={(value, record: any) => (
                   <Space>
-                    <Avatar src={record.avatarUrl} size={32}>
+                    <Avatar src={record.avatar} size={32}>
                       {record.name?.[0]}
                     </Avatar>
                     <Text style={{ whiteSpace: "nowrap" }}>{record.name}</Text>

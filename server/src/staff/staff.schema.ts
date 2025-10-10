@@ -26,8 +26,8 @@ export class Staff {
   @Prop({ default: Date.now })
   hireDate: Date;
 
-  @Prop({ nullable: true })
-  avatarUrl?: string;
+  @Prop({ type: String, nullable: true })
+  avatar?: string; // new Base64 avatar
 }
 
 export const StaffSchema = SchemaFactory.createForClass(Staff);

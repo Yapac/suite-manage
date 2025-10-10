@@ -1,8 +1,9 @@
 import { Create, useForm } from "@refinedev/antd";
-import { Form, Input, Select, Tooltip } from "antd";
-import { InfoCircleOutlined } from "@ant-design/icons";
+import { Button, Form, Input, message, Select, Tooltip, Upload } from "antd";
+import { InfoCircleOutlined, UploadOutlined } from "@ant-design/icons";
 import { CREATE_STAFF_MUTATION } from "@/utils/queries";
 import React from "react";
+import { getBase64 } from "@/utils/helpers";
 
 const StaffCreate: React.FC = () => {
   const { formProps, saveButtonProps } = useForm({
@@ -95,15 +96,24 @@ const StaffCreate: React.FC = () => {
           </Form.Item>
 
           {/* Avatar URL */}
-          <Form.Item
-            label={
-              <Tooltip title="URL of the staff member's profile picture">
-                Avatar <InfoCircleOutlined style={{ color: "#999" }} />
-              </Tooltip>
-            }
-            name="avatarUrl"
-          >
-            <Input placeholder="Enter image URL" />
+          <Form.Item label="Avatar" name="avatar">
+            <Upload
+              listType="text"
+              maxCount={1}
+              beforeUpload={async (file) => {
+                const base64 = await getBase64(file);
+                // save Base64 into the form field
+                formProps.form?.setFieldsValue({ avatar: base64 });
+                message.success(`${file.name} uploaded successfully.`);
+                // prevent automatic upload
+                return Upload.LIST_IGNORE;
+              }}
+              onRemove={() => {
+                formProps.form?.setFieldsValue({ avatar: null });
+              }}
+            >
+              <Button icon={<UploadOutlined />}>Upload Avatar</Button>
+            </Upload>     
           </Form.Item>
         </Form>
       </Create>

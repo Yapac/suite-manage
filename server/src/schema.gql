@@ -43,7 +43,7 @@ type StaffDTO {
   email: String!
   phone: String
   hireDate: DateTime!
-  avatarUrl: String
+  avatar: String
 }
 
 type AuthResponse {
@@ -172,7 +172,7 @@ input StaffInputDTO {
   password: String
   phone: String
   hireDate: DateTime
-  avatarUrl: String
+  avatar: String
 }
 
 input LoginInput {

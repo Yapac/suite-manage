@@ -6,7 +6,7 @@ export interface Staff {
   email: string;
   role: Role;
   phone?: string;
-  avatarUrl?: string;
+  avatar?: string;
   hireDate: DateTime;
 
   // metadata
@@ -33,7 +33,7 @@ export interface StaffDTO {
   email: string;
   phone?: string;
   hireDate: DateTime;
-  avatarUrl?: string;
+  avatar?: string;
 }
 
 export interface StaffInputDTO {
@@ -43,7 +43,7 @@ export interface StaffInputDTO {
   password?: string;
   phone?: string;
   hireDate?: DateTime;
-  avatarUrl?: string;
+  avatar?: string;
 }
 
 export type Task = {

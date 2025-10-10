@@ -6,9 +6,10 @@ import {
   MailOutlined,
   PhoneOutlined,
   PictureOutlined,
+  UploadOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { Button, Card, Drawer, Form, Input, Spin } from "antd";
+import { Avatar, Button, Card, Drawer, Form, Input, List, message, Spin, Upload } from "antd";
 
 import CustomAvatar from "../../custom-avatar";
 import { getNameInitials } from "@/utils/get-name-initials";
@@ -16,6 +17,7 @@ import { Text } from "../../text";
 import { Staff, StaffInputDTO } from "@/utils/schemas.types";
 import { UPDATE_STAFF_MUTATION } from "@/utils/queries";
 import { data } from "react-router";
+import { getBase64 } from "@/utils/helpers";
 
 type Props = {
   opened: boolean;
@@ -103,7 +105,7 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
           >
             <CustomAvatar
               shape="square"
-              src={staff?.avatarUrl}
+              src={staff?.avatar}
               name={getNameInitials(`${staff?.name || ""} `)}
               style={{
                 width: 96,
@@ -122,7 +124,7 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
                 strong
                 style={{ textTransform: "capitalize" }}
               >
-                {staff.role}
+                {staff.role ?? "No role assigned"}
               </Text>
             </div>
           </div>
@@ -141,8 +143,26 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
             <Form.Item label="Phone" name="phone">
               <Input placeholder="Phone" prefix={<PhoneOutlined />} />
             </Form.Item>
-            <Form.Item label="Avatar URL" name="avatarUrl">
-              <Input placeholder="Avatar URL" prefix={<PictureOutlined />} />
+            <Form.Item label="Avatar" name="avatar">
+              <Upload
+                maxCount={1}
+                showUploadList={true}
+                listType="picture"
+                beforeUpload={async (file) => {
+                  const base64 = await getBase64(file);
+                  // save Base64 into the form field
+                  formProps.form?.setFieldsValue({ avatar: base64 });
+                  message.success(`${file.name} uploaded successfully.`);
+                  // prevent automatic upload
+                  return Upload.LIST_IGNORE;
+                }}
+                onRemove={() => {
+                  formProps.form?.setFieldsValue({ avatar: null });
+                }}
+              >
+                <Button icon={<UploadOutlined />}>Change Avatar</Button>
+  
+              </Upload>     
             </Form.Item>
           </Form>
           <SaveButton

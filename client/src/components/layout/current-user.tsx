@@ -10,6 +10,8 @@ import { AccountSettings } from "./account-settings";
 export const CurrentUser = () => {
   const { data: user } = useGetIdentity<Staff>();
 
+  console.log(user);
+  
   const [isOpen, setIsOpen] = useState(false);
 
   const { mutate: logout } = useLogout();
@@ -76,7 +78,7 @@ export const CurrentUser = () => {
       >
         <CustomAvatar
           name={user?.name}
-          src={user?.avatarUrl}
+          src={user?.avatar}
           size="default"
           style={{ cursor: "pointer" }}
         />

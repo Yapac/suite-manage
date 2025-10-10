@@ -40,7 +40,7 @@ type ProjectCardProps = {
   assignedTo: {
     id: string;
     name: string;
-    avatarUrl: any;
+    avatar: any;
   }[];
 };
 const TaskCard = ({ id, title, createdAt, assignedTo, priority }: ProjectCardProps) => {
@@ -244,7 +244,7 @@ const TaskCard = ({ id, title, createdAt, assignedTo, priority }: ProjectCardPro
               {assignedTo.map((user) => {
                 return (
                   <Tooltip key={user.id} title={user.name}>
-                    <CustomAvatar name={user.name} src={user.avatarUrl} />
+                    <CustomAvatar name={user.name} src={user.avatar} />
                   </Tooltip>
                 );
               })}

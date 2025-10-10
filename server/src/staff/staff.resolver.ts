@@ -71,7 +71,7 @@ export class StaffResolver {
       email: user.email,
       phone: user.phone,
       hireDate: user.hireDate,
-      avatarUrl: user.avatarUrl,
+      avatar: user.avatar,
     };
   }
 }

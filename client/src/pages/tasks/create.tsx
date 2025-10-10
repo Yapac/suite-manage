@@ -35,7 +35,7 @@ const TasksCreate = () => {
     id: string;
     name: string;
     role: string;
-    avatarUrl: String;
+    avatar: String;
   };
   // Select Tasks
   const { selectProps: staffsSelectProps } = useSelect<Staff>({

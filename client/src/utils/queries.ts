@@ -211,7 +211,7 @@ export const UPDATE_STAFF_MUTATION = gql`
       email
       phone
       role
-      avatarUrl
+      avatar
     }
   }
 `;
@@ -231,7 +231,7 @@ export const LIST_STAFFS_QUERY = gql`
       email
       phone
       hireDate
-      avatarUrl
+      avatar
     }
   }
 `;
@@ -257,7 +257,7 @@ export const DASHBOARD_CALENDAR_UPCOMING_TASKS_QUERY = gql`
       assignedTo {
         id
         name
-        avatarUrl
+        avatar
       }
     }
   }
@@ -285,7 +285,7 @@ export const UPDATE_TASK_MUTATION = gql`
       assignedTo {
         id
         name
-        avatarUrl
+        avatar
       }
       description
     }

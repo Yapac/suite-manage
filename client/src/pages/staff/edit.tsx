@@ -1,7 +1,8 @@
 import { Edit, useForm } from "@refinedev/antd";
-import { Form, Input, Select, Tooltip } from "antd";
-import { InfoCircleOutlined } from "@ant-design/icons";
+import { Button, Form, Input, message, Select, Tooltip, Upload } from "antd";
+import { InfoCircleOutlined, UploadOutlined } from "@ant-design/icons";
 import { UPDATE_STAFF_MUTATION } from "@/utils/queries";
+import { getBase64 } from "@/utils/helpers";
 
 const StaffEdit = () => {
   const { formProps, saveButtonProps, formLoading } = useForm({
@@ -86,15 +87,24 @@ const StaffEdit = () => {
         </Form.Item>
 
         {/* Avatar */}
-        <Form.Item
-          label={
-            <Tooltip title="Optional avatar URL for profile picture">
-              Avatar URL <InfoCircleOutlined style={{ color: "#999" }} />
-            </Tooltip>
-          }
-          name="avatarUrl"
-        >
-          <Input placeholder="Enter avatar URL" />
+        <Form.Item label="Avatar" name="avatar">
+          <Upload
+            listType="text"
+            maxCount={1}
+            beforeUpload={async (file) => {
+              const base64 = await getBase64(file);
+              // save Base64 into the form field
+              formProps.form?.setFieldsValue({ avatar: base64 });
+              message.success(`${file.name} uploaded successfully.`);
+              // prevent automatic upload
+              return Upload.LIST_IGNORE;
+            }}
+            onRemove={() => {
+              formProps.form?.setFieldsValue({ avatar: null });
+            }}
+          >
+            <Button icon={<UploadOutlined />}>Upload Avatar</Button>
+          </Upload>     
         </Form.Item>
       </Form>
     </Edit>
